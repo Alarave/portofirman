@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import cvFile from "@/assets/CV_3KA35_Firman_Pambudiansyah.pdf";
+import cvFile from "@/assets/cv.pdf";
 import dataScienceLogo from "@/assets/logo/data_science.png";
 
 const navItems = [

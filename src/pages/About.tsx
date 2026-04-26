@@ -21,7 +21,7 @@ import {
 import { Link } from "react-router-dom";
 import { certificationsData } from "./CertificationDetail";
 import profilePhoto from "@/assets/profile-photo.jpg";
-import cvFile from "@/assets/CV_3KA35_Firman_Pambudiansyah.pdf";
+import cvFile from "@/assets/cv.pdf";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 

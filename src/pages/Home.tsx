@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Download, Mail, TrendingUp, Award, Briefcase, BookOpen, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.jpg";
-import cvFile from "@/assets/CV_3KA35_Firman_Pambudiansyah.pdf";
+import cvFile from "@/assets/cv.pdf";
 import dataScienceLogo from "@/assets/logo/data_science.png";
 import bi from "@/assets/logo/bi.png";
 import { cn } from "@/lib/utils";

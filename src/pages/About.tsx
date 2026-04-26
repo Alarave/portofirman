@@ -264,7 +264,7 @@ const About = () => {
                 <h2 className="text-2xl font-bold">Certifications & Workshops</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {certificationsData.slice(0, 4).map((cert) => (
+                {certificationsData.slice(0, 6).map((cert) => (
                   <Link to={`/certifications/${cert.id}`} key={cert.id}>
                     <Card className="hover:border-primary/50 transition-colors h-full">
                       <CardContent className="p-4 flex items-center gap-4">

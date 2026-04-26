@@ -7,14 +7,36 @@ import { ArrowLeft, FileText } from "lucide-react";
 // ✅ PERBAIKAN 1: Import path yang benar (gunakan @/ bukan @src/)
 import sertif1 from "@/assets/sertif/Sertif1.png";
 import sertif2 from "@/assets/sertif/Sertif2.png";
+import sertif3 from "@/assets/sertif/Sertif3.jpg";
+import sertif4 from "@/assets/sertif/Sertif4.jpg";
+import sertif5 from "@/assets/sertif/Sertif5.jpg";
 
 export const certificationsData = [
+  {
+    id: "fgd-team-project-ovarium",
+    title: "FGD Team Project: Perbandingan Kinerja Model ResNet dan VGG16 untuk Klasifikasi Penyakit Ovarium",
+    issuer: "Universitas Gunadarma · UG-AI-CoE",
+    year: "2026",
+    icon: sertif5,
+    isImage: true,
+    description: "A collaborative team project focusing on comparing the performance of ResNet and VGG16 models using Gray Level Co-occurrence Matrix (GLCM) feature extraction for classifying ovarian diseases in medical images.",
+    skills: ["Deep Learning", "ResNet", "VGG16", "Medical Imaging", "GLCM", "Python"],
+  },
+  {
+    id: "iarc-ai-research-collaboration",
+    title: "Kick off the AI Research Collaboration Network Initiative and Launch of IARC Research Network Secretariat",
+    issuer: "Universitas Gunadarma · IARC",
+    year: "2024",
+    icon: sertif3,
+    isImage: true,
+    description: "Participation in the launch of the AI Research Collaboration Network Initiative and the IARC Research Network Secretariat, focusing on fostering collaborative research in Artificial Intelligence.",
+    skills: ["AI Research", "Collaboration Network", "Research Initiative"],
+  },
   {
     id: "big-data-healthcare-seminar",
     title: "Seminar Peran Strategis Big Data Dalam Mewujudkan Asta Cita Di Sektor Kesehatan",
     issuer: "Universitas Gunadarma · Kementerian Kesehatan · UNICEF",
     year: "2024",
-    // ✅ PERBAIKAN 2: Gunakan 'icon' untuk semua (bisa image atau emoji)
     icon: sertif1,  // Image import
     isImage: true,  // Flag untuk tahu ini gambar
     description: "Seminar tentang peran strategis Big Data dalam mewujudkan Asta Cita di sektor kesehatan dan pengembangan kerjasama antara Universitas Gunadarma, Kementerian Kesehatan, dan UNICEF. Membahas implementasi data analytics dalam sistem kesehatan nasional.",
@@ -39,6 +61,16 @@ export const certificationsData = [
     isImage: true,  // Flag untuk tahu ini emoji
     description: "Official SAP certification program covering S/4HANA business process simulation including procurement, sales, manufacturing, and warehouse management modules.",
     skills: ["SAP S/4HANA", "ERP", "Business Process", "Procurement", "Sales", "Manufacturing"],
+  },
+  {
+    id: "gdsc-info-session",
+    title: "Certificate of Attendance: Info Session From Organization to Team: Introducing GDSC and Our Team",
+    issuer: "Google Developer Student Clubs Universitas Gunadarma",
+    year: "2023",
+    icon: sertif4,
+    isImage: true,
+    description: "Attendance at the GDSC Info Session, introducing the organization's goals, team structure, and upcoming initiatives for the 2023/2024 period.",
+    skills: ["GDSC", "Community Engagement", "Team Introduction"],
   },
 ];
 

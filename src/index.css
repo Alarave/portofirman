@@ -6,48 +6,53 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%; /* Softer off-white */
-    --foreground: 224 71.4% 12%; /* Darker gray instead of pure coal */
+    /* Data Science teal/blue palette */
+    --background: 200 20% 98%;
+    --foreground: 213 50% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 10%;
+    --card-foreground: 213 50% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
+    --popover-foreground: 213 50% 10%;
+    --primary: 196 80% 40%;          /* Teal-blue: data science feel */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 200 20% 94%;
+    --secondary-foreground: 213 40% 15%;
+    --muted: 200 15% 94%;
+    --muted-foreground: 213 15% 48%;
+    --accent: 200 20% 94%;
+    --accent-foreground: 213 40% 15%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 262.1 83.3% 57.8%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 200 15% 88%;
+    --input: 200 15% 88%;
+    --ring: 196 80% 40%;
     --radius: 0.75rem;
+    /* Custom data science accent */
+    --ds-teal: 174 72% 40%;
+    --ds-blue: 213 80% 52%;
+    --ds-indigo: 238 68% 58%;
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
+    --background: 213 40% 6%;
+    --foreground: 200 20% 96%;
+    --card: 213 35% 8%;
+    --card-foreground: 200 20% 96%;
+    --popover: 213 35% 8%;
+    --popover-foreground: 200 20% 96%;
+    --primary: 196 75% 48%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 213 30% 14%;
+    --secondary-foreground: 200 20% 96%;
+    --muted: 213 30% 14%;
+    --muted-foreground: 213 15% 60%;
+    --accent: 213 30% 14%;
+    --accent-foreground: 200 20% 96%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 263.4 70% 50.4%;
+    --destructive-foreground: 200 20% 96%;
+    --border: 213 30% 16%;
+    --input: 213 30% 16%;
+    --ring: 196 75% 48%;
   }
 }
 
@@ -72,7 +77,19 @@
     @apply bg-black/30 backdrop-blur-lg border border-white/5;
   }
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-cyan-500;
+  }
+  /* Skeleton loading animation */
+  .skeleton {
+    @apply bg-muted animate-pulse rounded;
+  }
+  /* Micro-interaction: button press */
+  .btn-press {
+    @apply active:scale-95 transition-transform duration-100;
+  }
+  /* Data science chart container */
+  .chart-container {
+    @apply w-full overflow-hidden rounded-lg;
   }
 }
 
@@ -112,4 +129,40 @@
 
 .animate-scale-in {
   animation: scaleIn 0.8s ease-out forwards;
+}
+
+/* Ensure animation fill mode works */
+.fill-mode-forwards {
+  animation-fill-mode: forwards;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-scale-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Mobile typography improvements */
+@media (max-width: 640px) {
+  h1 { font-size: clamp(1.75rem, 8vw, 3rem); }
+  h2 { font-size: clamp(1.4rem, 6vw, 2.25rem); }
+  h3 { font-size: clamp(1.1rem, 4vw, 1.5rem); }
+}
+
+/* Code block scrollbar */
+pre::-webkit-scrollbar {
+  height: 4px;
+}
+pre::-webkit-scrollbar-track {
+  background: #1e1e2e;
+}
+pre::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 2px;
 }

@@ -55,24 +55,6 @@ const workExperiences: ExperienceData[] = [
     ],
   },
   {
-    id: 3,
-    title: "Project Manager",
-    company: "Information Systems Project",
-    location: "Gunadarma University",
-    period: "2024",
-    type: "Academic Project",
-    icon: "🎓",
-    color: "from-purple-500 to-purple-600",
-    description:
-      "Led a team project for Information Systems course, overseeing project planning, execution, and delivery of a comprehensive system solution.",
-    responsibilities: [
-      "Coordinating team activities and managing project timeline",
-      "Facilitating communication between team members and stakeholders",
-      "Ensuring project deliverables meet quality standards and deadlines",
-      "Documenting project progress and creating final presentations",
-    ],
-  },
-    {
     id: 2,
     title: "Project Manager",
     company: "Information Systems Project",

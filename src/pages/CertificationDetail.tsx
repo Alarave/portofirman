@@ -175,7 +175,11 @@ const CertificationDetail = () => {
                 <h3 className="font-semibold text-foreground mb-4">Skills Covered</h3>
                 <div className="flex flex-wrap gap-2">
                   {cert.skills.map((skill) => (
-                    <Badge key={skill} variant="outline">
+                    <Badge 
+                      key={skill} 
+                      variant="outline"
+                      className="hover:text-primary hover:border-primary/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.25)] transition-all duration-300 cursor-default"
+                    >
                       {skill}
                     </Badge>
                   ))}

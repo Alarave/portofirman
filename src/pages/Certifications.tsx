@@ -3,11 +3,20 @@ import { certificationsData } from "./CertificationDetail";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Award, Calendar, ExternalLink } from "lucide-react";
+import { ArrowRight, Award, Calendar, ExternalLink, SortAsc, SortDesc, ArrowUpDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 const Certifications = () => {
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+
+  const sortedData = [...certificationsData].sort((a, b) => {
+    const yearA = parseInt(a.year);
+    const yearB = parseInt(b.year);
+    return sortOrder === "newest" ? yearB - yearA : yearA - yearB;
+  });
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -28,8 +37,40 @@ const Certifications = () => {
       {/* Grid Section */}
       <section className="py-16 md:py-24">
         <div className="container">
+          {/* Sorting Controls */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-6 bg-primary rounded-full" />
+              <h2 className="text-2xl font-bold text-foreground">All Credentials</h2>
+              <span className="text-sm font-medium text-muted-foreground ml-2 px-2 py-0.5 rounded-md bg-muted">
+                {sortedData.length} Items
+              </span>
+            </div>
+            
+            <div className="flex items-center gap-2 p-1 bg-muted/50 rounded-2xl border border-border/50">
+              <button
+                onClick={() => setSortOrder(sortOrder === "newest" ? "oldest" : "newest")}
+                className="flex items-center gap-3 px-6 py-2.5 rounded-xl text-sm font-bold bg-background text-primary shadow-lg shadow-black/5 hover:scale-105 transition-all duration-300 group"
+              >
+                {sortOrder === "newest" ? (
+                  <>
+                    <SortDesc className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+                    <span>Showing: Newest First</span>
+                  </>
+                ) : (
+                  <>
+                    <SortAsc className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+                    <span>Showing: Oldest First</span>
+                  </>
+                )}
+                <div className="w-px h-4 bg-border/50 mx-1" />
+                <ArrowUpDown className="w-3.5 h-3.5 text-muted-foreground opacity-50" />
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {certificationsData.map((cert, index) => (
+            {sortedData.map((cert, index) => (
               <div 
                 key={cert.id} 
                 className="opacity-0 animate-slide-up fill-mode-forwards"

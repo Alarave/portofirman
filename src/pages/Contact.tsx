@@ -2,309 +2,278 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
-  FormMessage 
-} from "@/components/ui/form";
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Linkedin, 
-  Github, 
-  ExternalLink, 
+import {
+  Mail,
+  Phone,
+  MapPin,
+  LinkedinIcon,
+  GithubIcon,
+  ExternalLink,
   Clock,
   Calendar,
   Send,
   Globe,
-  MessageSquare,
-  Sparkles,
-  CheckCircle2
+  MessageCircle,
+  CheckCircle2,
 } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  subject: z.string().min(5, { message: "Subject must be at least 5 characters." }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
-});
+// Custom Gmail icon component (SVG)
+const GmailIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+    <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.545l8.073-6.052C21.69 2.28 24 3.434 24 5.457z" />
+  </svg>
+);
+
+// Custom WhatsApp icon component (SVG)
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+  </svg>
+);
+
+// Custom Google Maps icon component (SVG)
+const GoogleMapsIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+    <path d="M12 0C7.802 0 4.403 3.399 4.403 7.597c0 5.697 7.597 16.403 7.597 16.403s7.597-10.706 7.597-16.403C19.597 3.399 16.198 0 12 0zm0 11.5a3.903 3.903 0 110-7.806 3.903 3.903 0 010 7.806z" />
+  </svg>
+);
 
 const contactInfo = [
   {
-    icon: Mail,
+    icon: GmailIcon,
     label: "Email",
     value: "firmanpambudiansyah@gmail.com",
     href: "mailto:firmanpambudiansyah@gmail.com",
     description: "Response within 24 hours",
-    color: "bg-blue-500/10 text-blue-500",
+    color: "from-red-500/10 to-orange-500/10",
+    iconColor: "text-red-600",
   },
   {
-    icon: Phone,
+    icon: WhatsAppIcon,
     label: "WhatsApp",
     value: "+62 859-7426-7164",
     href: "https://wa.me/6285974267164",
-    description: "Available for quick chat",
-    color: "bg-emerald-500/10 text-emerald-500",
+    description: "Available on weekdays",
+    color: "from-green-500/10 to-emerald-500/10",
+    iconColor: "text-green-600",
   },
   {
-    icon: MapPin,
+    icon: GoogleMapsIcon,
     label: "Location",
     value: "Jakarta Pusat, Indonesia",
     href: "https://www.google.com/maps/search/?api=1&query=Jakarta+Pusat+Indonesia",
-    description: "Open to global opportunities",
-    color: "bg-orange-500/10 text-orange-500",
+    description: "Open to remote work",
+    color: "from-blue-500/10 to-cyan-500/10",
+    iconColor: "text-blue-600",
   },
 ];
 
 const socialLinks = [
   {
-    icon: Linkedin,
+    icon: LinkedinIcon,
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/firman-pambudiansyah/",
-    className: "hover:bg-[#0077b5] hover:text-white border-[#0077b5]/20 hover:border-[#0077b5]",
+    color: "hover:bg-[#0077b5] hover:text-white hover:border-[#0077b5]",
+    bgColor: "bg-[#0077b5]/10",
   },
   {
-    icon: Github,
+    icon: GithubIcon,
     label: "GitHub",
     href: "https://github.com/Alarave",
-    className: "hover:bg-foreground hover:text-background border-foreground/20 hover:border-foreground",
+    color: "hover:bg-gray-900 dark:hover:bg-white hover:text-white dark:hover:text-gray-900 hover:border-gray-900 dark:hover:border-white",
+    bgColor: "bg-gray-900/10",
+  },
+];
+
+const availabilityInfo = [
+  {
+    icon: Clock,
+    title: "Working Hours",
+    value: "Mon - Fri, 9:00 AM - 6:00 PM WIB",
+  },
+  {
+    icon: Calendar,
+    title: "Availability",
+    value: "Open for Full-time & Freelance",
+  },
+];
+
+const whyContactMe = [
+  {
+    icon: CheckCircle2,
+    text: "Fast response time (usually within 24 hours)",
+  },
+  {
+    icon: CheckCircle2,
+    text: "Open to discuss project requirements",
+  },
+  {
+    icon: CheckCircle2,
+    text: "Flexible for remote collaboration",
   },
 ];
 
 const Contact = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast.success("Message sent successfully!", {
-      description: "Thank you for reaching out. I will get back to you soon.",
-      icon: <CheckCircle2 className="h-5 w-5 text-emerald-500" />,
-    });
-    form.reset();
-  }
-
   return (
     <Layout>
       {/* ── Hero Section ── */}
-      <section className="relative py-20 md:py-32 overflow-hidden">
-        {/* Background Decorative Elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full animate-pulse" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-500/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
-        </div>
+      <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 via-transparent to-cyan-500/5 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
-        <div className="container relative z-10 text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-sm font-bold animate-fade-in">
-            <Sparkles className="w-4 h-4" />
-            Let's Build Something Great
+        <div className="container relative text-center space-y-5">
+          <div className="animate-fade-in opacity-0" style={{ animationDelay: "0.1s" }}>
+            <Badge
+              variant="secondary"
+              className="mb-3 px-4 py-1.5 bg-primary/10 text-primary border-primary/20 font-semibold"
+            >
+              <MessageCircle className="w-3.5 h-3.5 mr-1.5" aria-hidden="true" />
+              Get In Touch
+            </Badge>
           </div>
-          <h1 className="text-5xl md:text-7xl font-black text-foreground tracking-tighter animate-slide-up">
-            Get in <span className="text-gradient">Touch.</span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            Whether you have a question about data science, want to discuss a potential collaboration, 
-            or just want to say hi — I'm always open to new connections.
-          </p>
+
+          <div className="animate-slide-up opacity-0" style={{ animationDelay: "0.2s" }}>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight">
+              Let's <span className="text-gradient">Connect</span>
+            </h1>
+          </div>
+
+          <div className="animate-slide-up opacity-0" style={{ animationDelay: "0.3s" }}>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+              Have a question or want to work together? I'd love to hear from you.  
+              Feel free to reach out through any of the channels below.
+            </p>
+          </div>
+
+          {/* Why Contact Me — Quick Benefits */}
+          <div
+            className="animate-slide-up opacity-0 flex flex-wrap justify-center gap-3 pt-4"
+            style={{ animationDelay: "0.4s" }}
+          >
+            {whyContactMe.map((item) => (
+              <span
+                key={item.text}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-muted-foreground text-xs font-medium rounded-full border border-border/50"
+              >
+                <item.icon className="w-3.5 h-3.5 text-primary" aria-hidden="true" />
+                {item.text}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── Contact Grid ── */}
-      <section className="pb-24">
+      {/* ── Contact Content ── */}
+      <section className="py-12 md:py-20">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
-            {/* Left: Contact Form & Info */}
-            <div className="lg:col-span-7 space-y-12">
-              
-              {/* Info Cards Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {contactInfo.map((info, i) => (
-                  <a 
-                    key={info.label}
-                    href={info.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group"
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+
+            {/* ── Left Column: Contact Information ── */}
+            <div className="space-y-8">
+              {/* Section Title */}
+              <div className="animate-fade-in opacity-0" style={{ animationDelay: "0.1s" }}>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
+                  <span className="w-1 h-7 bg-primary rounded-full" aria-hidden="true" />
+                  Contact Information
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Choose your preferred way to reach out
+                </p>
+              </div>
+
+              {/* Contact Cards */}
+              <div className="space-y-4">
+                {contactInfo.map((item, idx) => (
+                  <div
+                    key={item.label}
+                    className="animate-slide-up opacity-0"
+                    style={{ animationDelay: `${0.2 + idx * 0.1}s` }}
                   >
-                    <Card className="h-full border-border/50 hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-card/50 backdrop-blur-sm">
-                      <CardContent className="p-6 flex flex-col items-center text-center space-y-3">
-                        <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110", info.color)}>
-                          <info.icon className="w-6 h-6" />
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{info.label}</p>
-                          <p className="text-sm font-bold text-foreground line-clamp-1">{info.value}</p>
-                        </div>
+                    <Card className="group hover:border-primary/40 hover:shadow-xl transition-all duration-300 overflow-hidden">
+                      <CardContent className="p-0">
+                        <a
+                          href={item.href || "#"}
+                          target={item.href?.startsWith("http") ? "_blank" : undefined}
+                          rel={item.href?.startsWith("http") ? "noopener noreferrer" : undefined}
+                          className="flex items-start gap-4 p-5 md:p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
+                          aria-label={`Contact via ${item.label}: ${item.value}`}
+                        >
+                          {/* Icon with gradient background */}
+                          <div
+                            className={cn(
+                              "w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 bg-gradient-to-br",
+                              item.color
+                            )}
+                          >
+                            <item.icon
+                              className={cn("h-6 w-6", item.iconColor)}
+                              aria-hidden="true"
+                            />
+                          </div>
+
+                          {/* Content */}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider mb-1">
+                              {item.label}
+                            </p>
+                            <p className="text-base md:text-lg font-bold text-foreground truncate group-hover:text-primary transition-colors">
+                              {item.value}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
+                              <CheckCircle2 className="h-3 w-3 text-primary" aria-hidden="true" />
+                              {item.description}
+                            </p>
+                          </div>
+
+                          {/* Arrow icon */}
+                          <ExternalLink
+                            className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0"
+                            aria-hidden="true"
+                          />
+                        </a>
                       </CardContent>
                     </Card>
-                  </a>
+                  </div>
                 ))}
               </div>
 
-              {/* Contact Form Card */}
-              <Card className="border-border/50 shadow-2xl shadow-primary/5 overflow-hidden">
-                <div className="bg-primary/5 border-b border-border/50 p-6 flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <MessageSquare className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold">Send a Message</h2>
-                    <p className="text-sm text-muted-foreground font-medium">I'll get back to you as soon as possible.</p>
-                  </div>
-                </div>
-                <CardContent className="p-8">
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FormField
-                          control={form.control}
-                          name="name"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="font-bold">Full Name</FormLabel>
-                              <FormControl>
-                                <Input placeholder="John Doe" className="bg-muted/30 focus:bg-background transition-colors h-12" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="email"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="font-bold">Email Address</FormLabel>
-                              <FormControl>
-                                <Input placeholder="john@example.com" className="bg-muted/30 focus:bg-background transition-colors h-12" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name="subject"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="font-bold">Subject</FormLabel>
-                            <FormControl>
-                              <Input placeholder="How can I help you?" className="bg-muted/30 focus:bg-background transition-colors h-12" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="message"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="font-bold">Message</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="Your message here..." 
-                                className="min-h-[150px] bg-muted/30 focus:bg-background transition-colors resize-none" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <Button type="submit" size="lg" className="w-full h-14 text-lg font-bold rounded-xl shadow-lg shadow-primary/20 group">
-                        Send Message
-                        <Send className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                      </Button>
-                    </form>
-                  </Form>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Right: Map & Socials */}
-            <div className="lg:col-span-5 space-y-8">
-              
-              {/* Location Card */}
-              <Card className="overflow-hidden border-border/50 shadow-xl bg-card/50 backdrop-blur-sm group">
-                <div className="aspect-video relative w-full overflow-hidden">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126906.96780928653!2d106.7562105!3d-6.1862075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4190a0d1501%3A0x6671d61a4d9a0206!2sCentral%20Jakarta%20City%2C%20Central%20Jakarta%20City%2C%20Jakarta!5e0!3m2!1sen!2sid!4v1234567890"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="w-full h-full grayscale hover:grayscale-0 transition-all duration-700 contrast-125"
-                    title="Jakarta Pusat Location"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-background/80 backdrop-blur-md text-foreground border-border/50 py-1.5 px-4 font-bold shadow-lg">
-                      <MapPin className="w-3.5 h-3.5 mr-2 text-primary" />
-                      Jakarta, Indonesia
-                    </Badge>
-                  </div>
-                </div>
-                <CardContent className="p-8 space-y-6">
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-black">Base of <span className="text-primary">Operations</span></h3>
-                    <p className="text-muted-foreground font-medium leading-relaxed">
-                      Strategically located in Jakarta Pusat, working at the heart of Indonesia's 
-                      technological and business center.
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 space-y-1">
-                      <Clock className="w-5 h-5 text-primary" />
-                      <p className="text-xs font-bold text-muted-foreground uppercase">Working Hours</p>
-                      <p className="text-sm font-bold">Mon - Fri, 9-6</p>
+              {/* Availability Info */}
+              <div
+                className="animate-slide-up opacity-0"
+                style={{ animationDelay: "0.5s" }}
+              >
+                <Card className="bg-gradient-to-br from-muted/50 to-muted/20 border-border/50">
+                  <CardContent className="p-5 md:p-6">
+                    <h3 className="font-bold text-foreground mb-4 flex items-center gap-2 text-base">
+                      <Clock className="h-5 w-5 text-primary" aria-hidden="true" />
+                      Availability
+                    </h3>
+                    <div className="space-y-3">
+                      {availabilityInfo.map((info) => (
+                        <div key={info.title} className="flex items-start gap-3">
+                          <div className="w-10 h-10 bg-background rounded-xl flex items-center justify-center shrink-0 border border-border shadow-sm">
+                            <info.icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-foreground">{info.title}</p>
+                            <p className="text-sm text-muted-foreground mt-0.5">{info.value}</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 space-y-1">
-                      <Calendar className="w-5 h-5 text-primary" />
-                      <p className="text-xs font-bold text-muted-foreground uppercase">Available for</p>
-                      <p className="text-sm font-bold">Full-time & Project</p>
-                    </div>
-                  </div>
+                  </CardContent>
+                </Card>
+              </div>
 
-                  <Button variant="outline" className="w-full rounded-xl h-12 font-bold" asChild>
-                    <a 
-                      href="https://www.google.com/maps/search/?api=1&query=Jakarta+Pusat+Indonesia" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      <Globe className="mr-2 w-4 h-4" />
-                      Open Google Maps
-                    </a>
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Social Connections */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-bold px-1">Connect with me on Socials</h3>
-                <div className="grid grid-cols-2 gap-4">
+              {/* Social Links */}
+              <div
+                className="animate-slide-up opacity-0"
+                style={{ animationDelay: "0.6s" }}
+              >
+                <h3 className="font-bold text-foreground mb-4 text-base">Connect With Me</h3>
+                <div className="flex gap-3">
                   {socialLinks.map((social) => (
                     <a
                       key={social.label}
@@ -312,50 +281,120 @@ const Contact = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={cn(
-                        "flex items-center gap-3 p-4 rounded-2xl border transition-all duration-300 font-bold group",
-                        social.className
+                        "group w-14 h-14 rounded-2xl flex items-center justify-center text-muted-foreground border-2 border-border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                        social.bgColor,
+                        social.color
                       )}
+                      aria-label={`Visit my ${social.label} profile`}
                     >
-                      <social.icon className="w-5 h-5 transition-transform group-hover:scale-110" />
-                      {social.label}
-                      <ExternalLink className="w-3.5 h-3.5 ml-auto opacity-40" />
+                      <social.icon
+                        className="h-6 w-6 transition-transform group-hover:scale-110 group-hover:rotate-6"
+                        aria-hidden="true"
+                      />
                     </a>
                   ))}
                 </div>
               </div>
+            </div>
 
+            {/* ── Right Column: Location & Quick Action ── */}
+            <div className="space-y-6">
+              {/* Section Title */}
+              <div
+                className="animate-fade-in opacity-0"
+                style={{ animationDelay: "0.2s" }}
+              >
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground flex items-center gap-2">
+                  <span className="w-1 h-7 bg-primary rounded-full" aria-hidden="true" />
+                  Location
+                </h2>
+              </div>
+
+              {/* Google Maps Card */}
+              <div
+                className="animate-slide-up opacity-0"
+                style={{ animationDelay: "0.3s" }}
+              >
+                <Card className="overflow-hidden border-border/50 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+                  <CardContent className="p-0">
+                    {/* Google Maps Embed */}
+                    <div className="aspect-square w-full relative">
+                      <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126906.96780928653!2d106.7562105!3d-6.1862075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4190a0d1501%3A0x6671d61a4d9a0206!2sCentral%20Jakarta%20City%2C%20Central%20Jakarta%20City%2C%20Jakarta!5e0!3m2!1sen!2sid!4v1234567890"
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0, minHeight: "400px" }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        className="w-full h-full"
+                        title="Jakarta Pusat Location Map"
+                      />
+                      {/* Overlay gradient for better visual */}
+                      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/10 to-transparent" />
+                    </div>
+
+                    {/* Map Info Footer */}
+                    <div className="p-5 md:p-6 bg-background border-t border-border">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0">
+                          <MapPin className="h-6 w-6 text-primary" aria-hidden="true" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-bold text-foreground text-base">Jakarta Pusat</h4>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            Central Jakarta, DKI Jakarta, Indonesia
+                          </p>
+                          <a
+                            href="https://www.google.com/maps/search/?api=1&query=Jakarta+Pusat+Indonesia"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm text-primary hover:underline mt-2 font-medium group"
+                          >
+                            <Globe className="h-4 w-4 transition-transform group-hover:rotate-12" aria-hidden="true" />
+                            Open in Google Maps
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Quick Action Card */}
+              <div
+                className="animate-slide-up opacity-0"
+                style={{ animationDelay: "0.4s" }}
+              >
+                <Card className="bg-gradient-to-br from-primary/10 via-cyan-500/5 to-transparent border-primary/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <CardContent className="p-6 md:p-8 text-center space-y-5">
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto shadow-lg animate-float">
+                      <Send className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-extrabold text-foreground">
+                        Ready to Start a Project?
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                        Let's discuss how I can help achieve your data-driven goals with predictive analytics and BI solutions.
+                      </p>
+                    </div>
+                    <Button
+                      asChild
+                      size="lg"
+                      className="w-full md:w-auto rounded-full px-8 shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-95 transition-all"
+                    >
+                      <a href="mailto:firmanpambudiansyah@gmail.com">
+                        <Mail className="mr-2 h-5 w-5" aria-hidden="true" />
+                        Send Email Now
+                      </a>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
-      </section>
-
-      {/* ── Call to Action ── */}
-      <section className="container pb-24">
-        <Card className="bg-gradient-to-br from-primary to-cyan-600 border-none overflow-hidden rounded-[3rem] shadow-2xl shadow-primary/20">
-          <CardContent className="p-12 md:p-20 text-center space-y-8 relative overflow-hidden">
-            {/* Abstract Decorative Circles */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-            
-            <div className="relative z-10 space-y-6">
-              <h2 className="text-3xl md:text-5xl font-black text-white leading-tight">
-                Ready to transform your <br className="hidden md:block" /> data into actionable insights?
-              </h2>
-              <p className="text-primary-foreground/90 max-w-xl mx-auto text-lg font-medium leading-relaxed">
-                I'm currently accepting new projects and full-time opportunities. 
-                Let's discuss how we can work together.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4 pt-4">
-                <Button size="lg" variant="secondary" className="rounded-full px-10 h-14 text-lg font-bold shadow-xl">
-                  Schedule a Call
-                </Button>
-                <Button size="lg" className="rounded-full px-10 h-14 text-lg font-bold bg-white text-primary hover:bg-white/90 border-none shadow-xl">
-                  Check Resume
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </section>
     </Layout>
   );

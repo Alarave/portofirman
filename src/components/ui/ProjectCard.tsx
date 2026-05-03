@@ -148,13 +148,13 @@ export function ProjectCard({
               {technologies.slice(0, 3).map((tech) => (
                 <span
                   key={tech}
-                  className="text-xs px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-md border border-border/40"
+                  className="text-xs px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-md border border-border/40 transition-all duration-300 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500/50 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default"
                 >
                   {tech}
                 </span>
               ))}
               {technologies.length > 3 && (
-                <span className="text-xs px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-md border border-border/40">
+                <span className="text-xs px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-md border border-border/40 transition-all duration-300 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500/50 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">
                   +{technologies.length - 3}
                 </span>
               )}

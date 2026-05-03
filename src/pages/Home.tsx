@@ -119,7 +119,7 @@ const Home = () => {
                 {["Available for Hire", "Open to Projects", "Remote Friendly"].map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 glass text-primary text-xs font-semibold rounded-full border border-primary/20"
+                    className="px-3 py-1 glass text-primary text-xs font-semibold rounded-full border border-primary/20 transition-all duration-300 hover:bg-primary/20 hover:border-primary/40 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] cursor-default"
                   >
                     {tag}
                   </span>
@@ -244,27 +244,48 @@ const Home = () => {
               <Link
                 key={card.title}
                 to={card.link}
-                className={`${slideUp} group relative p-8 rounded-3xl border border-border/50 bg-gradient-to-br ${card.color} hover:shadow-xl hover:-translate-y-1.5 transition-all duration-400 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary`}
+                className={`${slideUp} group relative p-8 rounded-[2rem] border border-border/50 bg-card/40 backdrop-blur-sm hover:bg-card/60 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 transition-all duration-500 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary`}
                 style={{ animationDelay: card.delay }}
                 aria-label={`Explore ${card.title} projects`}
               >
-                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-colors pointer-events-none" />
+                {/* Background Glow Effect */}
+                <div className={cn(
+                  "absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none bg-gradient-to-br",
+                  card.color
+                )} />
+                
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-gradient-to-br from-background to-muted/50 rounded-2xl flex items-center justify-center mb-8 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 overflow-hidden p-3 border border-border/50">
+                    {card.logo ? (
+                      <img src={card.logo} alt="" className="w-full h-full object-contain" aria-hidden="true" />
+                    ) : (
+                      <span className="text-3xl" aria-hidden="true">{card.emoji}</span>
+                    )}
+                  </div>
 
-                <div className="w-16 h-16 bg-background rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-400 overflow-hidden p-2.5 border-2 border-white/50 dark:border-zinc-700">
-                  {card.logo ? (
-                    <img src={card.logo} alt="" className="w-full h-full object-contain" aria-hidden="true" />
-                  ) : (
-                    <span className="text-3xl" aria-hidden="true">{card.emoji}</span>
-                  )}
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-300">
+                      {card.title}
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed text-base font-medium">
+                      {card.desc}
+                    </p>
+
+                    <div className="pt-4 flex items-center gap-2 text-primary font-bold text-sm">
+                      <span className="relative">
+                        Explore projects
+                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                      </span>
+                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-2" aria-hidden="true" />
+                    </div>
+                  </div>
                 </div>
 
-                <h3 className="text-xl font-bold text-foreground mb-3 leading-tight">{card.title}</h3>
-                <p className="text-muted-foreground leading-relaxed text-sm">{card.desc}</p>
-
-                <div className="mt-6 flex items-center gap-2 text-primary font-semibold text-sm opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-                  <span>Explore projects</span>
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </div>
+                {/* Bottom decorative line */}
+                <div className={cn(
+                  "absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r transition-all duration-500 scale-x-0 group-hover:scale-x-100 origin-left",
+                  card.color
+                )} />
               </Link>
             ))}
           </div>

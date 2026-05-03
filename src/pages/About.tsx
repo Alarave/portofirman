@@ -20,6 +20,7 @@ import {
   Briefcase,
   TrendingUp,
   Target,
+  School,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { certificationsData } from "./CertificationDetail";
@@ -39,6 +40,8 @@ import sapLogo from "@/assets/projects/sap.png";
 import excelLogo from "@/assets/projects/excel.png";
 import figmaLogo from "@/assets/projects/figma.png";
 import githubLogo from "@/assets/projects/github.png";
+import gunadarmaLogo from "@/assets/logo/gunadarma_logo.jpg";
+import sman5Logo from "@/assets/logo/sman5_logo.png";
 
 const techStackIcons = [
   { name: "Python", logo: pythonLogo },
@@ -89,19 +92,19 @@ const conferences = [
   {
     title: "EECSI 2025",
     description: "International Conference on Electrical Engineering, Computer Science and Informatics",
-    year: "2025",
+    year: "September 2025",
     type: "Conference",
   },
   {
     title: "ASEAN Data Analytics - SAP Workshop",
     description: "SAP Analytics Cloud and Data Integration Workshop",
-    year: "2024",
+    year: "November 2024",
     type: "Workshop",
   },
   {
     title: "PWC Workshop",
     description: "Professional Development and Business Analytics",
-    year: "2024",
+    year: "May 2024",
     type: "Workshop",
   },
 ];
@@ -169,27 +172,27 @@ const About = () => {
 
                 {/* HOOK: Kalimat pembuka kuat */}
                 <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3 leading-tight tracking-tight">
-                  Data Scientist dengan spesialisasi{" "}
-                  <span className="text-gradient">Predictive Analytics</span> dan{" "}
+                  Data Scientist specializing in{" "}
+                  <span className="text-gradient">Predictive Analytics</span> and{" "}
                   <span className="text-gradient">Business Intelligence</span>
                 </h1>
 
                 <p className="text-lg text-muted-foreground font-medium flex items-center gap-2 mb-4">
                   <Laptop className="h-5 w-5 text-primary" aria-hidden="true" />
-                  Membantu bisnis mengambil keputusan berbasis data yang akurat dan terukur
+                  Helping businesses make accurate and measurable data-driven decisions
                 </p>
               </div>
 
               {/* VALUE: Masalah yang diselesaikan */}
               <div className="animate-slide-up opacity-0" style={{ animationDelay: "0.1s" }}>
                 <p className="text-base text-muted-foreground leading-relaxed mb-3">
-                  Saya mengubah <span className="font-bold text-foreground">data mentah yang kompleks</span>{" "}
-                  menjadi <span className="font-bold text-foreground">actionable insights</span> untuk mengurangi
-                  biaya operasional, meningkatkan efisiensi stok, dan memprediksi tren bisnis dengan akurasi tinggi.
+                  I transform <span className="font-bold text-foreground">complex raw data</span>{" "}
+                  into <span className="font-bold text-foreground">actionable insights</span> to reduce
+                  operational costs, optimize stock efficiency, and predict business trends with high accuracy.
                 </p>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Terbiasa bekerja dalam <span className="font-bold text-foreground">deadline ketat</span> dan cepat
-                  beradaptasi dengan stack teknologi baru — dari Python dan SQL hingga SAP S/4HANA dan Looker Studio.
+                  Experienced in working under <span className="font-bold text-foreground">tight deadlines</span> and quickly
+                  adapting to new technology stacks — from Python and SQL to SAP S/4HANA and Looker Studio.
                 </p>
               </div>
 
@@ -220,8 +223,8 @@ const About = () => {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {[
                     { icon: Target, label: "MAPE 2.3%", sublabel: "Stock Prediction" },
-                    { icon: TrendingUp, label: "Akurasi 94%", sublabel: "Recommendation" },
-                    { icon: Briefcase, label: "30% Efisiensi", sublabel: "SAP Inventory" },
+                    { icon: TrendingUp, label: "94% Accuracy", sublabel: "Recommendation" },
+                    { icon: Briefcase, label: "30% Efficiency", sublabel: "SAP Inventory" },
                   ].map((item) => (
                     <div
                       key={item.label}
@@ -247,7 +250,7 @@ const About = () => {
                   </a>
                 </Button>
                 <Button variant="outline" asChild className="rounded-full px-6">
-                  <Link to="/contact">Tertarik Berkolaborasi?</Link>
+                  <Link to="/contact">Interested in Collaborating?</Link>
                 </Button>
               </div>
 
@@ -329,7 +332,7 @@ const About = () => {
                 <div className="text-center mb-6">
                   <h2 className="text-2xl font-bold text-foreground mb-2">Business Impact</h2>
                   <p className="text-muted-foreground text-sm">
-                    Hasil terukur dari proyek yang telah saya kerjakan
+                    Measurable results from projects I have completed
                   </p>
                 </div>
 
@@ -337,20 +340,20 @@ const About = () => {
                   {[
                     {
                       metric: "30%",
-                      label: "Pengurangan Dead Stock",
-                      desc: "SAP Inventory Management — otomasi reorder notification",
+                      label: "Dead Stock Reduction",
+                      desc: "SAP Inventory Management — automated reorder notifications",
                       color: "text-primary",
                     },
                     {
-                      metric: "3 Hari",
-                      label: "Waktu Laporan Dihemat",
-                      desc: "Financial Dashboard — dari manual ke real-time",
+                      metric: "3 Days",
+                      label: "Reporting Time Saved",
+                      desc: "Financial Dashboard — from manual to real-time",
                       color: "text-cyan-600",
                     },
                     {
                       metric: "MAPE 2.3%",
-                      label: "Akurasi Prediksi Saham",
-                      desc: "LSTM Model — prediksi harga BBCA dengan R² 0.94",
+                      label: "Stock Prediction Accuracy",
+                      desc: "LSTM Model — BBCA price prediction with R² 0.94",
                       color: "text-emerald-600",
                     },
                   ].map((item) => (
@@ -370,7 +373,7 @@ const About = () => {
                 <div className="text-center pt-4">
                   <Button variant="ghost" asChild className="group text-primary">
                     <Link to="/projects">
-                      Lihat Semua Proyek
+                      View All Projects
                       <ArrowRight
                         className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
                         aria-hidden="true"
@@ -392,7 +395,7 @@ const About = () => {
                 <div className="text-center mb-6">
                   <h2 className="text-2xl font-bold text-foreground mb-2">Technical Stack</h2>
                   <p className="text-muted-foreground text-sm">
-                    Tools dan teknologi yang saya kuasai untuk membangun solusi data
+                    Tools and technologies I have mastered to build data solutions
                   </p>
                 </div>
 
@@ -449,37 +452,93 @@ const About = () => {
       </section>
 
       {/* ── Education ── */}
-      <section className="py-12 md:py-16" id="education">
+      <section className="py-20 md:py-28" id="education">
         <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex items-center gap-3 mb-8">
-              <GraduationCap className="h-6 w-6 text-primary" aria-hidden="true" />
-              <h2 className="text-2xl font-bold">Education</h2>
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+                  <GraduationCap className="w-4 h-4" />
+                  Academic Background
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">Education</h2>
+              </div>
             </div>
-            <div className="space-y-6">
+
+            <div className="space-y-8 relative before:absolute before:inset-0 before:left-8 md:before:left-[31px] before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/50 before:via-primary/20 before:to-transparent">
               {[
                 {
                   school: "Gunadarma University",
                   sub: "Bachelor of Information Systems",
-                  year: "2023 - Present",
-                  desc: "Fokus pada Data Science, Business Intelligence, dan ERP Systems dengan GPA 3.88 (Cum Laude).",
+                  year: "September 2023 - Present",
+                  desc: "Focused on Data Science, Business Intelligence, and ERP Systems. Maintaining a high academic standard with practical implementations.",
+                  gpa: "3.88",
+                  honor: "Cum Laude",
+                  logo: gunadarmaLogo,
+                  color: "bg-blue-500",
                 },
                 {
                   school: "SMA Negeri 5 Jakarta",
                   sub: "Natural Sciences (IPA)",
-                  year: "2020 - 2023",
-                  desc: "Lulus dengan nilai rata-rata 89.67.",
+                  year: "July 2020 - June 2023",
+                  desc: "Developed a strong foundation in mathematics and analytical thinking during my high school years.",
+                  score: "89.67",
+                  honor: "Outstanding Student",
+                  logo: sman5Logo,
+                  color: "bg-emerald-500",
                 },
-              ].map((edu) => (
-                <div
-                  key={edu.school}
-                  className="relative pl-6 border-l-2 border-primary/20 py-2 hover:border-primary/40 transition-colors"
-                >
-                  <div className="absolute -left-[9px] top-4 w-4 h-4 rounded-full bg-primary" />
-                  <span className="text-xs font-bold text-primary mb-1 block">{edu.year}</span>
-                  <h3 className="text-lg font-bold text-foreground">{edu.school}</h3>
-                  <p className="text-sm font-semibold text-muted-foreground mb-2">{edu.sub}</p>
-                  <p className="text-sm text-muted-foreground">{edu.desc}</p>
+              ].map((edu, index) => (
+                <div key={edu.school} className="relative pl-16 md:pl-20 group">
+                  {/* Timeline Dot/Icon */}
+                  <div className="absolute left-0 top-0 w-16 h-16 flex items-center justify-center">
+                    <div className="w-4 h-4 rounded-full bg-background border-4 border-primary z-10 group-hover:scale-150 transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-primary/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 blur-xl" />
+                  </div>
+
+                  <Card className="border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 rounded-3xl overflow-hidden">
+                    <CardContent className="p-6 md:p-8">
+                      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                        <div className="space-y-4 flex-1">
+                          <div className="space-y-1">
+                            <span className="text-sm font-bold text-primary tracking-wide uppercase">
+                              {edu.year}
+                            </span>
+                            <h3 className="text-2xl font-extrabold text-foreground leading-tight">
+                              {edu.school}
+                            </h3>
+                            <p className="text-lg font-semibold text-muted-foreground">
+                              {edu.sub}
+                            </p>
+                          </div>
+                          
+                          <p className="text-muted-foreground leading-relaxed">
+                            {edu.desc}
+                          </p>
+
+                          <div className="flex flex-wrap gap-3 pt-2">
+                            {edu.gpa && (
+                              <Badge variant="secondary" className="bg-primary/10 text-primary border-0 px-3 py-1 font-bold">
+                                GPA: {edu.gpa}
+                              </Badge>
+                            )}
+                            {edu.score && (
+                              <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600 border-0 px-3 py-1 font-bold">
+                                Score: {edu.score}
+                              </Badge>
+                            )}
+                            <Badge variant="outline" className="border-primary/20 text-muted-foreground px-3 py-1">
+                              {edu.honor}
+                            </Badge>
+                          </div>
+                        </div>
+
+                        {/* Visual element / School Logo */}
+                        <div className="hidden md:flex w-24 h-24 rounded-2xl bg-white items-center justify-center border border-border/50 group-hover:border-primary/20 shadow-sm transition-all duration-500 overflow-hidden p-2">
+                          <img src={edu.logo} alt={edu.school} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
               ))}
             </div>
@@ -487,94 +546,111 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── Languages & Certifications ── */}
-      <section className="py-12 md:py-16 bg-muted/20" id="languages-credentials">
+      {/* ── Languages ── */}
+      <section className="py-20 md:py-28 bg-muted/20" id="languages">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            {/* Languages */}
-            <div className="lg:col-span-1 space-y-6">
-              <div className="flex items-center gap-3">
-                <Globe className="h-6 w-6 text-primary" aria-hidden="true" />
-                <h2 className="text-2xl font-bold">Languages</h2>
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center gap-3 mb-10">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Globe className="h-5 w-5 text-primary" aria-hidden="true" />
               </div>
-              <div className="space-y-4">
-                {languages.map((l) => (
-                  <div key={l.name} className="p-4 rounded-xl border border-border bg-card">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl" aria-hidden="true">{l.flag}</span>
-                        <span className="font-bold">{l.name}</span>
-                      </div>
-                      <span className="text-xs font-bold text-primary">{l.proficiency}</span>
-                    </div>
-                    <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                      <div className="h-full bg-primary" style={{ width: `${l.level}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <h2 className="text-2xl font-bold">Languages</h2>
             </div>
-
-            {/* Certifications */}
-            <div className="lg:col-span-2 space-y-6">
-              <div className="flex items-center gap-3">
-                <Award className="h-6 w-6 text-primary" aria-hidden="true" />
-                <h2 className="text-2xl font-bold">Certifications & Workshops</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {certificationsData.slice(0, 6).map((cert) => (
-                  <Link to={`/certifications/${cert.id}`} key={cert.id}>
-                    <Card className="hover:border-primary/50 transition-colors h-full">
-                      <CardContent className="p-4 flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          {cert.isImage && cert.icon ? (
-                            <img
-                              src={cert.icon}
-                              alt={cert.title}
-                              className="w-6 h-6 object-contain"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <Award className="h-5 w-5 text-primary" aria-hidden="true" />
-                          )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {languages.map((l) => (
+                <Card key={l.name} className="group border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 rounded-2xl overflow-hidden">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-2xl bg-background border border-border/50 flex items-center justify-center text-3xl shadow-sm group-hover:scale-110 transition-transform duration-300">
+                          {l.flag}
                         </div>
-                        <div className="min-w-0">
-                          <p className="text-xs text-muted-foreground">{cert.issuer}</p>
-                          <h4 className="text-sm font-bold text-foreground truncate">{cert.title}</h4>
+                        <div>
+                          <h4 className="text-lg font-bold text-foreground">{l.name}</h4>
+                          <Badge variant="secondary" className="mt-1 bg-primary/10 text-primary border-0 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider">
+                            {l.proficiency}
+                          </Badge>
                         </div>
-                        <ArrowRight className="h-4 w-4 text-primary ml-auto flex-shrink-0" aria-hidden="true" />
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-              <Button variant="ghost" className="w-full mt-4" asChild>
-                <Link to="/certifications" className="flex items-center justify-center">
-                  View All Documentation
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-                </Link>
-              </Button>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-sm font-bold text-muted-foreground/60 block">Proficiency</span>
+                        <span className="text-xl font-black text-primary">{l.level}%</span>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-primary to-cyan-400 transition-all duration-1000 ease-out" 
+                          style={{ width: `${l.level}%` }} 
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section className="py-12 md:py-16">
+      {/* ── Certifications & Workshops ── */}
+      <section className="py-20 md:py-28" id="certifications">
         <div className="container">
-          <Card className="bg-gradient-to-br from-primary/10 via-cyan-500/5 to-transparent border-primary/20">
-            <CardContent className="p-8 md:p-12 text-center space-y-6">
-              <h2 className="text-2xl md:text-3xl font-bold">
-                Tertarik mendiskusikan bagaimana data dapat mendorong pertumbuhan bisnis Anda?
-              </h2>
-              <p className="text-muted-foreground max-w-xl mx-auto">
-                Saya terbuka untuk kolaborasi, freelance, atau diskusi tentang data science dan BI. Mari terhubung!
-              </p>
-              <Button size="lg" asChild className="rounded-full px-8">
-                <Link to="/contact">Hubungi Saya</Link>
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-between mb-10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Award className="h-5 w-5 text-primary" aria-hidden="true" />
+                </div>
+                <h2 className="text-2xl font-bold">Certifications & Workshops</h2>
+              </div>
+              <Button variant="outline" size="sm" asChild className="hidden md:flex rounded-full">
+                <Link to="/certifications">View All</Link>
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {certificationsData.slice(0, 6).map((cert) => (
+                <Link to={`/certifications/${cert.id}`} key={cert.id} className="group">
+                  <Card className="hover:border-primary/50 hover:bg-primary/[0.02] hover:shadow-lg transition-all duration-300 h-full rounded-2xl overflow-hidden border-border/50">
+                    <CardContent className="p-5 flex items-center gap-5">
+                      <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors duration-300">
+                        {cert.isImage && cert.icon ? (
+                          <img
+                            src={cert.icon}
+                            alt={cert.title}
+                            className="w-8 h-8 object-contain group-hover:scale-110 transition-transform duration-300"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <Award className="h-7 w-7 text-primary" aria-hidden="true" />
+                        )}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-bold text-primary mb-1 uppercase tracking-wider">{cert.issuer}</p>
+                        <h4 className="text-base font-bold text-foreground leading-tight line-clamp-1">{cert.title}</h4>
+                      </div>
+                      <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-300 flex-shrink-0">
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-10 md:hidden">
+              <Button variant="outline" className="w-full rounded-xl" asChild>
+                <Link to="/certifications">View All Documentation</Link>
+              </Button>
+            </div>
+            
+            <div className="hidden md:block mt-12 text-center">
+              <p className="text-muted-foreground text-sm mb-6 italic">
+                Actively pursuing new certifications to stay at the forefront of AI and Data Science.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </Layout>

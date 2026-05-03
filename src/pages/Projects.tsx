@@ -5,10 +5,54 @@ import { cn } from "@/lib/utils";
 import bookImage from "@/assets/projects/book-recommendation.jpg";
 import BBCA from "@/assets/projects/bbca_prediction_comparison.jpg";
 import algoritma from "@/assets/projects/algoritma.jpg";
+import aiRecruiterImage from "@/assets/projects/ai-assisten.png";
+
+const aiRecruiterPRD = "";
+
+
 
 // ── Project Data ──────────────────────────────────────────────────────────────
 // Descriptions follow STAR formula: Situation → Task → Action → Result
 export const projectsData = [
+  {
+    id: "ai-recruiter-system",
+    title: "AI Recruitment Assistant (Hybrid Search & RAG)",
+    description:
+      "Sistem asisten rekrutmen cerdas berbasis AI untuk otomatisasi skrining CV dan generasi pertanyaan interview menggunakan RAG.",
+    category: "Data Science",
+    technologies: ["Python", "LangChain", "Groq", "Llama-3.3", "Gradio", "NLP", "RAG"],
+    fullDescription:
+      "Situasi: Proses rekrutmen manual sering kali tidak efisien dalam menyaring ratusan CV. Tugas: Membangun alat bantu untuk HR dalam menganalisis CV secara otomatis. Aksi: Mengembangkan sistem RAG (Retrieval-Augmented Generation) dengan Hybrid Search yang menggabungkan pencarian semantik dan leksikal. Hasil: Mempercepat proses skrining awal dengan skor kecocokan yang objektif dan draf pertanyaan wawancara otomatis.",
+    features: [
+      "Analisis CV otomatis berbasis Job Description",
+      "Hybrid Search (Semantic + Lexical) untuk akurasi tinggi",
+      "Skoring kecocokan kandidat secara real-time",
+      "Generasi pertanyaan interview yang dipersonalisasi",
+      "Antarmuka pengguna interaktif dengan Gradio",
+    ],
+    metrics: [
+      { label: "Model", value: "Llama-3.3-70B", color: "text-primary" },
+      { label: "Search", value: "Hybrid RAG", color: "text-cyan-600" },
+      { label: "Response", value: "Streaming", color: "text-emerald-600" },
+    ],
+    thumbnail: aiRecruiterImage,
+    image: aiRecruiterImage,
+    links: {
+      github: "https://github.com/Alarave/ai-recruters-system.git",
+      prd: aiRecruiterPRD,
+    },
+
+    chartType: null as null,
+    codeSnippet: `# Advanced RAG with Hybrid Search
+from langchain.retrievers import EnsembleRetriever
+from langchain_community.retrievers import BM25Retriever
+
+# Combine BM25 and Vector Search
+ensemble_retriever = EnsembleRetriever(
+    retrievers=[bm25_retriever, faiss_retriever],
+    weights=[0.5, 0.5]
+)`,
+  },
   {
     id: "book-recommendation-system",
     title: "Book Recommendation System (Akurasi Cosine 94%)",
@@ -297,7 +341,7 @@ const Projects = () => {
       </section>
 
       {/* ── Category Filter with counts ── */}
-      <section className="py-6 border-b border-border/50 sticky top-0 z-10 bg-background/80 backdrop-blur-md">
+      <section className="py-4 md:py-6 border-b border-border/50 sticky top-16 lg:top-24 z-30 bg-background/95 backdrop-blur-md transition-all duration-500">
         <div className="container">
           <div
             className="flex flex-wrap justify-center gap-2"

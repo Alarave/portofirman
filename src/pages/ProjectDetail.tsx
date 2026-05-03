@@ -277,7 +277,11 @@ const ProjectDetail = () => {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="font-normal text-xs">
+                    <Badge
+                      key={tech}
+                      variant="secondary"
+                      className="font-normal text-xs transition-all duration-300 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500/50 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default"
+                    >
                       {tech}
                     </Badge>
                   ))}
@@ -310,7 +314,20 @@ const ProjectDetail = () => {
                     Private Repository
                   </Button>
                 )}
+                {project.links?.prd && (
+                  <Button
+                    variant="outline"
+                    className="w-full rounded-xl border-primary/30 text-primary hover:bg-primary/5 shadow-sm"
+                    asChild
+                  >
+                    <a href={project.links.prd} target="_blank" rel="noopener noreferrer">
+                      <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
+                      View PRD (PDF)
+                    </a>
+                  </Button>
+                )}
               </div>
+
 
               {/* Quick metrics in sidebar */}
               {hasMetrics && (

@@ -37,11 +37,29 @@ interface ExperienceData {
 // --- Work Experience Data ---
 const workExperiences: ExperienceData[] = [
   {
+    id: 0,
+    title: "Asisten Praktikum DGX",
+    company: "Universitas Gunadarma",
+    location: "Depok, Indonesia",
+    period: "February, 2026 - Present",
+    type: "Teaching Assistant",
+    icon: "🚀",
+    color: "from-orange-500 to-red-600",
+    description:
+      "Served as a laboratory assistant for High Performance Computing (DGX) practical sessions, mentoring students in Deep Learning implementations and the utilization of advanced AI infrastructure.",
+    responsibilities: [
+      "Assisting students during laboratory sessions using NVIDIA DGX systems",
+      "Explaining Deep Learning concepts and practical AI model training techniques",
+      "Providing technical support for student projects in the field of High Performance Computing (HPC)",
+      "Regularly evaluating students' practical results and assignments",
+    ],
+  },
+  {
     id: 1,
     title: "Data Entry Agent",
     company: "PT. Pegadaian",
     location: "Jakarta, Indonesia",
-    period: "2025 - Present",
+    period: "August 2025 - Present",
     type: "Part-time",
     icon: "🏦",
     color: "from-blue-500 to-blue-600",
@@ -59,7 +77,7 @@ const workExperiences: ExperienceData[] = [
     title: "Project Manager",
     company: "Information Systems Project",
     location: "Gunadarma University",
-    period: "2024",
+    period: "March 2024 - July 2024",
     type: "Academic Project",
     icon: "🎓",
     color: "from-purple-500 to-purple-600",
@@ -120,17 +138,20 @@ const TimelineItem = ({
 
   return (
     <div
-      className={`relative pl-8 md:pl-0 md:grid md:grid-cols-12 md:gap-8 animate-slide-up opacity-0 fill-mode-forwards transition-all duration-500 ${
-        isVisible ? "opacity-100" : "opacity-0"
-      }`}
+      className={`relative pl-8 md:pl-0 md:grid md:grid-cols-12 md:gap-8 animate-slide-up opacity-0 fill-mode-forwards transition-all duration-500 ${isVisible ? "opacity-100" : "opacity-0"
+        }`}
       style={{ animationDelay: `${index * 0.15}s` }}
     >
       {/* Date Column (Desktop) */}
       <div className="hidden md:block md:col-span-3 text-right">
         <div className="sticky top-24 space-y-2">
-          <Badge variant="secondary" className="text-xs px-3 py-1">
+          <Badge
+            variant="secondary"
+            className="text-xs px-3 py-1 transition-all duration-300 hover:bg-primary/20 hover:text-primary hover:border-primary/40 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default"
+          >
             {exp.type}
           </Badge>
+
           <p className="text-sm text-muted-foreground flex items-center justify-end gap-2">
             <Calendar className="h-4 w-4" />
             {exp.period}
@@ -147,8 +168,8 @@ const TimelineItem = ({
           (isOrganization
             ? organizationExperiences.length - 1
             : workExperiences.length - 1) && (
-          <div className="absolute top-6 w-px h-full bg-border" style={{ left: "50%" }} />
-        )}
+            <div className="absolute top-6 w-px h-full bg-border" style={{ left: "50%" }} />
+          )}
       </div>
 
       {/* Content Column */}
@@ -157,9 +178,13 @@ const TimelineItem = ({
           <CardContent className="p-6 md:p-8">
             {/* Mobile Date */}
             <div className="flex items-center gap-2 mb-4 md:hidden">
-              <Badge variant="secondary" className="text-xs">
+              <Badge
+                variant="secondary"
+                className="text-xs transition-all duration-300 hover:bg-primary/20 hover:text-primary hover:border-primary/40 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default"
+              >
                 {exp.type}
               </Badge>
+
               <span className="text-sm text-muted-foreground flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
                 {exp.period}
@@ -193,23 +218,29 @@ const TimelineItem = ({
             </p>
 
             {/* Responsibilities */}
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-                <Target className="h-4 w-4 text-primary" />
+            <div className="mb-6 space-y-4">
+              <h4 className="text-sm font-bold uppercase tracking-widest text-primary/80 mb-4 flex items-center gap-2">
+                <Target className="h-4 w-4" />
                 Key Responsibilities
               </h4>
-              <ul className="space-y-2">
+              <div className="grid grid-cols-1 gap-3">
                 {exp.responsibilities.map((resp, i) => (
-                  <li
+                  <div
                     key={i}
-                    className="text-sm text-muted-foreground flex items-start gap-3 animate-slide-up opacity-0 fill-mode-forwards"
+                    className="group/item relative p-4 rounded-2xl border border-border/50 bg-muted/20 hover:border-primary/30 hover:bg-primary/5 hover:shadow-[0_0_15px_rgba(59,130,246,0.15)] transition-all duration-300 animate-slide-up opacity-0 fill-mode-forwards"
                     style={{ animationDelay: `${0.3 + i * 0.1}s` }}
                   >
-                    <CheckCircle2 className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                    <span>{resp}</span>
-                  </li>
+                    <div className="flex items-start gap-4">
+                      <div className="mt-0.5 w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center group-hover/item:bg-primary group-hover/item:scale-110 transition-all duration-300">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-primary group-hover/item:text-white" />
+                      </div>
+                      <span className="text-sm text-muted-foreground group-hover/item:text-foreground transition-colors leading-relaxed">
+                        {resp}
+                      </span>
+                    </div>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
 
             {/* Achievements (Organization Only) */}
@@ -260,9 +291,8 @@ const StatsCard = ({
 
   return (
     <Card
-      className={`group hover:border-primary/50 hover:shadow-lg transition-all duration-300 animate-slide-up opacity-0 fill-mode-forwards ${
-        isVisible ? "opacity-100" : "opacity-0"
-      }`}
+      className={`group hover:border-primary/50 hover:shadow-lg transition-all duration-300 animate-slide-up opacity-0 fill-mode-forwards ${isVisible ? "opacity-100" : "opacity-0"
+        }`}
       style={{ animationDelay: delay }}
     >
       <CardContent className="p-6 text-center space-y-2">
@@ -352,7 +382,7 @@ const Experience = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <StatsCard
               icon={Briefcase}
-              value="2+"
+              value="3+"
               label="Work Experiences"
               delay="0.1s"
             />

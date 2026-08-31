@@ -114,53 +114,28 @@ const whyContactMe = [
   },
 ];
 
-const Contact = () => {
+export const ContactSection = () => {
   return (
-    <Layout>
+    <>
       {/* ── Hero Section ── */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 via-transparent to-cyan-500/5 relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+      <section className="py-16 md:py-24 relative">
 
         <div className="container relative text-center space-y-5">
-          <div className="animate-fade-in opacity-0" style={{ animationDelay: "0.1s" }}>
-            <Badge
-              variant="secondary"
-              className="mb-3 px-4 py-1.5 bg-primary/10 text-primary border-primary/20 font-semibold"
-            >
-              <MessageCircle className="w-3.5 h-3.5 mr-1.5" aria-hidden="true" />
-              Get In Touch
-            </Badge>
-          </div>
 
-          <div className="animate-slide-up opacity-0" style={{ animationDelay: "0.2s" }}>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight">
-              Let's <span className="text-gradient">Connect</span>
+          <div className="animate-slide-up opacity-0 pt-2" style={{ animationDelay: "0.2s" }}>
+            <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tight leading-tight">
+              Let's build something<br /><em className="not-italic text-primary">great together.</em>
             </h1>
           </div>
-
-          <div className="animate-slide-up opacity-0" style={{ animationDelay: "0.3s" }}>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-              Have a question or want to work together? I'd love to hear from you.  
-              Feel free to reach out through any of the channels below.
-            </p>
+          <div className="animate-slide-up opacity-0" style={{ animationDelay: "0.15s" }}>
+            <span className="inline-block text-xs sm:text-sm font-semibold text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">
+              Available for opportunities
+            </span>
           </div>
-
-          {/* Why Contact Me — Quick Benefits */}
-          <div
-            className="animate-slide-up opacity-0 flex flex-wrap justify-center gap-3 pt-4"
-            style={{ animationDelay: "0.4s" }}
-          >
-            {whyContactMe.map((item) => (
-              <span
-                key={item.text}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 glass text-muted-foreground text-xs font-medium rounded-full border border-border/50"
-              >
-                <item.icon className="w-3.5 h-3.5 text-primary" aria-hidden="true" />
-                {item.text}
-              </span>
-            ))}
+          <div className="animate-slide-up opacity-0" style={{ animationDelay: "0.3s" }}>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed font-medium">
+              Open to full-time roles, freelance projects, and collaborations.
+            </p>
           </div>
         </div>
       </section>
@@ -170,7 +145,7 @@ const Contact = () => {
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
-            {/* ── Left Column: Contact Information ── */}
+            {/* ── Left Column: Direct Channels & Socials ── */}
             <div className="space-y-8">
               {/* Section Title */}
               <div className="animate-fade-in opacity-0" style={{ animationDelay: "0.1s" }}>
@@ -200,7 +175,6 @@ const Contact = () => {
                           className="flex items-start gap-4 p-5 md:p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
                           aria-label={`Contact via ${item.label}: ${item.value}`}
                         >
-                          {/* Icon with gradient background */}
                           <div
                             className={cn(
                               "w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 bg-gradient-to-br",
@@ -213,7 +187,6 @@ const Contact = () => {
                             />
                           </div>
 
-                          {/* Content */}
                           <div className="flex-1 min-w-0">
                             <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider mb-1">
                               {item.label}
@@ -227,7 +200,6 @@ const Contact = () => {
                             </p>
                           </div>
 
-                          {/* Arrow icon */}
                           <ExternalLink
                             className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0"
                             aria-hidden="true"
@@ -396,6 +368,14 @@ const Contact = () => {
           </div>
         </div>
       </section>
+    </>
+  );
+};
+
+const Contact = () => {
+  return (
+    <Layout>
+      <ContactSection />
     </Layout>
   );
 };

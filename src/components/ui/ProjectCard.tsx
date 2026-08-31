@@ -33,9 +33,11 @@ interface ProjectCardProps {
 
 /** Category → gradient mapping for chart placeholder backgrounds */
 const categoryGradient: Record<string, string> = {
-  "Data Science": "from-primary/10 via-cyan-500/5 to-background",
-  "Business Intelligence": "from-emerald-500/10 via-teal-500/5 to-background",
-  "SAP/ERP": "from-indigo-500/10 via-violet-500/5 to-background",
+  "Data Science": "from-palette-primary/15 via-palette-light/10 to-background",
+  "AI Engineer": "from-palette-dark/20 via-palette-primary/10 to-background",
+  "Product Management": "from-palette-primary/10 via-palette-lightest/30 to-background",
+  "Business Intelligence": "from-palette-light/20 via-primary/10 to-background",
+  "SAP/ERP": "from-palette-dark/15 via-palette-light/10 to-background",
 };
 
 export function ProjectCard({
@@ -100,7 +102,7 @@ export function ProjectCard({
       className="group h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
       aria-label={`View details for ${title}`}
     >
-      <Card className="h-full flex flex-col overflow-hidden border-border/50 bg-card hover:border-primary/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 rounded-2xl">
+      <Card className="h-full flex flex-col overflow-hidden border-border/50 bg-card hover:border-primary/50 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12),0_0_25px_rgba(33,150,243,0.3)] hover:bg-card/90 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 rounded-2xl">
         {/* Thumbnail / Chart */}
         <div className="aspect-video w-full overflow-hidden bg-muted relative">
           {renderThumbnail()}
@@ -148,13 +150,13 @@ export function ProjectCard({
               {technologies.slice(0, 3).map((tech) => (
                 <span
                   key={tech}
-                  className="text-xs px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-md border border-border/40 transition-all duration-300 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500/50 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default"
+                  className="text-xs px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-md border border-border/40 transition-all duration-300 hover:bg-palette-primary/10 hover:text-palette-primary hover:border-palette-primary/40 hover:shadow-[0_0_12px_rgba(33,150,243,0.3)] cursor-default"
                 >
                   {tech}
                 </span>
               ))}
               {technologies.length > 3 && (
-                <span className="text-xs px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-md border border-border/40 transition-all duration-300 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500/50 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">
+                <span className="text-xs px-2 py-0.5 bg-muted/60 text-muted-foreground rounded-md border border-border/40 transition-all duration-300 hover:bg-palette-primary/10 hover:text-palette-primary hover:border-palette-primary/40 hover:shadow-[0_0_12px_rgba(33,150,243,0.3)] cursor-default">
                   +{technologies.length - 3}
                 </span>
               )}

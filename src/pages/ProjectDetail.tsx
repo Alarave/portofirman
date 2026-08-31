@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
-import { projectsData } from "./Projects";
+import { projectsData } from "../data/projectsData";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -280,7 +280,7 @@ const ProjectDetail = () => {
                     <Badge
                       key={tech}
                       variant="secondary"
-                      className="font-normal text-xs transition-all duration-300 hover:bg-blue-500/10 hover:text-blue-500 hover:border-blue-500/50 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default"
+                      className="font-normal text-xs transition-all duration-300 hover:bg-palette-primary/10 hover:text-palette-primary hover:border-palette-primary/40 hover:shadow-[0_0_12px_rgba(33,150,243,0.3)] cursor-default"
                     >
                       {tech}
                     </Badge>
@@ -350,7 +350,7 @@ const ProjectDetail = () => {
           </div>
 
           {/* ── Contextual CTA at bottom of case study ── */}
-          <div className="mt-16 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-cyan-500/5 to-transparent border border-primary/15 text-center space-y-5">
+          <div className="mt-16 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-palette-primary/10 via-palette-light/10 to-transparent border border-primary/15 text-center space-y-5">
             <h2 className="text-xl md:text-2xl font-extrabold text-foreground">
               Tertarik dengan proyek seperti ini?
             </h2>

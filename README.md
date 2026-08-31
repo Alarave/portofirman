@@ -1,6 +1,6 @@
 # Firman Pambudiansyah — Portfolio Website
 
-> Data Scientist & BI Developer portfolio showcasing predictive analytics, interactive dashboards, and SAP S/4HANA implementations.
+> Data Scientist & ai engineer portfolio showcasing predictive analytics, interactive dashboards, and SAP S/4HANA implementations.
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)]()

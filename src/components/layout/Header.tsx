@@ -1,168 +1,194 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, FileText, ArrowRight } from "lucide-react";
+import { Menu, FileText, ArrowRight, MessageCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import logoPortfolio from "@/assets/logo/LOGO PORTOFOLIO.png";
 
-import cvFile from "@/assets/cv.pdf";
-import dataScienceLogo from "@/assets/logo/data_science.png";
+const cvFile = "https://drive.google.com/file/d/1AXcL8VjAHFUrzhmVicI0d3VilJ13ixWn/view?usp=drive_link";
 
 const navItems = [
-  { path: "/", label: "Home" },
-  { path: "/about", label: "About" },
-  { path: "/experience", label: "Experience" },
-  { path: "/projects", label: "Projects" },
-  { path: "/certifications", label: "Certifications" },
-  { path: "/contact", label: "Contact" },
+  { path: "/#hero", label: "Home", id: "hero" },
+  { path: "/#about", label: "About", id: "about" },
+  { path: "/#experience", label: "Experience", id: "experience" },
+  { path: "/#projects", label: "Projects", id: "projects" },
+  { path: "/#certifications", label: "Certifications", id: "certifications" },
+  { path: "/#contact", label: "Contact", id: "contact" },
 ];
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 30);
+
+      // Scrollspy
+      const sections = navItems.map((item) => item.id);
+      let currentSection = "hero";
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 200) {
+            currentSection = section;
+          }
+        }
+      }
+      setActiveSection(currentSection);
     };
+
     window.addEventListener("scroll", handleScroll);
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isActive = (itemId: string, itemPath: string) => {
+    if (location.pathname === "/" || location.pathname === "") {
+      return activeSection === itemId;
+    }
+    return location.pathname === itemPath;
+  };
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (location.pathname === "/" || location.pathname === "") {
+      e.preventDefault();
+      const el = document.getElementById(id);
+      if (el) {
+        const yOffset = -70;
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }
+  };
+
   return (
-    <header 
+    <motion.header
+      initial={{ y: -60, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "sticky top-0 z-[100] w-full transition-all duration-500",
-        isScrolled 
-          ? "h-16 bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-lg shadow-black/5" 
-          : "h-24 bg-background/80 backdrop-blur-lg border-b border-transparent"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled
+          ? "bg-background/75 backdrop-blur-xl shadow-sm border-b border-border/30"
+          : "bg-transparent"
       )}
     >
-      <div className="container h-full flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="relative">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 group-hover:rotate-[10deg] group-hover:scale-110 transition-all duration-500">
-              <span className="text-xl font-black text-white">F</span>
-            </div>
-            {/* Subtle glow */}
-            <div className="absolute inset-0 bg-primary/20 rounded-xl blur-lg scale-0 group-hover:scale-150 transition-transform duration-500 pointer-events-none" />
-          </div>
-          <div className="flex flex-col -space-y-1">
-            <span className="text-xl font-black tracking-tighter text-foreground group-hover:text-primary transition-colors">FIRMAN</span>
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] group-hover:text-foreground transition-colors">Portfolio</span>
-          </div>
-        </Link>
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6">
+        <nav
+          className="flex items-center justify-between py-2 md:py-2.5"
+          aria-label="Primary navigation"
+        >
+          {/* Brand Logo & Name */}
+          <Link to="/" className="flex items-center gap-3 group">
+            <motion.img
+              src={logoPortfolio}
+              alt="Logo Firman Pambudiansyah"
+              whileHover={{ scale: 1.08, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 350, damping: 15 }}
+              className="h-9 w-auto object-contain"
+            />
+          </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-2">
-          {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={cn(
-                  "relative px-1 py-2 text-sm font-bold transition-all duration-300 group/nav",
-                  isActive
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {item.label}
-                <span 
+          {/* Desktop Nav Links with Gliding Active Indicator */}
+          <div className="hidden lg:flex items-center gap-1 bg-muted/30 p-1 rounded-full border border-border/30">
+            {navItems.map((item) => {
+              const active = isActive(item.id, item.path);
+              return (
+                <a
+                  key={item.path}
+                  href={item.path}
+                  onClick={(e) => handleNavClick(e, item.id)}
                   className={cn(
-                    "absolute bottom-0 left-0 h-[3px] bg-gradient-to-r from-primary to-cyan-500 rounded-full transition-all duration-500 transform origin-left",
-                    isActive ? "w-full opacity-100" : "w-0 opacity-0 group-hover/nav:w-full group-hover/nav:opacity-100"
-                  )} 
-                />
-              </Link>
-            );
-          })}
-          
-          <div className="h-6 w-px bg-border/50 mx-4" />
-          
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 h-10 font-bold shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all border-none">
-              <a href={cvFile} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <FileText className="h-4 w-4" />
-                Resume
+                    "relative px-4 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors duration-200 z-10 rounded-full",
+                    active ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {active && (
+                    <motion.div
+                      layoutId="activeNavPill"
+                      transition={{ type: "spring", stiffness: 150, damping: 19 }}
+                      className="absolute inset-0 bg-primary rounded-full -z-10 shadow-[0_0_12px_rgba(33,150,243,0.4)]"
+                    />
+                  )}
+                  {item.label}
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-2">
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="hidden sm:inline-flex rounded-full text-xs font-bold h-8 px-4 border-primary/30 hover:border-primary hover:bg-primary/10 transition-all"
+            >
+              <a href={cvFile} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5 text-primary" />
+                <span>Resume</span>
               </a>
             </Button>
+
+            <ThemeToggle />
+
+            {/* Mobile Nav Toggle */}
+            <Sheet>
+              <SheetTrigger asChild className="lg:hidden">
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                  <Menu className="w-4 h-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] flex flex-col gap-6 pt-12 bg-background/95 backdrop-blur-xl border-border/40">
+                <div className="flex items-center gap-3 pb-4">
+                  <img src={logoPortfolio} alt="Logo" className="h-8 w-auto" />
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-foreground">Firman Pambudiansyah</p>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Navigation Node</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  {navItems.map((item) => (
+                    <SheetClose asChild key={item.path}>
+                      <a
+                        href={item.path}
+                        onClick={(e) => handleNavClick(e, item.id)}
+                        className={cn(
+                          "text-sm font-bold uppercase tracking-wider py-2 px-3 rounded-xl transition-all",
+                          isActive(item.id, item.path)
+                            ? "bg-primary/15 text-primary font-black border-l-4 border-primary"
+                            : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                        )}
+                      >
+                        {item.label}
+                      </a>
+                    </SheetClose>
+                  ))}
+                </div>
+
+                <div className="mt-auto pt-6 space-y-3">
+                  <SheetClose asChild>
+                    <Button asChild className="w-full rounded-xl bg-primary text-primary-foreground font-bold text-xs h-10">
+                      <a href={cvFile} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                        <FileText className="w-4 h-4" />
+                        <span>View Resume</span>
+                      </a>
+                    </Button>
+                  </SheetClose>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </nav>
-
-        {/* Mobile Controls */}
-        <div className="flex items-center gap-3 lg:hidden">
-          <ThemeToggle />
-          <button
-            className="w-10 h-10 flex items-center justify-center rounded-xl bg-muted/50 hover:bg-primary/10 group transition-all duration-300"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <div className="relative w-5 h-5">
-              <span className={cn(
-                "absolute block w-5 h-0.5 bg-foreground transition-all duration-300",
-                isMenuOpen ? "top-2 rotate-45" : "top-1"
-              )} />
-              <span className={cn(
-                "absolute block w-5 h-0.5 bg-foreground transition-all duration-300 top-2",
-                isMenuOpen ? "opacity-0" : "opacity-100"
-              )} />
-              <span className={cn(
-                "absolute block w-5 h-0.5 bg-foreground transition-all duration-300",
-                isMenuOpen ? "top-2 -rotate-45" : "top-3"
-              )} />
-            </div>
-          </button>
-        </div>
       </div>
-
-      {/* Mobile Navigation Overlay */}
-      <div 
-        className={cn(
-          "fixed inset-0 top-[64px] z-40 bg-background lg:hidden transition-all duration-500",
-          isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        )}
-        onClick={() => setIsMenuOpen(false)}
-      >
-        <nav 
-          className={cn(
-            "bg-background border-b border-border/50 p-8 space-y-4 transition-all duration-500 transform",
-            isMenuOpen ? "translate-y-0" : "-translate-y-full"
-          )}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {navItems.map((item, index) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              onClick={() => setIsMenuOpen(false)}
-              className={cn(
-                "flex items-center justify-between p-4 rounded-2xl text-lg font-black transition-all duration-300",
-                location.pathname === item.path
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-              )}
-              style={{ transitionDelay: `${index * 50}ms` }}
-            >
-              {item.label}
-              <ArrowRight className={cn(
-                "h-5 w-5 transition-transform duration-300",
-                location.pathname === item.path ? "translate-x-0" : "-translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
-              )} />
-            </Link>
-          ))}
-          
-          <Button asChild className="w-full h-14 text-base font-bold rounded-2xl mt-6 shadow-2xl shadow-primary/20">
-            <a href={cvFile} target="_blank" rel="noopener noreferrer" onClick={() => setIsMenuOpen(false)}>
-              <FileText className="h-5 w-5 mr-2" />
-              Download My Resume
-            </a>
-          </Button>
-        </nav>
-      </div>
-    </header>
+    </motion.header>
   );
 }

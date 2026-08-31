@@ -10,6 +10,9 @@ import sertif2 from "@/assets/sertif/Sertif2.png";
 import sertif3 from "@/assets/sertif/Sertif3.jpg";
 import sertif4 from "@/assets/sertif/Sertif4.jpg";
 import sertif5 from "@/assets/sertif/Sertif5.jpg";
+import sertif6 from "@/assets/sertif/Sertif6.png";
+import sertif7 from "@/assets/sertif/Sertif7.png";
+import sertif8 from "@/assets/sertif/sertif8.PNG";
 
 export const certificationsData = [
   {
@@ -72,6 +75,36 @@ export const certificationsData = [
     description: "Attendance at the GDSC Info Session, introducing the organization's goals, team structure, and upcoming initiatives for the 2023/2024 period.",
     skills: ["GDSC", "Community Engagement", "Team Introduction"],
   },
+  {
+    id: "bank-transaction-fraud-detection",
+    title: "FGD Team Project: Comparative Analysis of CatBoost, FT-Transformer, and TabPFN for Bank Transaction Fraud Detection",
+    issuer: "HPC Universitas Gunadarma · UG-AI-CoE",
+    year: "2026",
+    icon: sertif6,
+    isImage: true,
+    description: "A comparative analysis focusing on the performance of CatBoost, FT-Transformer, and TabPFN models for detecting fraudulent bank transactions. This project utilizes the CRISP-DM methodology and hands-on implementation for tabular data analysis.",
+    skills: ["Machine Learning", "CatBoost", "FT-Transformer", "TabPFN", "Fraud Detection", "CRISP-DM"],
+  },
+  {
+    id: "driver-drowsiness-detection",
+    title: "FGD Team Project: Implementasi Model Deteksi Kantuk dan Distraksi Pengemudi secara Real-Time menggunakan MediaPipe dan MobilenetV3",
+    issuer: "HPC Universitas Gunadarma · UG-AI-CoE",
+    year: "2026",
+    icon: sertif7,
+    isImage: true,
+    description: "A real-time driver drowsiness and distraction detection system implemented using MediaPipe Face Mesh for facial landmark extraction and MobileNetV3 for classification. The project focuses on improving road safety through computer vision.",
+    skills: ["Computer Vision", "MediaPipe", "MobileNetV3", "Drowsiness Detection", "Real-Time AI", "Python"],
+  },
+  {
+    id: "asisten-praktikum-dgx-universitas-gunadarma-2026",
+    title: "Sertifikat Asisten Praktikum Mata Kuliah Unggulan (Praktikum DGX)",
+    issuer: "Universitas Gunadarma",
+    year: "2026",
+    icon: sertif8,
+    isImage: true,
+    description: "Sertifikat sebagai Asisten dalam Praktikum Mata Kuliah Unggulan (Praktikum DGX) menggunakan Supercomputer NVIDIA DGX A100 yang diselenggarakan oleh Universitas Gunadarma selama Semester Genap ATA 2025/2026.",
+    skills: ["NVIDIA DGX A100", "High Performance Computing (HPC)", "Artificial Intelligence", "Machine Learning", "Praktikum", "Asistensi", "Supercomputing"],
+  },
 ];
 
 const CertificationDetail = () => {
@@ -89,9 +122,9 @@ const CertificationDetail = () => {
           <h1 className="text-2xl font-bold text-foreground mb-4">Certification Not Found</h1>
           <p className="text-muted-foreground mb-8">The certification you're looking for doesn't exist.</p>
           <Button asChild>
-            <Link to="/about">
+            <Link to="/#certifications">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to About
+              Back to Certifications
             </Link>
           </Button>
         </div>
@@ -122,22 +155,22 @@ const CertificationDetail = () => {
       <section className="py-12 border-b border-border">
         <div className="container">
           <Button variant="ghost" asChild className="mb-6">
-            <Link to="/about">
+            <Link to="/#certifications">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to About
+              Back to Certifications
             </Link>
           </Button>
 
-          <div className="flex items-start gap-4">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6">
             {/* ✅ Render icon/image dengan conditional */}
-            <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-              {renderIcon(cert.icon, cert.isImage)}
+            <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/10 shadow-inner">
+              {renderIcon(cert.icon, cert.isImage, "w-full h-full")}
             </div>
-            <div>
-              <Badge variant="secondary" className="mb-2">
+            <div className="space-y-2">
+              <Badge variant="secondary" className="bg-primary/15 text-primary border-0 font-bold px-3 py-1">
                 {cert.issuer} · {cert.year}
               </Badge>
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground">{cert.title}</h1>
+              <h1 className="text-2xl md:text-4xl font-black text-foreground tracking-tight leading-tight">{cert.title}</h1>
             </div>
           </div>
         </div>

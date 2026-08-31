@@ -5,54 +5,60 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   :root {
-    /* Data Science teal/blue palette */
-    --background: 200 20% 98%;
-    --foreground: 213 50% 10%;
+    /* Color Hunt Palette: #E3F2FD, #90CAF9, #2196F3, #0D47A1 */
+    --background: 205 60% 98%;
+    --foreground: 216 85% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 213 50% 10%;
+    --card-foreground: 216 85% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 213 50% 10%;
-    --primary: 196 80% 40%;          /* Teal-blue: data science feel */
+    --popover-foreground: 216 85% 15%;
+    --primary: 207 90% 54%;          /* #2196F3 Vibrant Primary Blue */
     --primary-foreground: 0 0% 100%;
-    --secondary: 200 20% 94%;
-    --secondary-foreground: 213 40% 15%;
-    --muted: 200 15% 94%;
-    --muted-foreground: 213 15% 48%;
-    --accent: 200 20% 94%;
-    --accent-foreground: 213 40% 15%;
+    --secondary: 205 87% 94%;        /* #E3F2FD Lightest Soft Blue */
+    --secondary-foreground: 216 85% 34%; /* #0D47A1 Deep Navy Blue */
+    --muted: 205 60% 95%;
+    --muted-foreground: 214 30% 45%;
+    --accent: 207 90% 77%;           /* #90CAF9 Sky Blue Accent */
+    --accent-foreground: 216 85% 25%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-    --border: 200 15% 88%;
-    --input: 200 15% 88%;
-    --ring: 196 80% 40%;
+    --border: 207 60% 88%;
+    --input: 207 60% 88%;
+    --ring: 207 90% 54%;
     --radius: 0.75rem;
-    /* Custom data science accent */
-    --ds-teal: 174 72% 40%;
-    --ds-blue: 213 80% 52%;
-    --ds-indigo: 238 68% 58%;
+
+    /* Explicit Palette Tokens */
+    --palette-lightest: 205 87% 94%; /* #E3F2FD */
+    --palette-light: 207 90% 77%;    /* #90CAF9 */
+    --palette-primary: 207 90% 54%;  /* #2196F3 */
+    --palette-dark: 216 85% 34%;     /* #0D47A1 */
   }
 
   .dark {
-    --background: 213 40% 6%;
-    --foreground: 200 20% 96%;
-    --card: 213 35% 8%;
-    --card-foreground: 200 20% 96%;
-    --popover: 213 35% 8%;
-    --popover-foreground: 200 20% 96%;
-    --primary: 196 75% 48%;
+    --background: 216 68% 8%;
+    --foreground: 205 87% 94%;
+    --card: 216 60% 12%;
+    --card-foreground: 205 87% 94%;
+    --popover: 216 60% 12%;
+    --popover-foreground: 205 87% 94%;
+    --primary: 207 90% 54%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 213 30% 14%;
-    --secondary-foreground: 200 20% 96%;
-    --muted: 213 30% 14%;
-    --muted-foreground: 213 15% 60%;
-    --accent: 213 30% 14%;
-    --accent-foreground: 200 20% 96%;
+    --secondary: 216 55% 18%;
+    --secondary-foreground: 207 90% 77%;
+    --muted: 216 45% 16%;
+    --muted-foreground: 207 40% 70%;
+    --accent: 216 50% 20%;
+    --accent-foreground: 205 87% 94%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 200 20% 96%;
-    --border: 213 30% 16%;
-    --input: 213 30% 16%;
-    --ring: 196 75% 48%;
+    --destructive-foreground: 205 87% 94%;
+    --border: 216 45% 20%;
+    --input: 216 45% 20%;
+    --ring: 207 90% 54%;
   }
 }
 
@@ -62,22 +68,24 @@
   }
   html {
     @apply scroll-smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body {
     @apply bg-background text-foreground font-['Inter',sans-serif] selection:bg-primary/30 selection:text-primary;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings: "rlig" 1, "calt" 1, "tnum" 1;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-background/40 backdrop-blur-md border border-primary/5;
+    @apply bg-background/40 backdrop-blur-md border border-primary/10;
   }
   .glass-dark {
     @apply bg-black/30 backdrop-blur-lg border border-white/5;
   }
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-cyan-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-palette-primary via-blue-400 to-palette-light;
   }
   /* Skeleton loading animation */
   .skeleton {
@@ -120,15 +128,15 @@
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.8s ease-out forwards;
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
 .animate-slide-up {
-  animation: slideUp 0.8s ease-out forwards;
+  animation: slideUp 0.4s ease-out forwards;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.8s ease-out forwards;
+  animation: scaleIn 0.4s ease-out forwards;
 }
 
 /* Ensure animation fill mode works */
@@ -165,4 +173,25 @@ pre::-webkit-scrollbar-track {
 pre::-webkit-scrollbar-thumb {
   background: #444;
   border-radius: 2px;
+}
+
+/* Lenis Smooth Scroll Recommended CSS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }

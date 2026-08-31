@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
-const Certifications = () => {
+export const CertificationsSection = () => {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
   const sortedData = [...certificationsData].sort((a, b) => {
@@ -18,15 +18,12 @@ const Certifications = () => {
   });
 
   return (
-    <Layout>
+    <>
       {/* Hero Section */}
-      <section className="py-16 md:py-24 bg-muted/30">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container text-center space-y-6">
-          <Badge variant="outline" className="px-4 py-1.5 border-primary/20 bg-primary/5 text-primary text-sm font-bold">
-            Credentials & Documentation
-          </Badge>
           <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tight">
-            Certifications & <span className="text-gradient">Workshops</span>
+            Certifications & Workshops
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             A comprehensive collection of my professional certifications, academic workshops, and industry credentials.
@@ -133,25 +130,16 @@ const Certifications = () => {
             ))}
           </div>
 
-          {/* Contact CTA */}
-          <div className="mt-24 p-12 md:p-20 rounded-[3rem] bg-gradient-to-br from-primary/10 via-background to-background border-2 border-primary/10 text-center space-y-8">
-            <h2 className="text-3xl md:text-5xl font-black text-foreground leading-tight">
-              Verify my <span className="text-gradient">Credentials?</span>
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-xl mx-auto">
-              Need more information about my academic background or specific certifications? Feel free to reach out.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" asChild className="rounded-full px-10 h-14 text-lg shadow-xl shadow-primary/20">
-                <Link to="/contact">Get in Touch</Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="rounded-full px-10 h-14 text-lg border-2">
-                <Link to="/about">About Me</Link>
-              </Button>
-            </div>
-          </div>
         </div>
       </section>
+    </>
+  );
+};
+
+const Certifications = () => {
+  return (
+    <Layout>
+      <CertificationsSection />
     </Layout>
   );
 };

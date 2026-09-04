@@ -83,17 +83,16 @@ const allExperiences: ExperienceData[] = [
     type: "Student Leadership",
     icon: Users,
     description:
-      "Oversaw and evaluated the strategic execution of Student Council (OSIS) programs, specifically within the Communication, ICT, and Entrepreneurship divisions.",
+      "Oversaw and evaluated the execution of Student Council (OSIS) work programs across Communication, ICT, and Entrepreneurship divisions.",
     responsibilities: [
-      "Facilitated cross-functional alignment between OSIS divisions and related extracurricular clubs",
-      "Provided strategic advisory to division heads, ensuring initiatives adhered to organizational standards",
-      "Led commission meetings and performance evaluations for 3+ divisions",
-      "Coordinated with school administration for program approval and budget allocation",
+      "Monitored work program accountability reports (LPJ) across 3 sub-divisions",
+      "Coordinated cross-functional alignment between student council bodies and extracurricular clubs",
+      "Led regular commission review sessions to maintain organizational standards",
+      "Bridged communication between student representatives and school leadership",
     ],
     achievements: [
-      "Successfully managed 15+ school events and programs",
-      "Improved inter-division collaboration by 40%",
-      "Recognized as Outstanding Student Leader 2022",
+      "Supervised the execution and reporting of 15+ school events and student initiatives",
+      "Standardized work program reporting templates and evaluation rubrics",
     ],
   },
 ];

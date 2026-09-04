@@ -3,6 +3,7 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projectsData } from "../data/projectsData";
+import { cn } from "@/lib/utils";
 
 function SkeletonCard() {
   return (
@@ -27,6 +28,14 @@ function SkeletonCard() {
 
 export const ProjectsSection = () => {
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const categories = ["All", ...Array.from(new Set(projectsData.map((p) => p.category)))];
+
+  const filteredProjects =
+    selectedCategory === "All"
+      ? projectsData
+      : projectsData.filter((p) => p.category === selectedCategory);
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 500);
@@ -54,8 +63,37 @@ export const ProjectsSection = () => {
       </section>
 
       {/* ── Projects Grid ── */}
-      <section className="py-20 bg-background min-h-[600px]">
+      <section id="projects" className="py-20 bg-background min-h-[600px]">
         <div className="container">
+          {/* Header & Controls matching Certifications */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-6 bg-primary rounded-full" />
+              <h2 className="text-2xl font-bold text-foreground">All Projects</h2>
+              <span className="text-sm font-medium text-muted-foreground ml-2 px-2 py-0.5 rounded-md bg-muted">
+                {filteredProjects.length} Items
+              </span>
+            </div>
+
+            {/* Category Filter */}
+            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-muted/50 rounded-2xl border border-border/50">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={cn(
+                    "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all",
+                    selectedCategory === cat
+                      ? "bg-background text-primary shadow-sm font-bold"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <AnimatePresence mode="wait">
             {loading ? (
               <motion.div
@@ -71,15 +109,15 @@ export const ProjectsSection = () => {
               </motion.div>
             ) : (
               <motion.div
-                key="projects"
+                key={selectedCategory}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
               >
-                {projectsData.length > 0 ? (
+                {filteredProjects.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {projectsData.map((project, i) => (
+                    {filteredProjects.map((project, i) => (
                       <motion.div
                         key={project.id}
                         initial={{ opacity: 0, y: 20 }}

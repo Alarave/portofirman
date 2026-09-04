@@ -2,7 +2,8 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.jpg";
 const cvFile = "https://drive.google.com/file/d/1AXcL8VjAHFUrzhmVicI0d3VilJ13ixWn/view?usp=drive_link";
 
@@ -25,6 +26,28 @@ const itemVariants = {
 
 const Home = () => {
   const [cvDownloading, setCvDownloading] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    // If user accesses /#hero or /#top, scrub hash from address bar immediately
+    if (window.location.hash === "#hero" || window.location.hash === "#top") {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+
+    // Scroll to about if on /about or state has scrollTo
+    const target = location.pathname === "/about" ? "about" : (location.state as { scrollTo?: string })?.scrollTo;
+    if (target) {
+      setTimeout(() => {
+        const el = document.getElementById(target);
+        if (el) {
+          const yOffset = -70;
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }, [location.pathname, location.state]);
+
   const handleCvDownload = () => {
     setCvDownloading(true);
     setTimeout(() => setCvDownloading(false), 2000);
@@ -33,7 +56,7 @@ const Home = () => {
   return (
     <Layout>
       {/* HERO / MAIN SECTION (100% REPLICA OF react-portfolio-template) */}
-      <section id="hero" className="relative w-full overflow-hidden">
+      <section id="top" className="relative w-full overflow-hidden">
         <SilkGradientBg />
         {/* about-section */}
         <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-[30px] justify-start md:items-center w-full min-h-0 md:min-h-[700px] pt-28 md:pt-0 px-4 sm:px-6 md:px-[5%] lg:px-[15%] pb-8 md:pb-0 relative z-10">
@@ -107,15 +130,16 @@ const Home = () => {
           </div>
           
           {/* Content */}
-          <div className="max-w-4xl mx-auto space-y-6 text-muted-foreground text-base sm:text-lg leading-relaxed">
+          {/* Content */}
+          <div className="max-w-3xl mx-auto space-y-6 text-muted-foreground text-base sm:text-lg leading-relaxed">
             <p>
-              Student at Universitas Gunadarma serving as a High Performance Computing (DGX) laboratory assistant, mentoring students in Deep Learning and advanced AI model implementations.
+              I am a student at Universitas Gunadarma serving as a High Performance Computing (DGX) laboratory assistant, where I mentor students in Deep Learning and advanced AI model implementations.
             </p>
             <p>
-              My work centers on leveraging data and technology to solve real-world problems. Whether managing data integrity systems at PT. Pegadaian or coordinating cross-functional initiatives as a student leader, I focus on executing tasks efficiently and bridging communication across teams.
+              My work centers on leveraging data and technology to solve real-world problems. Whether managing data integrity systems at PT Pegadaian or coordinating cross-functional initiatives as a student leader, I focus on executing tasks efficiently and bridging communication across teams.
             </p>
             <p>
-              I back that with practical technical capability in Data Science, Machine Learning, and High Performance Computing. Implementing deep learning models on advanced NVIDIA DGX systems allows me to understand both the mathematics of algorithms and the practical constraints of hardware acceleration.
+              I back this up with practical technical capabilities in Data Science, Machine Learning, and High Performance Computing. Implementing deep learning models on advanced NVIDIA DGX systems allows me to understand both the mathematical foundations of algorithms and the practical constraints of hardware acceleration.
             </p>
             <p>
               What drives me is the gap between complex raw data and actionable business insights. I strive to sit at that intersection — turning messy data pipelines into clear predictive models and analytical reports that businesses can trust.

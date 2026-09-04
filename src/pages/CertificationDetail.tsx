@@ -1,10 +1,11 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FileText } from "lucide-react";
+import { ArrowLeft, ArrowRight, Award, Calendar, ExternalLink } from "lucide-react";
+import { useState, useEffect } from "react";
 
-// ✅ PERBAIKAN 1: Import path yang benar (gunakan @/ bukan @src/)
+// Import path sertifikat
 import sertif1 from "@/assets/sertif/Sertif1.png";
 import sertif2 from "@/assets/sertif/Sertif2.png";
 import sertif3 from "@/assets/sertif/Sertif3.jpg";
@@ -40,8 +41,8 @@ export const certificationsData = [
     title: "Seminar Peran Strategis Big Data Dalam Mewujudkan Asta Cita Di Sektor Kesehatan",
     issuer: "Universitas Gunadarma · Kementerian Kesehatan · UNICEF",
     year: "2024",
-    icon: sertif1,  // Image import
-    isImage: true,  // Flag untuk tahu ini gambar
+    icon: sertif1,
+    isImage: true,
     description: "Seminar tentang peran strategis Big Data dalam mewujudkan Asta Cita di sektor kesehatan dan pengembangan kerjasama antara Universitas Gunadarma, Kementerian Kesehatan, dan UNICEF. Membahas implementasi data analytics dalam sistem kesehatan nasional.",
     skills: ["Big Data", "Healthcare Analytics", "Data Strategy", "Public Health", "Data Governance"],
   },
@@ -50,8 +51,8 @@ export const certificationsData = [
     title: "Master in Data Analysis and Analytics",
     issuer: "Udemy",
     year: "2024",
-    icon: sertif2,  // Emoji
-    isImage: true,  // Flag untuk tahu ini emoji
+    icon: sertif2,
+    isImage: true,
     description: "In-depth certification focused on data analysis techniques, statistical methods, and analytics tools. Covers data visualization, exploratory data analysis, and deriving actionable insights from complex datasets.",
     skills: ["Data Analysis", "Statistics", "Data Visualization", "Excel", "SQL", "Power BI"],
   },
@@ -60,8 +61,8 @@ export const certificationsData = [
     title: "SAP S/4HANA Business Process Simulation Program",
     issuer: "SAP",
     year: "2024",
-    icon: sertif1,  // Emoji
-    isImage: true,  // Flag untuk tahu ini emoji
+    icon: sertif1,
+    isImage: true,
     description: "Official SAP certification program covering S/4HANA business process simulation including procurement, sales, manufacturing, and warehouse management modules.",
     skills: ["SAP S/4HANA", "ERP", "Business Process", "Procurement", "Sales", "Manufacturing"],
   },
@@ -109,11 +110,40 @@ export const certificationsData = [
 
 const CertificationDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const cert = certificationsData.find((c) => c.id === id);
+  const navigate = useNavigate();
+  const [imgError, setImgError] = useState(false);
 
-  // Debug: Cek di console browser apakah import berhasil
-  console.log("Certificate Data:", cert);
-  console.log("Sertif1 Import:", sertif1);
+  const currentIndex = certificationsData.findIndex((c) => c.id === id);
+  const cert = currentIndex !== -1 ? certificationsData[currentIndex] : null;
+
+  // Pagination kalkulasi (looping prev/next)
+  const prevCert =
+    currentIndex > 0
+      ? certificationsData[currentIndex - 1]
+      : certificationsData[certificationsData.length - 1];
+  const nextCert =
+    currentIndex < certificationsData.length - 1
+      ? certificationsData[currentIndex + 1]
+      : certificationsData[0];
+
+  // Reset img error & smooth scroll to top when switching certs
+  useEffect(() => {
+    setImgError(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
+
+  // Keyboard navigation (ArrowLeft / ArrowRight)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft" && prevCert) {
+        navigate(`/certifications/${prevCert.id}`);
+      } else if (e.key === "ArrowRight" && nextCert) {
+        navigate(`/certifications/${nextCert.id}`);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [prevCert, nextCert, navigate]);
 
   if (!cert) {
     return (
@@ -122,9 +152,9 @@ const CertificationDetail = () => {
           <h1 className="text-2xl font-bold text-foreground mb-4">Certification Not Found</h1>
           <p className="text-muted-foreground mb-8">The certification you're looking for doesn't exist.</p>
           <Button asChild>
-            <Link to="/#certifications">
+            <Link to="/" state={{ scrollTo: "certifications" }}>
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Certifications
+              Kembali ke Sertifikasi
             </Link>
           </Button>
         </div>
@@ -132,86 +162,86 @@ const CertificationDetail = () => {
     );
   }
 
-  // ✅ PERBAIKAN 3: Function untuk render icon/image
-  const renderIcon = (icon: any, isImage: boolean, size: string = "w-16 h-16") => {
-    if (isImage) {
-      return (
-        <img
-          src={icon}
-          alt="Certificate"
-          className={`${size} object-contain`}
-          onError={(e) => {
-            console.error("Image failed to load:", icon);
-            e.currentTarget.style.display = "none";
-          }}
-        />
-      );
-    }
-    return <span className="text-4xl">{icon}</span>;
-  };
-
   return (
     <Layout>
-      <section className="py-12 border-b border-border">
+      {/* ── Top Navigation Bar ── */}
+      <section className="pt-24 pb-6 border-b border-border/40">
         <div className="container">
-          <Button variant="ghost" asChild className="mb-6">
-            <Link to="/#certifications">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Certifications
+          <Button variant="ghost" asChild className="pl-0 hover:bg-transparent text-muted-foreground hover:text-primary">
+            <Link to="/" state={{ scrollTo: "certifications" }}>
+              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" /> Kembali ke Sertifikasi
             </Link>
           </Button>
+        </div>
+      </section>
 
+      {/* ── Header Info ── */}
+      <section className="py-10 border-b border-border/30 bg-muted/10">
+        <div className="container">
           <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6">
-            {/* ✅ Render icon/image dengan conditional */}
-            <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/10 shadow-inner">
-              {renderIcon(cert.icon, cert.isImage, "w-full h-full")}
+            <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden border border-primary/15 shadow-inner">
+              {cert.isImage && !imgError ? (
+                <img
+                  src={cert.icon}
+                  alt={cert.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Award className="w-10 h-10 text-primary" />
+              )}
             </div>
             <div className="space-y-2">
               <Badge variant="secondary" className="bg-primary/15 text-primary border-0 font-bold px-3 py-1">
                 {cert.issuer} · {cert.year}
               </Badge>
-              <h1 className="text-2xl md:text-4xl font-black text-foreground tracking-tight leading-tight">{cert.title}</h1>
+              <h1 className="text-2xl md:text-4xl font-black text-foreground tracking-tight leading-tight">
+                {cert.title}
+              </h1>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ── Certificate Preview & Details ── */}
       <section className="py-12">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            {/* Left: Certificate Document Viewer & Overview */}
             <div className="lg:col-span-2 space-y-8">
-              {/* ✅ Render certificate image di detail page */}
-              <div className="aspect-video bg-muted rounded-lg flex items-center justify-center overflow-hidden p-4">
-                {cert.isImage ? (
+              <div className="rounded-2xl border border-border/60 bg-muted/20 flex items-center justify-center p-3 sm:p-6 min-h-[320px] max-h-[620px] overflow-hidden shadow-sm">
+                {!imgError && cert.isImage ? (
                   <img
                     src={cert.icon}
                     alt={cert.title}
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      console.error("Detail image failed to load:", cert.icon);
-                      e.currentTarget.style.display = "none";
-                      e.currentTarget.parentElement!.innerHTML = '<span className="text-6xl">📄</span>';
-                    }}
+                    className="max-h-[560px] w-auto max-w-full object-contain rounded-xl shadow-md transition-transform duration-300 hover:scale-[1.01]"
+                    onError={() => setImgError(true)}
                   />
                 ) : (
-                  <span className="text-6xl">{cert.icon}</span>
+                  <div className="flex flex-col items-center justify-center py-16 text-muted-foreground gap-3">
+                    <span className="text-6xl" aria-hidden="true">📄</span>
+                    <p className="text-sm font-medium">Dokumen Sertifikat</p>
+                  </div>
                 )}
               </div>
-              <div>
-                <h2 className="text-xl font-semibold text-foreground mb-4">Overview</h2>
-                <p className="text-muted-foreground leading-relaxed">{cert.description}</p>
+
+              <div className="space-y-3">
+                <h2 className="text-xl font-bold text-foreground">Overview</h2>
+                <p className="text-muted-foreground leading-relaxed text-base">
+                  {cert.description}
+                </p>
               </div>
             </div>
 
+            {/* Right: Skills & Meta */}
             <div className="space-y-6">
-              <div className="bg-muted/30 p-6 rounded-lg border border-border">
-                <h3 className="font-semibold text-foreground mb-4">Skills Covered</h3>
+              <div className="bg-muted/30 p-6 rounded-2xl border border-border/50 space-y-4">
+                <h3 className="font-bold text-foreground">Skills Covered</h3>
                 <div className="flex flex-wrap gap-2">
                   {cert.skills.map((skill) => (
                     <Badge 
                       key={skill} 
                       variant="outline"
-                      className="hover:text-primary hover:border-primary/50 hover:shadow-[0_0_15px_rgba(59,130,246,0.25)] transition-all duration-300 cursor-default"
+                      className="px-3 py-1 rounded-xl text-xs font-semibold hover:text-primary hover:border-primary/50 transition-all"
                     >
                       {skill}
                     </Badge>
@@ -219,15 +249,64 @@ const CertificationDetail = () => {
                 </div>
               </div>
 
-              {/* Optional: Tombol download PDF jika ada */}
-              {/* 
-              <Button variant="outline" className="w-full" asChild>
-                <a href={sertif1Pdf} target="_blank" rel="noopener noreferrer">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Download Certificate
-                </a>
-              </Button>
-              */}
+              <div className="bg-muted/30 p-6 rounded-2xl border border-border/50 space-y-3">
+                <h3 className="font-bold text-foreground">Credential Details</h3>
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <div className="flex justify-between">
+                    <span>Penerbit</span>
+                    <span className="font-semibold text-foreground">{cert.issuer}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Tahun</span>
+                    <span className="font-semibold text-foreground">{cert.year}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Status</span>
+                    <span className="font-semibold text-primary">Verified</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Bottom Pagination Cards ── */}
+          <div className="mt-16 pt-10 border-t border-border/40">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Prev */}
+              <button
+                onClick={() => navigate(`/certifications/${prevCert.id}`)}
+                className="flex items-center gap-4 p-4 rounded-2xl border border-border/50 bg-card hover:bg-muted/30 transition-all text-left group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:-translate-x-1 transition-transform">
+                  <ArrowLeft className="w-5 h-5 text-primary" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider block mb-1">
+                    Previous Credential
+                  </span>
+                  <p className="text-sm font-bold text-foreground truncate group-hover:text-primary transition-colors">
+                    {prevCert.title}
+                  </p>
+                </div>
+              </button>
+
+              {/* Next */}
+              <button
+                onClick={() => navigate(`/certifications/${nextCert.id}`)}
+                className="flex items-center justify-between gap-4 p-4 rounded-2xl border border-border/50 bg-card hover:bg-muted/30 transition-all text-right group"
+              >
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider block mb-1">
+                    Next Credential
+                  </span>
+                  <p className="text-sm font-bold text-foreground truncate group-hover:text-primary transition-colors">
+                    {nextCert.title}
+                  </p>
+                </div>
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:translate-x-1 transition-transform">
+                  <ArrowRight className="w-5 h-5 text-primary" />
+                </div>
+              </button>
             </div>
           </div>
         </div>

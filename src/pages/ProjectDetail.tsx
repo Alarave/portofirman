@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { projectsData } from "../data/projectsData";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +14,7 @@ import {
   ArrowRight,
   Mail,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import {
   InventoryBarChart,
@@ -26,8 +26,46 @@ type Tab = "overview" | "metrics" | "code";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const project = projectsData.find((p) => p.id.trim() === id?.trim());
+  const navigate = useNavigate();
+  const currentIndex = projectsData.findIndex((p) => p.id.trim() === id?.trim());
+  const project = currentIndex !== -1 ? projectsData[currentIndex] : null;
   const [activeTab, setActiveTab] = useState<Tab>("overview");
+
+  const prevProject =
+    currentIndex !== -1
+      ? projectsData[(currentIndex - 1 + projectsData.length) % projectsData.length]
+      : null;
+  const nextProject =
+    currentIndex !== -1
+      ? projectsData[(currentIndex + 1) % projectsData.length]
+      : null;
+
+  // Keyboard navigation (ArrowLeft: Previous, ArrowRight: Next)
+  useEffect(() => {
+    if (!prevProject || !nextProject) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement
+      ) {
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        navigate(`/projects/${prevProject.id}`);
+      } else if (e.key === "ArrowRight") {
+        navigate(`/projects/${nextProject.id}`);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [prevProject?.id, nextProject?.id, navigate]);
+
+  // Scroll to top on id change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
 
   if (!project) {
     return (
@@ -37,8 +75,8 @@ const ProjectDetail = () => {
           <h1 className="text-2xl font-bold">Project Not Found</h1>
           <p className="text-muted-foreground">The project you're looking for doesn't exist.</p>
           <Button asChild>
-            <Link to="/projects">
-              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" /> Back to Projects
+            <Link to="/" state={{ scrollTo: "projects" }}>
+              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" /> Kembali ke Beranda
             </Link>
           </Button>
         </div>
@@ -66,12 +104,12 @@ const ProjectDetail = () => {
 
   return (
     <Layout>
-      {/* ── Back ── */}
-      <section className="py-6 border-b border-border/40">
+      {/* ── Back Navigation ── */}
+      <section className="pt-24 pb-6 border-b border-border/40">
         <div className="container">
           <Button variant="ghost" asChild className="pl-0 hover:bg-transparent text-muted-foreground hover:text-primary">
-            <Link to="/projects">
-              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" /> Back to Projects
+            <Link to="/" state={{ scrollTo: "projects" }}>
+              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" /> Kembali ke Proyek
             </Link>
           </Button>
         </div>
@@ -255,7 +293,7 @@ const ProjectDetail = () => {
                         <span className="w-3 h-3 rounded-full bg-yellow-500" aria-hidden="true" />
                         <span className="w-3 h-3 rounded-full bg-green-500" aria-hidden="true" />
                         <span className="ml-3 text-xs text-zinc-400 font-mono">
-                          {project.category === "SAP/ERP" ? "abap" : "python"}
+                          {project.category === "SAP/ERP" ? "abap" : project.category === "Full Stack Development" ? "php" : "python"}
                         </span>
                       </div>
                       <pre className="bg-zinc-950 text-zinc-100 p-5 text-xs md:text-sm font-mono leading-relaxed overflow-x-auto">
@@ -349,6 +387,43 @@ const ProjectDetail = () => {
             </div>
           </div>
 
+          {/* ── Project Pagination Navigation ── */}
+          {prevProject && nextProject && (
+            <div className="mt-14 pt-8 border-t border-border/40 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Link
+                to={`/projects/${prevProject.id}`}
+                className="group flex flex-col p-5 rounded-2xl border border-border/60 bg-card hover:bg-accent/30 hover:border-primary/40 transition-all text-left"
+              >
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground group-hover:text-primary transition-colors font-medium mb-1.5">
+                  <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
+                  Proyek Sebelumnya
+                </div>
+                <span className="text-sm sm:text-base font-bold text-foreground line-clamp-1 group-hover:text-primary transition-colors">
+                  {prevProject.title}
+                </span>
+                <span className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                  {prevProject.category}
+                </span>
+              </Link>
+
+              <Link
+                to={`/projects/${nextProject.id}`}
+                className="group flex flex-col p-5 rounded-2xl border border-border/60 bg-card hover:bg-accent/30 hover:border-primary/40 transition-all text-right sm:items-end"
+              >
+                <div className="flex items-center justify-end gap-1.5 text-xs text-muted-foreground group-hover:text-primary transition-colors font-medium mb-1.5">
+                  Proyek Berikutnya
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                </div>
+                <span className="text-sm sm:text-base font-bold text-foreground line-clamp-1 group-hover:text-primary transition-colors">
+                  {nextProject.title}
+                </span>
+                <span className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                  {nextProject.category}
+                </span>
+              </Link>
+            </div>
+          )}
+
           {/* ── Contextual CTA at bottom of case study ── */}
           <div className="mt-16 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-palette-primary/10 via-palette-light/10 to-transparent border border-primary/15 text-center space-y-5">
             <h2 className="text-xl md:text-2xl font-extrabold text-foreground">
@@ -366,7 +441,7 @@ const ProjectDetail = () => {
                 </Link>
               </Button>
               <Button variant="outline" asChild className="rounded-full px-8 group">
-                <Link to="/projects">
+                <Link to="/" state={{ scrollTo: "projects" }}>
                   Lihat Proyek Lainnya
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </Link>

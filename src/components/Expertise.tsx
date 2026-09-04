@@ -1,5 +1,5 @@
 import React from "react";
-import { Database, Sparkles, Layers, GraduationCap, Globe } from "lucide-react";
+import { Database, Layers, GraduationCap, Globe, Cpu, Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
@@ -16,7 +16,6 @@ function AnimatedCounter({ value }: { value: number }) {
   const rounded = useTransform(count, (latest) => Math.round(latest));
 
   useEffect(() => {
-    https://127.0.0.1:7705/static/artifacts/8963a4b7-47fb-4eb5-9a9f-9fad9708fcd9/.user_uploaded/media_1788174219454.png?csrf=484abd90-d295-440b-9e45-56f1f262ae11
     if (isInView) {
       const controls = animate(count, value, { duration: 1.2, ease: "easeOut" });
       return controls.stop;
@@ -25,43 +24,6 @@ function AnimatedCounter({ value }: { value: number }) {
 
   return <motion.span ref={ref}>{rounded}</motion.span>;
 }
-
-const labelsDataScience = [
-  "Python",
-  "SQL",
-  "PostgreSQL",
-  "Pandas",
-  "Scikit-learn",
-  "Predictive Modeling",
-  "SAP S/4HANA Integration",
-  "Time-Series Forecasting",
-  "Matplotlib",
-  "Seaborn"
-];
-
-const labelsAI = [
-  "OpenAI API",
-  "Groq",
-  "LangChain",
-  "Qdrant",
-  "Hugging Face",
-  "LlamaIndex",
-  "RAG Systems",
-  "Streamlit",
-  "Prompt Engineering"
-];
-
-const labelsProduct = [
-  "React",
-  "TypeScript",
-  "Tailwind CSS",
-  "Product Strategy",
-  "REST APIs",
-  "Git & GitHub Actions",
-  "CI/CD",
-  "Netlify",
-  "System Architecture"
-];
 
 const languages = [
   { name: "Indonesian", level: 100, proficiency: "Native / Fluent", flag: "🇮🇩" },
@@ -90,112 +52,118 @@ export const Expertise: React.FC = () => {
             Core Expertise
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base md:text-lg">
-            Spanning Data Science, AI Engineering, and Product Development to deliver end-to-end intelligent solutions.
+            Practical technical capabilities grounded in laboratory research, enterprise experience, and full-stack software development.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-          {/* Card 1: Data Science */}
+          {/* Card 1: Deep Learning & HPC */}
           <motion.div
             custom={0}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={cardVariants}
-            className="group relative p-5 sm:p-7 rounded-2xl border border-border/30 bg-card/20 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 flex flex-col justify-between hover:shadow-xl hover:shadow-primary/5"
+            className="group relative p-6 sm:p-8 rounded-2xl border border-border/50 bg-card/40 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 flex flex-col justify-between hover:shadow-xl hover:shadow-primary/5"
           >
             <div>
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-5 group-hover:scale-110 transition-transform duration-300">
-                <Database className="w-6 h-6" />
+                <Cpu className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold mb-2.5 text-foreground group-hover:text-primary transition-colors">
-                Data Science & Analytics
+                Deep Learning &amp; HPC
               </h3>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-6">
-                Specialized in building end-to-end predictive models, data pipelines, and analytical tools. Experienced in integrating enterprise data systems like SAP S/4HANA to unlock actionable business insights.
+                Hands-on model implementation and hardware acceleration on NVIDIA DGX infrastructure. Mentoring students in deep learning architectures, loss optimization, and practical RAG pipelines.
               </p>
             </div>
 
-            <div>
-              <div className="flex flex-wrap items-center gap-1.5 pt-4 border-t border-border/40">
-                <span className="text-[11px] font-bold text-foreground mr-1">
-                  Tech stack:
-                </span>
-                {labelsDataScience.map((label, index) => (
-                  <Badge key={index} variant="secondary" className="px-2.5 py-0.5 text-[10px] font-medium rounded-md bg-muted/60 hover:bg-primary/20 text-muted-foreground hover:text-foreground transition-colors">
-                    {label}
-                  </Badge>
-                ))}
+            <div className="pt-4 border-t border-border/40 space-y-2">
+              <div className="flex items-start gap-2 text-xs text-foreground/90 font-medium">
+                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span>NVIDIA DGX GPU Acceleration &amp; CUDA</span>
+              </div>
+              <div className="flex items-start gap-2 text-xs text-foreground/90 font-medium">
+                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span>Neural Network Architectures (LSTM, CNN, Transformers)</span>
+              </div>
+              <div className="flex items-start gap-2 text-xs text-foreground/90 font-medium">
+                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span>Retrieval-Augmented Generation (RAG) &amp; Vector Search</span>
               </div>
             </div>
           </motion.div>
 
-          {/* Card 2: AI Engineering */}
+          {/* Card 2: Data Science & Analytics */}
           <motion.div
             custom={1}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={cardVariants}
-            className="group relative p-5 sm:p-7 rounded-2xl border border-border/30 bg-card/20 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 flex flex-col justify-between hover:shadow-xl hover:shadow-primary/5"
+            className="group relative p-6 sm:p-8 rounded-2xl border border-border/50 bg-card/40 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 flex flex-col justify-between hover:shadow-xl hover:shadow-primary/5"
           >
             <div>
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-5 group-hover:scale-110 transition-transform duration-300">
-                <Sparkles className="w-6 h-6" />
+                <Database className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold mb-2.5 text-foreground group-hover:text-primary transition-colors">
-                GenAI & LLM Solutions
+                Data Science &amp; Analytics
               </h3>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-6">
-                Designing enterprise-grade Generative AI solutions and RAG architectures. Building smart assistants, custom knowledge bases, and AI-enabled workflows to empower data-driven automation.
+                Building verified data pipelines, statistical calculation engines, and predictive models. Managing data integrity workflows and implementing WHO anthropometric Z-score standards.
               </p>
             </div>
 
-            <div>
-              <div className="flex flex-wrap items-center gap-1.5 pt-4 border-t border-border/40">
-                <span className="text-[11px] font-bold text-foreground mr-1">
-                  Tech stack:
-                </span>
-                {labelsAI.map((label, index) => (
-                  <Badge key={index} variant="secondary" className="px-2.5 py-0.5 text-[10px] font-medium rounded-md bg-muted/60 hover:bg-primary/20 text-muted-foreground hover:text-foreground transition-colors">
-                    {label}
-                  </Badge>
-                ))}
+            <div className="pt-4 border-t border-border/40 space-y-2">
+              <div className="flex items-start gap-2 text-xs text-foreground/90 font-medium">
+                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span>Data Integrity Verification &amp; Automated ETL</span>
+              </div>
+              <div className="flex items-start gap-2 text-xs text-foreground/90 font-medium">
+                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span>Statistical Calculation Engines (WHO LMS / Z-Scores)</span>
+              </div>
+              <div className="flex items-start gap-2 text-xs text-foreground/90 font-medium">
+                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span>Time-Series Forecasting &amp; Exploratory Data Analysis</span>
               </div>
             </div>
           </motion.div>
 
-          {/* Card 3: Product Strategy */}
+          {/* Card 3: Full-Stack Web Development */}
           <motion.div
             custom={2}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={cardVariants}
-            className="group relative p-5 sm:p-7 rounded-2xl border border-border/30 bg-card/20 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 flex flex-col justify-between hover:shadow-xl hover:shadow-primary/5"
+            className="group relative p-6 sm:p-8 rounded-2xl border border-border/50 bg-card/40 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 flex flex-col justify-between hover:shadow-xl hover:shadow-primary/5"
           >
             <div>
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-5 group-hover:scale-110 transition-transform duration-300">
                 <Layers className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold mb-2.5 text-foreground group-hover:text-primary transition-colors">
-                Product & Full Stack Dev
+                Full-Stack Engineering
               </h3>
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-6">
-                Combining tech execution with strategic product management. Building responsive React frontends, robust REST APIs, and maintaining CI/CD deployment pipelines for scalable products.
+                Developing structured, maintainable web applications from database schemas to responsive interfaces. Focused on robust backend logic, audit trails, and automated report generation.
               </p>
             </div>
 
-            <div>
-              <div className="flex flex-wrap items-center gap-1.5 pt-4 border-t border-border/40">
-                <span className="text-[11px] font-bold text-foreground mr-1">
-                  Tech stack:
-                </span>
-                {labelsProduct.map((label, index) => (
-                  <Badge key={index} variant="secondary" className="px-2.5 py-0.5 text-[10px] font-medium rounded-md bg-muted/60 hover:bg-primary/20 text-muted-foreground hover:text-foreground transition-colors">
-                    {label}
-                  </Badge>
-                ))}
+            <div className="pt-4 border-t border-border/40 space-y-2">
+              <div className="flex items-start gap-2 text-xs text-foreground/90 font-medium">
+                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span>Full-Stack Development with Laravel, Livewire &amp; React</span>
+              </div>
+              <div className="flex items-start gap-2 text-xs text-foreground/90 font-medium">
+                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span>Relational Database Schema Design &amp; Optimization</span>
+              </div>
+              <div className="flex items-start gap-2 text-xs text-foreground/90 font-medium">
+                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span>Automated Document Generation (PDF &amp; Excel Reports)</span>
               </div>
             </div>
           </motion.div>

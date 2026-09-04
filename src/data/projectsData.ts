@@ -2,9 +2,154 @@ import bookImage from "@/assets/projects/book-recommendation.jpg";
 import BBCA from "@/assets/projects/bbca_prediction_comparison.jpg";
 import algoritma from "@/assets/projects/algoritma.jpg";
 import aiRecruiterImage from "@/assets/projects/ai-assisten.png";
-
+import posyanduImage from "@/assets/projects/posyandu.png";
+import acaImage from "@/assets/projects/aca-advisor.png";
 
 export const projectsData = [
+  {
+    id: "aca-advisor-expert-system",
+    title: "ACA Advisor — Sistem Pakar Akuntansi EMKM",
+    description: "Sistem pakar akuntansi berbasis mesin inferensi Backward Chaining untuk memandu UMKM dalam penentuan debit-kredit dan klasifikasi jurnal memorial patuh SAK EMKM.",
+    category: "Full Stack Development",
+    technologies: [
+      "Node.js",
+      "Express.js",
+      "React 18",
+      "Vite",
+      "SQLite3",
+      "Backward Chaining",
+      "SAK EMKM",
+      "REST API"
+    ],
+    fullDescription: "Aplikasi web sistem pakar yang dirancang untuk mengatasi kendala pembukuan dan kebingungan debit-kredit pada pelaku UMKM berdasarkan standar resmi SAK EMKM terbitan Ikatan Akuntan Indonesia (IAI). Sistem mengintegrasikan mesin inferensi Backward Chaining untuk menuntun pengguna menentukan posisi akun, kodefikasi Bagan Akun (CoA), dan aturan kapitalisasi aset melalui alur tanya-jawab terstruktur. Dilengkapi validasi saldo seimbang (Zero-Proof Balance), mesin penentu metode persediaan perpetual vs periodik, analisis rasio kesehatan finansial, serta otomasi penerbitan jurnal memorial voucher dan laporan keuangan formal (Neraca, Laba Rugi, CALK) yang siap diaudit perbankan.",
+    features: [
+      "Mesin Inferensi Backward Chaining: Penelusuran pohon keputusan dinamis dari hipotesis jurnal tujuan ke pembuktian premis transaksi",
+      "Zero-Proof Balance Guarantee: Validasi mutlak keseimbangan nominal debit dan kredit pada setiap transaksi terverifikasi",
+      "Inventory Classification Engine: Evaluasi metode persediaan (Perpetual vs Periodik) dan otomasi kalkulasi HPP",
+      "Financial Health Diagnostics: Analisis rasio likuiditas, solvabilitas, dan profitabilitas beserta rekomendasi operasional UMKM",
+      "Standarisasi Bagan Akun (CoA): Integrasi 35+ akun baku resmi SAK EMKM lengkap dengan kategori dan kodefikasi industri",
+      "Audit Trail & Legal Compliance: Pencatatan rule trace lengkap yang dapat diaudit sebagai dasar verifikasi kelayakan kredit perbankan"
+    ],
+    metrics: [
+      { label: "Standar Akuntansi", value: "SAK EMKM IAI", color: "text-primary" },
+      { label: "Keseimbangan Jurnal", value: "100% Balanced", color: "text-palette-primary" },
+      { label: "Respon Inferensi", value: "< 150 ms", color: "text-palette-dark" },
+      { label: "Knowledge Base", value: "25+ Rules", color: "text-primary" }
+    ],
+    thumbnail: acaImage,
+    image: acaImage,
+    links: {
+      github: "https://github.com/zikri1707/ACA",
+      liveDemo: "https://aca-advisor.netlify.app",
+    },
+    chartType: null,
+    codeSnippet: `/**
+ * Backward Chaining Inference Engine
+ * Mengevaluasi aturan candidate goals berdasarkan prioritas dan fakta transaksi
+ */
+export class BackwardChainingEngine {
+  static async evaluate(businessType, facts = {}) {
+    // 1. Ambil aturan aktif terurut prioritas
+    const rules = await query(\`
+      SELECT id, code, name, business_type, debit_account_id, credit_account_id, priority
+      FROM rules
+      WHERE is_active = 1 AND (business_type = ? OR business_type = 'semua')
+      ORDER BY priority DESC, code ASC
+    \`, [businessType]);
+
+    // 2. Evaluasi kondisi premis IF-THEN
+    for (const rule of rules) {
+      const conditions = conditionsByRule[rule.id] || [];
+      let ruleSatisfied = true;
+
+      for (const cond of conditions) {
+        const factVal = facts[cond.fact_name];
+        if (factVal === undefined) {
+          return { status: 'NEED_INPUT', nextQuestion: questionsMap[cond.fact_name] };
+        }
+        if (factVal !== cond.expected_value) {
+          ruleSatisfied = false;
+          break;
+        }
+      }
+
+      if (ruleSatisfied) {
+        return { status: 'PROVEN', goal: rule, auditTrail: rule.code };
+      }
+    }
+    return { status: 'NO_MATCH' };
+  }
+}`,
+  },
+  {
+    id: "posyandu-kenanga-system",
+    title: "Sistem Rekam Medis & Monitoring Tumbuh Kembang Balita",
+    description: "Aplikasi rekam medis posyandu berbasis web untuk pemantauan tumbuh kembang balita dengan kalkulasi 4 indeks antropometri standar WHO 2006 / Permenkes.",
+    category: "Full Stack Development",
+    technologies: [
+      "Laravel 12",
+      "Livewire 3 (Volt & Flux)",
+      "PHP 8.2",
+      "Tailwind CSS",
+      "MySQL 8",
+      "PhpSpreadsheet",
+      "Barryvdh DomPDF",
+      "Pest PHP"
+    ],
+    fullDescription: "Sistem informasi berbasis web yang mengintegrasikan portal publik warga dengan dashboard administratif posyandu. Dibangun untuk mendigitalisasi pencatatan manual buku KIA ke KMS digital interaktif, mengotomasi perhitungan 4 indeks antropometri standar WHO 2006 (BB/U, TB/U deteksi stunting, BB/TB deteksi wasting, dan IMT/U deteksi obesitas) menggunakan metode SD & formula Box-Cox LMS. Dilengkapi fitur Fast Bulk Measurement Entry untuk percepatan penimbangan hari-H posyandu, validasi pencegahan duplikasi vitamin/suplemen, audit trail aktivitas, serta automasi ekspor laporan bulanan puskesmas (Excel) dan cetak PDF raport balita.",
+    features: [
+      "KMS Digital & Kurva Pertumbuhan WHO: Visualisasi grafik pertumbuhan anak (BB/U, TB/U, BB/TB) interaktif dengan kurva standar Z-Score (-3SD s/d +3SD)",
+      "Kalkulasi 4 Indeks Antropometri WHO: Engine NutritionCalculatorService untuk deteksi dini stunting, wasting, status gizi umum, dan obesitas",
+      "Fast Bulk Measurement Entry: Penginputan cepat data penimbangan massal hari-H tanpa harus reload membuka profil balita satu per satu",
+      "Manajemen Pasien & Riwayat Imunisasi: Pengelolaan data terpadu balita, ibu hamil, & lansia beserta validasi peringatan duplikasi vitamin/vaksin",
+      "Automasi Pelaporan & Export/Import: Rekapitulasi gizi bulanan puskesmas via Excel (PhpSpreadsheet) dan cetak raport rekam medis individual (DomPDF)",
+      "Portal Publik & Kontak Kader: Portal edukasi artikel kesehatan terintegrasi jadwal posyandu per pos/wilayah dan kanal WhatsApp kader",
+      "Multi-Tier RBAC & Audit Trail: Hak akses bertingkat (Superadmin, Admin, Kader) dengan pencatatan menyeluruh log aktivitas perubahan data"
+    ],
+    metrics: [
+      { label: "Standard", value: "WHO 2006 LMS", color: "text-primary" },
+      { label: "Antropometri", value: "4 Indeks Gizi", color: "text-palette-primary" },
+      { label: "Pelaporan", value: "Instant PDF/XLSX", color: "text-palette-dark" },
+      { label: "Audit Trail", value: "100% Logged", color: "text-primary" }
+    ],
+    thumbnail: posyanduImage,
+    image: posyanduImage,
+    links: {
+      github: "https://github.com/Alarave/kenanga-posyandu",
+    },
+    chartType: null,
+    codeSnippet: `/**
+ * Kalkulasi 4 Indeks Antropometri WHO 2006 / Standar Kemenkes RI
+ * Mengombinasikan Metode SD (BB/U) dan Formula Box-Cox LMS (TB/U, BB/TB, IMT/U)
+ */
+public function calculateAll(float $weight, float $height, int $ageMonths, string $gender): NutritionResult
+{
+    $gender = $this->normalizeGender($gender);
+
+    // 1. BB/U (Weight-for-Age) menggunakan metode SD WHO
+    $zWfa = $this->calculateWeightForAge($weight, $ageMonths, $gender);
+
+    // 2. TB/U (Height-for-Age) - Deteksi Dini Stunting (LMS)
+    $zHfa = $height > 0 ? $this->calculateHeightForAge($height, $ageMonths, $gender) : null;
+
+    // 3. BB/TB (Weight-for-Height) - Deteksi Wasting / Gizi Buruk (LMS)
+    $zWfh = ($weight > 0 && $height > 0) 
+        ? $this->calculateWeightForHeight($weight, $height, $gender) 
+        : null;
+
+    // 4. IMT/U (BMI-for-Age) - Deteksi Risiko Obesitas Balita (LMS)
+    $zBfa = ($weight > 0 && $height > 45) 
+        ? $this->calculateBmiForAge($weight, $height, $ageMonths, $gender) 
+        : null;
+
+    return new NutritionResult(
+        $zWfa, $this->classifyNutritionStatus($zWfa),
+        $zHfa, $this->classifyStuntingStatus($zHfa),
+        $zWfh, $this->classifyWastingStatus($zWfh),
+        $zBfa, $this->classifyBmiStatus($zBfa)
+    );
+}`,
+  },
   {
     id: "ai-recruiter-dashboard",
     title: "AI Recruiter Dashboard (Advanced RAG)",
@@ -61,7 +206,7 @@ ensemble_retriever = EnsembleRetriever(
     thumbnail: bookImage,
     image: bookImage,
     links: {
-      github: "https://github.com"
+      github: "https://github.com/Alarave",
     },
     chartType: null,
     codeSnippet: `from sklearn.feature_extraction.text import TfidfVectorizer
@@ -91,7 +236,7 @@ cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)`,
     thumbnail: BBCA,
     image: BBCA,
     links: {
-      github: "https://github.com"
+      github: "https://github.com/Alarave",
     },
     chartType: "financial",
     codeSnippet: `import tensorflow as tf
@@ -125,7 +270,8 @@ model = Sequential([
     thumbnail: algoritma,
     image: algoritma,
     links: {
-      liveDemo: "https://algoritmadijkstra.netlify.app/"
+      liveDemo: "https://algoritmadijkstra.netlify.app/",
+      github: "https://github.com/Alarave",
     },
     chartType: null,
     codeSnippet: `import heapq
@@ -142,31 +288,5 @@ def dijkstra(graph, start):
                 dist[v] = dist[u] + w
                 heapq.heappush(pq, (dist[v], v))
     return dist`,
-  },
-  {
-    id: "ai-agent-automation",
-    title: "AI Agent for Automated Customer Support",
-    description: "Developing intelligent agents to automate customer support interactions, reducing ticket resolution time.",
-    category: "AI Engineer",
-    technologies: ["Python", "FastAPI", "OpenAI", "LangGraph"],
-    fullDescription: "Built an AI-driven agentic workflow to handle customer inquiries, significantly improving response times and satisfaction.",
-    features: ["Agentic workflows", "Automated ticketing", "Context-aware responses"],
-    metrics: [{ label: "Reduction in Time", value: "60%", color: "text-primary" }],
-    links: { github: "#" },
-    chartType: null,
-    codeSnippet: `def handle_inquiry(query):\n    # Agent logic here\n    pass`,
-  },
-  {
-    id: "product-roadmap-optimization",
-    title: "Product Roadmap Optimization for Fintech App",
-    description: "Optimizing product roadmap features based on user feedback analysis and market trends.",
-    category: "Product Management",
-    technologies: ["Jira", "Mixpanel", "SQL"],
-    fullDescription: "Strategically aligned feature releases with market demand and user behavior to maximize product adoption.",
-    features: ["Roadmap prioritization", "User feedback synthesis", "KPI tracking"],
-    metrics: [{ label: "Adoption Increase", value: "15%", color: "text-primary" }],
-    links: { liveDemo: "#" },
-    chartType: null,
-    codeSnippet: `// Prioritization Matrix`,
   },
 ];

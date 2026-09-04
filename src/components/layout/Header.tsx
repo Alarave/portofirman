@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, FileText, ArrowRight, MessageCircle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Menu, FileText } from "lucide-react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
@@ -11,18 +11,19 @@ import logoPortfolio from "@/assets/logo/LOGO PORTOFOLIO.png";
 const cvFile = "https://drive.google.com/file/d/1AXcL8VjAHFUrzhmVicI0d3VilJ13ixWn/view?usp=drive_link";
 
 const navItems = [
-  { path: "/#hero", label: "Home", id: "hero" },
-  { path: "/#about", label: "About", id: "about" },
-  { path: "/#experience", label: "Experience", id: "experience" },
-  { path: "/#projects", label: "Projects", id: "projects" },
-  { path: "/#certifications", label: "Certifications", id: "certifications" },
-  { path: "/#contact", label: "Contact", id: "contact" },
+  { path: "/", label: "Home", id: "top" },
+  { path: "/about", label: "About", id: "about" },
+  { path: "/experience", label: "Experience", id: "experience" },
+  { path: "/projects", label: "Projects", id: "projects" },
+  { path: "/certifications", label: "Certifications", id: "certifications" },
+  { path: "/contact", label: "Contact", id: "contact" },
 ];
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
+  const [activeSection, setActiveSection] = useState("top");
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,7 +31,7 @@ export function Header() {
 
       // Scrollspy
       const sections = navItems.map((item) => item.id);
-      let currentSection = "hero";
+      let currentSection = "top";
 
       for (const section of sections) {
         const el = document.getElementById(section);
@@ -56,15 +57,27 @@ export function Header() {
     return location.pathname === itemPath;
   };
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string, path: string) => {
     if (location.pathname === "/" || location.pathname === "") {
       e.preventDefault();
+      if (id === "top" || id === "hero") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (window.location.hash) {
+          window.history.replaceState(null, "", window.location.pathname);
+        }
+        setActiveSection("top");
+        return;
+      }
       const el = document.getElementById(id);
       if (el) {
         const yOffset = -70;
         const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
         window.scrollTo({ top: y, behavior: "smooth" });
+        setActiveSection(id);
       }
+    } else {
+      e.preventDefault();
+      navigate("/", { state: { scrollTo: id === "hero" ? "top" : id } });
     }
   };
 
@@ -86,15 +99,13 @@ export function Header() {
           aria-label="Primary navigation"
         >
           {/* Brand Logo & Name */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <motion.img
-              src={logoPortfolio}
-              alt="Logo Firman Pambudiansyah"
-              whileHover={{ scale: 1.08, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 350, damping: 15 }}
-              className="h-9 w-auto object-contain"
-            />
-          </Link>
+          <a
+            href="/"
+            onClick={(e) => handleNavClick(e, "top", "/")}
+            className="nav-logo text-2xl font-black tracking-tighter text-foreground hover:text-primary transition-colors"
+          >
+            FIRMAN
+          </a>
 
           {/* Desktop Nav Links with Gliding Active Indicator */}
           <div className="hidden lg:flex items-center gap-1 bg-muted/30 p-1 rounded-full border border-border/30">
@@ -104,7 +115,7 @@ export function Header() {
                 <a
                   key={item.path}
                   href={item.path}
-                  onClick={(e) => handleNavClick(e, item.id)}
+                  onClick={(e) => handleNavClick(e, item.id, item.path)}
                   className={cn(
                     "relative px-4 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors duration-200 z-10 rounded-full",
                     active ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"
@@ -151,7 +162,7 @@ export function Header() {
                   <img src={logoPortfolio} alt="Logo" className="h-8 w-auto" />
                   <div>
                     <p className="text-xs font-bold uppercase tracking-wider text-foreground">Firman Pambudiansyah</p>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Navigation Node</p>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Navigation</p>
                   </div>
                 </div>
 
@@ -160,7 +171,7 @@ export function Header() {
                     <SheetClose asChild key={item.path}>
                       <a
                         href={item.path}
-                        onClick={(e) => handleNavClick(e, item.id)}
+                        onClick={(e) => handleNavClick(e, item.id, item.path)}
                         className={cn(
                           "text-sm font-bold uppercase tracking-wider py-2 px-3 rounded-xl transition-all",
                           isActive(item.id, item.path)

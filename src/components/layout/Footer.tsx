@@ -1,9 +1,10 @@
-import { Mail, Phone, MapPin, Linkedin, Github, Heart, ShieldCheck } from "lucide-react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Mail, Phone, Linkedin, Github } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.jpg";
 
 const NAV_LINKS = [
-  { href: "/#hero", label: "Home" },
+  { href: "/", label: "Home" },
   { href: "/#expertise", label: "Expertise" },
   { href: "/#experience", label: "Experience" },
   { href: "/#projects", label: "Projects" },
@@ -11,13 +12,32 @@ const NAV_LINKS = [
   { href: "/#contact", label: "Contact" },
 ];
 
-const SOCIALS = [
-  { name: "LinkedIn", url: "https://www.linkedin.com/in/firman-pambudiansyah/" },
-  { name: "GitHub", url: "https://github.com/Alarave" },
-];
-
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (location.pathname === "/" || location.pathname === "") {
+      if (href === "/") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (window.location.hash) {
+          window.history.replaceState(null, "", window.location.pathname);
+        }
+        return;
+      }
+      if (href.startsWith("/#")) {
+        e.preventDefault();
+        const id = href.replace("/#", "");
+        const el = document.getElementById(id);
+        if (el) {
+          const yOffset = -70;
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      }
+    }
+  };
 
   return (
     <footer
@@ -38,13 +58,13 @@ export function Footer() {
                 FIRMAN PAMBUDIANSYAH
               </p>
               <p className="text-xs font-medium text-primary mt-0.5">
-                Data Science & ML Engineer
+                Data Science &amp; ML Engineer
               </p>
             </div>
           </div>
 
           <p className="text-xs font-normal leading-relaxed text-muted-foreground max-w-sm">
-            Data Science & Product Management specialist. Engineering predictive models, optimizing data systems, and creating impactful business intelligence dashboards.
+            High Performance Computing (DGX) lab assistant &amp; data practitioner. Developing machine learning models, data integrity pipelines, and full-stack web applications.
           </p>
         </div>
 
@@ -58,6 +78,7 @@ export function Footer() {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
               >
                 {link.label}
@@ -69,7 +90,7 @@ export function Footer() {
         {/* Social Network Links */}
         <div>
           <h3 className="text-xs font-bold tracking-wider uppercase text-foreground mb-4">
-            Network
+            Connect
           </h3>
           <nav aria-label="Footer social links" className="flex flex-col gap-2">
             <a
@@ -95,7 +116,7 @@ export function Footer() {
               className="group inline-flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
             >
               <Mail className="w-3.5 h-3.5 text-primary/80 group-hover:text-primary transition-colors" aria-hidden="true" />
-              Email Client
+              Email
             </a>
             <a
               href="https://wa.me/6285974267164"
@@ -104,7 +125,7 @@ export function Footer() {
               className="group inline-flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-emerald-500 transition-colors duration-200"
             >
               <Phone className="w-3.5 h-3.5 text-primary/80 group-hover:text-emerald-500 transition-colors" aria-hidden="true" />
-              WhatsApp Sync
+              WhatsApp
             </a>
           </nav>
         </div>

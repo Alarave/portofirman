@@ -15,8 +15,58 @@ import sertif6 from "@/assets/sertif/Sertif6.png";
 import sertif7 from "@/assets/sertif/Sertif7.png";
 import sertif8 from "@/assets/sertif/sertif8.PNG";
 import sertif9 from "@/assets/sertif/sertif9.png";
+import sertif10 from "@/assets/sertif/sertif10.png";
+import sertif11 from "@/assets/sertif/sertif11.jpg";
+import sertif12 from "@/assets/sertif/sertif12.jpg";
+import sertif13 from "@/assets/sertif/sertif13.jpg";
 
 export const certificationsData = [
+  {
+    id: "dicoding-belajar-dasar-data-science",
+    title: "Belajar Dasar Data Science",
+    issuer: "Dicoding Indonesia",
+    year: "2026",
+    icon: sertif10,
+    isImage: true,
+    description: "Sertifikat kompetensi kelulusan kelas Belajar Dasar Data Science yang diselenggarakan oleh Dicoding Academy. Kurikulum mencakup pemahaman fundamental siklus data science, eksplorasi & pembersihan data, statistik deskriptif, dan pengenalan machine learning modeling.",
+    skills: ["Data Science", "Data Exploration", "Data Cleaning", "Descriptive Statistics", "Machine Learning"],
+    credentialId: "EYX4O7E7WXDL",
+    credentialUrl: "https://www.dicoding.com/certificates/EYX4O7E7WXDL",
+  },
+  {
+    id: "udemy-machine-learning-python-data-science",
+    title: "Machine Learning & Python Data Science for Business and AI",
+    issuer: "Udemy · Brighter Futures Hub",
+    year: "2026",
+    icon: sertif12,
+    isImage: true,
+    description: "Sertifikat penyelesaian pelatihan komprehensif Machine Learning & Python Data Science for Business and AI di platform Udemy. Mempelajari implementasi algoritma machine learning, pemrosesan data dengan Python, serta aplikasi praktis AI untuk pemecahan masalah bisnis.",
+    skills: ["Machine Learning", "Python", "Data Science", "Artificial Intelligence", "Business Analytics", "Model Evaluation"],
+    credentialId: "UC-ae409f82-85db-445c-a0dd-e65ad26b0d25",
+    credentialUrl: "https://www.udemy.com/certificate/UC-ae409f82-85db-445c-a0dd-e65ad26b0d25/",
+  },
+  {
+    id: "seminar-kebanksentralan-bi-gunadarma",
+    title: "Seminar Kebanksentralan",
+    issuer: "Bank Indonesia & Universitas Gunadarma",
+    year: "2026",
+    icon: sertif11,
+    isImage: true,
+    description: "Sertifikat Penghargaan sebagai Peserta dalam kegiatan Seminar Kebanksentralan yang diselenggarakan atas kerjasama antara Bank Indonesia dan Universitas Gunadarma, bertempat di Auditorium Kampus F8 Universitas Gunadarma Depok pada 20 Juni 2026.",
+    skills: ["Kebanksentralan", "Kebijakan Moneter", "Sistem Pembayaran", "Stabilitas Sistem Keuangan", "Makroekonomi"],
+  },
+  {
+    id: "udemy-project-management-agile-scrum-pmp",
+    title: "Project Management Methodologies: Agile, Scrum, and PMP",
+    issuer: "Udemy · MTF Institute",
+    year: "2025",
+    icon: sertif13,
+    isImage: true,
+    description: "Sertifikat kelulusan kursus Project Management Methodologies: Agile, Scrum, and PMP di platform Udemy. Menguasai framework manajemen proyek modern termasuk Agile methodology, Scrum sprint planning, dan standar Project Management Professional (PMP).",
+    skills: ["Project Management", "Agile", "Scrum", "Sprint Planning", "PMP Framework"],
+    credentialId: "UC-8373100e-b253-487f-b608-e8a2b7a12753",
+    credentialUrl: "https://www.udemy.com/certificate/UC-8373100e-b253-487f-b608-e8a2b7a12753/",
+  },
   {
     id: "dicoding-introduction-financial-literacy",
     title: "Introduction to Financial Literacy",

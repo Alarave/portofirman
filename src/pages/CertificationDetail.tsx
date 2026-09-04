@@ -14,8 +14,21 @@ import sertif5 from "@/assets/sertif/Sertif5.jpg";
 import sertif6 from "@/assets/sertif/Sertif6.png";
 import sertif7 from "@/assets/sertif/Sertif7.png";
 import sertif8 from "@/assets/sertif/sertif8.PNG";
+import sertif9 from "@/assets/sertif/sertif9.png";
 
 export const certificationsData = [
+  {
+    id: "dicoding-introduction-financial-literacy",
+    title: "Introduction to Financial Literacy",
+    issuer: "Dicoding Indonesia · DBS Foundation",
+    year: "2026",
+    icon: sertif9,
+    isImage: true,
+    description: "Sertifikat kompetensi kelulusan kelas Introduction to Financial Literacy yang diselenggarakan oleh Dicoding Academy dalam program Coding Camp 2026 powered by DBS Foundation. Membekali pemahaman komprehensif mengenai pengelolaan keuangan pribadi (personal finance), navigasi masa depan finansial, strategi investasi, dan manajemen pinjaman bijak (loan management).",
+    skills: ["Financial Literacy", "Personal Finance", "Investment Planning", "Smart Borrowing", "Financial Analysis"],
+    credentialId: "1OP87L82VZQK",
+    credentialUrl: "https://www.dicoding.com/certificates/1OP87L82VZQK",
+  },
   {
     id: "fgd-team-project-ovarium",
     title: "FGD Team Project: Perbandingan Kinerja Model ResNet dan VGG16 untuk Klasifikasi Penyakit Ovarium",
@@ -264,7 +277,24 @@ const CertificationDetail = () => {
                     <span>Status</span>
                     <span className="font-semibold text-primary">Verified</span>
                   </div>
+                  {cert.credentialId && (
+                    <div className="flex justify-between items-center pt-1 border-t border-border/40">
+                      <span>ID Kredensial</span>
+                      <span className="font-mono text-xs font-bold text-foreground bg-muted px-2 py-0.5 rounded">
+                        {cert.credentialId}
+                      </span>
+                    </div>
+                  )}
                 </div>
+
+                {cert.credentialUrl && (
+                  <Button asChild className="w-full mt-4 rounded-xl shadow-md font-bold" size="sm">
+                    <a href={cert.credentialUrl} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      Verifikasi Kredensial Resmi
+                    </a>
+                  </Button>
+                )}
               </div>
             </div>
           </div>

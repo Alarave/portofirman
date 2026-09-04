@@ -94,6 +94,12 @@ const SkillIcon = ({ slug, name }: { slug: string; name: string }) => {
   );
 };
 
+export interface SkillsListProps {
+  skills?: SkillCategoryGroup[];
+  title?: string;
+  subtitle?: string;
+}
+
 export const SkillsList: React.FC<SkillsListProps> = ({
   skills = referencePortfolioSkills,
   title = "Skills",

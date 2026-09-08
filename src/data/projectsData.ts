@@ -4,6 +4,7 @@ import algoritma from "@/assets/projects/algoritma.jpg";
 import aiRecruiterImage from "@/assets/projects/ai-assisten.png";
 import posyanduImage from "@/assets/projects/posyandu.png";
 import acaImage from "@/assets/projects/aca-advisor.png";
+import vehicleCO2Image from "@/assets/projects/vehicle_co2_parity_plot.png";
 
 export interface ProjectMetric {
   label: string;
@@ -241,6 +242,102 @@ from sklearn.metrics.pairwise import cosine_similarity
 tfidf = TfidfVectorizer(stop_words='english')
 tfidf_matrix = tfidf.fit_transform(df['description'])
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)`,
+  },
+  {
+    id: "vehicle-co2-emission-prediction",
+    title: "Prediksi Emisi CO₂ Kendaraan & Rekomendasi Eco-Vehicle (R² 0.9975)",
+    description: "Sistem machine learning prediktif emisi CO₂ tailpipe berbasis framework CRISP-DM dengan multi-arsitektur (Random Forest, CatBoost Optuna, FT-Transformer PyTorch, TabNet) dan sistem rekomendasi kendaraan rendah emisi.",
+    category: "Data Science",
+    technologies: [
+      "Python",
+      "PyTorch",
+      "CatBoost",
+      "Scikit-Learn",
+      "Optuna",
+      "FT-Transformer",
+      "TabNet",
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "Seaborn"
+    ],
+    fullDescription: "Mengembangkan sistem estimasi emisi gas buang karbon dioksida (CO₂ g/km) dan mesin rekomendasi kendaraan ramah lingkungan berdasarkan metodologi standar industri CRISP-DM (Cross-Industry Standard Process for Data Mining) dengan arsitektur notebook 79-sel modular. Proyek ini membandingkan 4 arsitektur model secara komparatif: Random Forest (Baseline), CatBoost Regressor dengan Bayesian Hyperparameter Optimization (Optuna TPE Sampler), PyTorch FT-Transformer (Feature Tokenizer + Transformer Encoder), dan TabNet Regressor pada 833 spesifikasi kendaraan bermotor. Berdasarkan evaluasi test set independen, model Random Forest mencapai R² 0.9975, RMSE 2.876 g/km, dan MAPE 0.55%, disusul CatBoost Optuna (R² 0.9967, RMSE 3.313 g/km) dan FT-Transformer (R² 0.9966, RMSE 3.350 g/km). Sistem dilengkapi Content-Based Eco-Recommender yang mampu menyarankan alternatif kendaraan sekelas dengan penurunan emisi hingga 60%.",
+    features: [
+      "Metodologi Standar CRISP-DM: Alur kerja 20-seksi terstruktur rapi dan transparan dalam 79 sel modular bebas AI-slop",
+      "Multi-Arsitektur Benchmark: Evaluasi komparatif Random Forest, CatBoost, FT-Transformer (PyTorch), dan TabNet Regressor",
+      "Bayesian Hyperparameter Optimization: Tuning otomatis via Optuna (TPE Sampler) meningkatkan akurasi CatBoost hingga 17%",
+      "PyTorch FT-Transformer: Implementasi mandiri Feature Tokenizer, token [CLS], Multi-Head Self-Attention, dan MLP Regression Head",
+      "Zero Data Leakage Pipeline: Standardisasi dan encoding diisolasi ketat pada data latih 80% sebelum inferensi test set",
+      "Content-Based Vehicle Eco-Recommender: Mesin rekomendasi kendaraan sekelas yang lebih hemat bahan bakar dan beremisi rendah"
+    ],
+    metrics: [
+      { label: "R-Squared", value: "0.9975", color: "text-primary" },
+      { label: "RMSE", value: "2.88 g/km", color: "text-palette-primary" },
+      { label: "MAPE", value: "0.55%", color: "text-palette-dark" }
+    ],
+    thumbnail: vehicleCO2Image,
+    image: vehicleCO2Image,
+    links: {
+      github: "https://github.com/Alarave/Vehicle-CO2-Emission-Prediction",
+    },
+    chartType: null,
+    codeSnippet: `import torch
+import torch.nn as nn
+import numpy as np
+
+class FTTransformer(nn.Module):
+    """
+    Feature Tokenizer + Transformer (FT-Transformer) untuk Regresi Emisi CO2 Tabular
+    """
+    def __init__(self, num_numerical, cat_cardinalities, d_token=48, n_layers=2, n_heads=4, d_ffn=96, dropout=0.08):
+        super().__init__()
+        self.num_numerical = num_numerical
+        self.num_categorical = len(cat_cardinalities)
+        
+        # Tokenizer Fitur Kontinu: W_j * x_j + b_j
+        self.num_weight = nn.Parameter(torch.randn(num_numerical, d_token) * (1.0 / np.sqrt(d_token)))
+        self.num_bias = nn.Parameter(torch.zeros(num_numerical, d_token))
+        
+        # Tokenizer Fitur Kategorikal: Tabel Embedding per Kategori
+        self.cat_embeddings = nn.ModuleList([
+            nn.Embedding(card, d_token) for card in cat_cardinalities
+        ])
+        
+        # Token Representasi Global [CLS]
+        self.cls_token = nn.Parameter(torch.randn(1, 1, d_token) * 0.02)
+        
+        # Transformer Encoder
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=d_token,
+            nhead=n_heads,
+            dim_feedforward=d_ffn,
+            dropout=dropout,
+            activation="gelu",
+            batch_first=True,
+            norm_first=True
+        )
+        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=n_layers)
+        
+        # Output Regression Head
+        self.head = nn.Sequential(
+            nn.LayerNorm(d_token),
+            nn.Linear(d_token, 32),
+            nn.GELU(),
+            nn.Linear(32, 1)
+        )
+
+    def forward(self, x_num, x_cat):
+        batch_size = x_num.shape[0]
+        num_tokens = x_num.unsqueeze(-1) * self.num_weight.unsqueeze(0) + self.num_bias.unsqueeze(0)
+        cat_tokens = [emb(x_cat[:, i]).unsqueeze(1) for i, emb in enumerate(self.cat_embeddings)]
+        cat_tokens = torch.cat(cat_tokens, dim=1)
+        
+        cls_tokens = self.cls_token.expand(batch_size, -1, -1)
+        tokens = torch.cat([cls_tokens, num_tokens, cat_tokens], dim=1)
+        
+        out = self.transformer(tokens)
+        cls_rep = out[:, 0, :]
+        return self.head(cls_rep).squeeze(-1)`,
   },
   {
     id: "lstm-bbca-stock-prediction",

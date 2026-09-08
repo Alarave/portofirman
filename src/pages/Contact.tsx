@@ -39,12 +39,22 @@ const GoogleMapsIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const contactEmail = import.meta.env.VITE_CONTACT_EMAIL || "firmanpambudiansyah@gmail.com";
+const rawWhatsApp = import.meta.env.VITE_CONTACT_WHATSAPP;
+const waDisplayValue = rawWhatsApp
+  ? (rawWhatsApp.startsWith("+") ? rawWhatsApp : `+${rawWhatsApp}`)
+  : "Chat via WhatsApp";
+const waHref = rawWhatsApp
+  ? `https://wa.me/${rawWhatsApp.replace(/[^0-9]/g, "")}`
+  : "#contact-form";
+const contactLocation = import.meta.env.VITE_CONTACT_LOCATION || "Jakarta Pusat, Indonesia";
+
 const contactInfo = [
   {
     icon: GmailIcon,
     label: "Email",
-    value: "firmanpambudiansyah@gmail.com",
-    href: "mailto:firmanpambudiansyah@gmail.com",
+    value: contactEmail,
+    href: `mailto:${contactEmail}`,
     description: "Response within 24 hours",
     color: "from-red-500/10 to-orange-500/10",
     iconColor: "text-red-600",
@@ -52,8 +62,8 @@ const contactInfo = [
   {
     icon: WhatsAppIcon,
     label: "WhatsApp",
-    value: "+62 859-7426-7164",
-    href: "https://wa.me/6285974267164",
+    value: waDisplayValue,
+    href: waHref,
     description: "Available on weekdays",
     color: "from-green-500/10 to-emerald-500/10",
     iconColor: "text-green-600",
@@ -61,8 +71,8 @@ const contactInfo = [
   {
     icon: GoogleMapsIcon,
     label: "Location",
-    value: "Jakarta Pusat, Indonesia",
-    href: "https://www.google.com/maps/search/?api=1&query=Jakarta+Pusat+Indonesia",
+    value: contactLocation,
+    href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactLocation)}`,
     description: "Open to remote work",
     color: "from-blue-500/10 to-cyan-500/10",
     iconColor: "text-blue-600",
@@ -356,7 +366,7 @@ export const ContactSection = () => {
                       size="lg"
                       className="w-full md:w-auto rounded-full px-8 shadow-lg shadow-primary/20 hover:shadow-primary/30 active:scale-95 transition-all"
                     >
-                      <a href="mailto:firmanpambudiansyah@gmail.com">
+                      <a href={`mailto:${contactEmail}`}>
                         <Mail className="mr-2 h-5 w-5" aria-hidden="true" />
                         Send Email Now
                       </a>

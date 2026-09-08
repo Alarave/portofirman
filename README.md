@@ -103,19 +103,24 @@ src/
    npm install
    ```
 
-3. **Run development server:**
+3. **Configure Environment Variables:**
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Run development server:**
    ```bash
    npm run dev
    ```
    Open [http://localhost:5173](http://localhost:5173)
 
-4. **Build for production:**
+5. **Build for production:**
    ```bash
    npm run build
    ```
    Output: `dist/` folder
 
-5. **Preview production build:**
+6. **Preview production build:**
    ```bash
    npm run preview
    ```
@@ -249,7 +254,8 @@ All rights reserved © 2026.
 - **Email:** [firmanpambudiansyah@gmail.com](mailto:firmanpambudiansyah@gmail.com)
 - **LinkedIn:** [linkedin.com/in/firman-pambudiansyah](https://www.linkedin.com/in/firman-pambudiansyah/)
 - **GitHub:** [github.com/Alarave](https://github.com/Alarave)
-- **WhatsApp:** [+62 859-7426-7164](https://wa.me/6285974267164)
+- **Portfolio Website:** [Live Demo](https://firmanpambudiansyah.netlify.app)
+
 
 ---
 

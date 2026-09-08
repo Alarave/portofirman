@@ -16,6 +16,12 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
 
+  const contactEmail = import.meta.env.VITE_CONTACT_EMAIL || "firmanpambudiansyah@gmail.com";
+  const rawWhatsApp = import.meta.env.VITE_CONTACT_WHATSAPP;
+  const waHref = rawWhatsApp ? `https://wa.me/${rawWhatsApp.replace(/[^0-9]/g, "")}` : "/#contact";
+  const waTarget = rawWhatsApp ? "_blank" : undefined;
+  const waRel = rawWhatsApp ? "noopener noreferrer" : undefined;
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (location.pathname === "/" || location.pathname === "") {
       if (href === "/") {
@@ -44,47 +50,62 @@ export function Footer() {
       role="contentinfo"
       className="pt-12 pb-6 bg-background/50 backdrop-blur-sm"
     >
-      <div className="container pb-10 grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr] gap-8 md:gap-12">
+      <div className="container grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-border/40">
         {/* Brand Column */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="flex items-center gap-3">
-            <img
-              src={profilePhoto}
-              alt="Firman Profile Photo"
-              className="w-10 h-10 object-cover rounded-full opacity-90 shadow-[0_0_12px_rgba(33,150,243,0.3)]"
-            />
+            <div className="w-9 h-9 rounded-full overflow-hidden ring-1 ring-border/60 bg-muted/30 flex-shrink-0">
+              <img
+                src={profilePhoto}
+                alt="Firman Profile Photo"
+                className="w-full h-full object-cover object-top"
+                loading="lazy"
+              />
+            </div>
             <div>
-              <p className="text-sm font-bold tracking-wide uppercase text-foreground">
+              <span className="font-semibold text-xs tracking-wider uppercase text-foreground">
                 FIRMAN PAMBUDIANSYAH
-              </p>
-              <p className="text-xs font-medium text-primary mt-0.5">
-                Data Science &amp; ML Engineer
+              </span>
+              <p className="text-[11px] text-muted-foreground leading-tight">
+                Data Science &amp; AI Engineer
               </p>
             </div>
           </div>
-
-          <p className="text-xs font-normal leading-relaxed text-muted-foreground max-w-sm">
-            High Performance Computing (DGX) lab assistant &amp; data practitioner. Developing machine learning models, data integrity pipelines, and full-stack web applications.
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Building intelligent machine learning systems, predictive models, and modern data-driven solutions.
           </p>
         </div>
 
-        {/* Navigation Links */}
+        {/* Quick Navigation */}
         <div>
           <h3 className="text-xs font-bold tracking-wider uppercase text-foreground mb-4">
             Navigation
           </h3>
-          <nav aria-label="Footer navigation" className="flex flex-col gap-2">
+          <nav aria-label="Footer navigation links" className="flex flex-col gap-2">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors duration-200"
               >
                 {link.label}
               </a>
             ))}
           </nav>
+        </div>
+
+        {/* Specializations / Expertise */}
+        <div>
+          <h3 className="text-xs font-bold tracking-wider uppercase text-foreground mb-4">
+            Specialization
+          </h3>
+          <ul className="flex flex-col gap-2 text-xs text-muted-foreground">
+            <li>Machine Learning &amp; Deep Learning</li>
+            <li>Predictive Time-Series Forecasting</li>
+            <li>Large Language Models &amp; Agentic AI</li>
+            <li>Business Intelligence &amp; Analytics</li>
+          </ul>
         </div>
 
         {/* Social Network Links */}
@@ -112,16 +133,16 @@ export function Footer() {
               GitHub
             </a>
             <a
-              href="mailto:firmanpambudiansyah@gmail.com"
+              href={`mailto:${contactEmail}`}
               className="group inline-flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
             >
               <Mail className="w-3.5 h-3.5 text-primary/80 group-hover:text-primary transition-colors" aria-hidden="true" />
               Email
             </a>
             <a
-              href="https://wa.me/6285974267164"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={waHref}
+              target={waTarget}
+              rel={waRel}
               className="group inline-flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-emerald-500 transition-colors duration-200"
             >
               <Phone className="w-3.5 h-3.5 text-primary/80 group-hover:text-emerald-500 transition-colors" aria-hidden="true" />

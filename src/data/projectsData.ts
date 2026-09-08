@@ -5,7 +5,33 @@ import aiRecruiterImage from "@/assets/projects/ai-assisten.png";
 import posyanduImage from "@/assets/projects/posyandu.png";
 import acaImage from "@/assets/projects/aca-advisor.png";
 
-export const projectsData = [
+export interface ProjectMetric {
+  label: string;
+  value: string;
+  color: string;
+}
+
+export interface ProjectItem {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  technologies: string[];
+  fullDescription: string;
+  features: string[];
+  metrics: ProjectMetric[];
+  thumbnail: string;
+  image: string;
+  links: {
+    github?: string;
+    liveDemo?: string;
+    prd?: string;
+  };
+  chartType: "inventory" | "sentiment" | "financial" | null;
+  codeSnippet: string;
+}
+
+export const projectsData: ProjectItem[] = [
   {
     id: "aca-advisor-expert-system",
     title: "ACA Advisor — Sistem Pakar Akuntansi EMKM",
@@ -218,37 +244,53 @@ cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)`,
   },
   {
     id: "lstm-bbca-stock-prediction",
-    title: "Prediksi Saham BBCA dengan LSTM (MAPE 2.53%)",
-    description: "Memprediksi harga saham Bank Central Asia (BBCA) menggunakan deep learning LSTM — mencapai MAPE 2.53% dan R² 0.6871 pada data historis.",
+    title: "Prediksi Saham BBCA dengan Stacked LSTM (MAPE 2.67%)",
+    description: "Memprediksi harga saham Bank Central Asia (BBCA) menggunakan deep learning Stacked LSTM dan 7 indikator teknikal dengan protokol Zero Data Leakage.",
     category: "Data Science",
-    technologies: ["Python", "TensorFlow", "Keras", "Pandas", "NumPy", "yfinance", "Plotly"],
-    fullDescription: "Membangun model time-series forecasting untuk saham BBCA. Mengimplementasikan LSTM (128-64 units) dengan 5 indikator teknikal, EarlyStopping, dan ReduceLROnPlateau. Hasil: Model mencapai MAE 214.05, RMSE 277.39, MAPE 2.53%, R² 0.6871, dan Direction Accuracy 47.11%.",
+    technologies: ["Python", "TensorFlow", "Keras", "Stacked LSTM", "Scikit-Learn", "yfinance", "Pandas", "NumPy", "Plotly"],
+    fullDescription: "Membangun model time-series forecasting untuk saham BBCA (BBCA.JK) periode 2021–2025 (1.186 hari bursa). Mengimplementasikan arsitektur Stacked LSTM (128 & 64 units) dengan 7 indikator teknikal (SMA 20, EMA 20, RSI 14, MACD, Bollinger Bands) dan protokol Zero Data Leakage pada sliding window 60 hari. Hasil evaluasi out-of-sample (238 hari bursa): model mencapai MAPE 2.67%, R² 0.7010, RMSE 274.96, MAE IDR 216.35, serta Directional Accuracy 44.73% (+8.02% lift di atas Naive Baseline).",
     features: [
-      "Indikator Teknikal (MA, RSI, Bollinger)",
-      "Prediksi harga 30 hari kedepan",
-      "Dashboard interaktif Plotly"
+      "Arsitektur Deep Learning Stacked LSTM (128-64 units dengan Dropout & BatchNormalization)",
+      "7 Indikator Teknikal Pasar (SMA 20, EMA 20, RSI 14, MACD, Bollinger Bands)",
+      "Protokol Zero Data Leakage dengan isolasi penskalaan murni pada 80% data latih",
+      "Sliding Window Tensor 60 hari bursa (~3 bulan) untuk dependensi temporal",
+      "Evaluasi Kritis terhadap Naive Persistence Benchmark (+8.02% Directional Lift)",
+      "Adaptive Callbacks (EarlyStopping, ReduceLROnPlateau, ModelCheckpoint)"
     ],
     metrics: [
-      { label: "MAPE", value: "2.53%", color: "text-primary" },
-      { label: "R-Squared", value: "0.6871", color: "text-palette-primary" },
-      { label: "RMSE", value: "277.39", color: "text-palette-dark" }
+      { label: "MAPE", value: "2.67%", color: "text-primary" },
+      { label: "R-Squared", value: "0.7010", color: "text-palette-primary" },
+      { label: "Directional Acc", value: "44.73%", color: "text-palette-dark" }
     ],
     thumbnail: BBCA,
     image: BBCA,
     links: {
-      github: "https://github.com/Alarave",
+      github: "https://github.com/Alarave/BBCA-Stock-Prediction",
     },
-    chartType: "financial",
+    chartType: null,
     codeSnippet: `import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.layers import LSTM, Dense, Dropout, BatchNormalization
 
+# Arsitektur Stacked LSTM (Zero Data Leakage Pipeline)
 model = Sequential([
-    LSTM(128, return_sequences=True, input_shape=(X_train.shape[1], 1)),
+    LSTM(128, return_sequences=True, input_shape=(60, 7)),
     Dropout(0.2),
-    LSTM(64),
-    Dense(1)
-])`,
+    BatchNormalization(),
+    LSTM(64, return_sequences=False),
+    Dropout(0.2),
+    BatchNormalization(),
+    Dense(32, activation='relu'),
+    Dropout(0.1),
+    Dense(16, activation='relu'),
+    Dense(1, activation='linear')
+])
+
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+    loss='mse',
+    metrics=['mae']
+)`,
   },
   {
     id: "dijkstra-shortest-path",

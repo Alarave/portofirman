@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { CursorSpotlight } from "@/components/ui/CursorSpotlight";
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,7 +9,8 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
+    <div className="min-h-screen flex flex-col bg-background text-foreground relative">
+      <CursorSpotlight />
       <Header />
       <main id="main-content" className="flex-1">
         {children}

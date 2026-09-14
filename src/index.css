@@ -163,6 +163,53 @@
   h3 { font-size: clamp(1.1rem, 4vw, 1.5rem); }
 }
 
+/* Custom Scrollbar (Electric & Navy Blue) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 9999px;
+  border: 2px solid hsl(var(--background));
+  transition: background 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Micro-interaction Utilities */
+.card-interactive {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.card-interactive:hover {
+  transform: translateY(-3px);
+  border-color: hsl(var(--primary) / 0.5);
+  box-shadow: 0 10px 25px -5px hsl(var(--primary) / 0.1), 0 8px 10px -6px hsl(var(--primary) / 0.1);
+}
+
+.btn-interactive {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease;
+}
+.btn-interactive:hover {
+  transform: scale(1.03);
+}
+.btn-interactive:active {
+  transform: scale(0.97);
+}
+
+.chip-interactive {
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.chip-interactive:hover {
+  border-color: hsl(var(--primary) / 0.6);
+  background-color: hsl(var(--primary) / 0.1);
+  transform: translateY(-1px);
+}
+
 /* Code block scrollbar */
 pre::-webkit-scrollbar {
   height: 4px;
@@ -171,8 +218,11 @@ pre::-webkit-scrollbar-track {
   background: #1e1e2e;
 }
 pre::-webkit-scrollbar-thumb {
-  background: #444;
+  background: hsl(var(--primary) / 0.4);
   border-radius: 2px;
+}
+pre::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
 }
 
 /* Lenis Smooth Scroll Recommended CSS */

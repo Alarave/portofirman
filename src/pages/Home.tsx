@@ -13,6 +13,8 @@ import { ProjectsSection } from "@/pages/Projects";
 import { CertificationsSection } from "@/pages/Certifications";
 import { ContactSection } from "@/pages/Contact";
 import { SilkGradientBg } from "@/components/ui/SilkGradientBg";
+import { Typewriter } from "@/components/ui/Typewriter";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -55,7 +57,7 @@ const Home = () => {
 
   return (
     <Layout>
-      {/* HERO / MAIN SECTION (100% REPLICA OF react-portfolio-template) */}
+      {/* HERO / MAIN SECTION */}
       <section id="top" className="relative w-full overflow-hidden">
         <SilkGradientBg />
         {/* about-section */}
@@ -66,7 +68,7 @@ const Home = () => {
             <img 
               src={profilePhoto} 
               alt="Firman Pambudiansyah" 
-              className="w-[180px] h-[180px] sm:w-[250px] sm:h-[250px] rounded-full object-cover border-4 border-primary shadow-[0_0_30px_rgba(33,150,243,0.5)]"
+              className="w-[180px] h-[180px] sm:w-[250px] sm:h-[250px] rounded-full object-cover border-4 border-primary shadow-[0_0_30px_rgba(33,150,243,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(33,150,243,0.85)] cursor-pointer"
             />
           </div>
           
@@ -85,11 +87,20 @@ const Home = () => {
             <h1 className="text-3xl sm:text-5xl md:text-[4.5em] font-black leading-[1.15] md:leading-none m-0 tracking-tight text-foreground text-left break-words">
               Firman Pambudiansyah
             </h1>
-            <p className="text-lg sm:text-2xl md:text-[1.8em] font-bold text-primary text-left pt-2 md:pt-1">
-              Data Science & ML Engineer
+            <p className="text-lg sm:text-2xl md:text-[1.8em] font-bold text-primary text-left pt-2 md:pt-1 min-h-[1.5em] flex items-center">
+              <Typewriter
+                words={[
+                  "Data Science & ML Engineer",
+                  "System Analyst",
+                  "Data Analyst",
+                ]}
+                typingSpeed={75}
+                deletingSpeed={35}
+                pauseDuration={2200}
+              />
             </p>
             <p className="text-base sm:text-lg text-muted-foreground text-left pt-3 max-w-2xl leading-relaxed font-normal">
-              Firman Pambudiansyah — Data Science and ML   Engineer professional with a technical range in machine learning, cloud, and data analytics. Based in Indonesia.
+              Firman Pambudiansyah — Data Science and ML Engineer professional with a technical range in machine learning, cloud, and data analytics. Based in Indonesia.
             </p>
 
             {/* mobile_social_icons (Mobile only) */}
@@ -103,7 +114,7 @@ const Home = () => {
             </div>
 
             <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4 pt-6 md:pt-8">
-              <Button size="lg" asChild className="rounded-xl h-11 sm:h-12 px-6 shadow-md hover:shadow-lg transition-all text-xs sm:text-sm font-bold flex items-center gap-2" onClick={handleCvDownload}>
+              <Button size="lg" asChild className="btn-interactive rounded-xl h-11 sm:h-12 px-6 shadow-md hover:shadow-lg text-xs sm:text-sm font-bold flex items-center gap-2" onClick={handleCvDownload}>
                 <a href={cvFile} target="_blank" rel="noopener noreferrer">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                   {cvDownloading ? "Opening..." : "Download Resume"}
@@ -114,11 +125,9 @@ const Home = () => {
         </div>
       </section>
 
-
-
       {/* ABOUT ME */}
       <section id="about" className="pt-32 md:pt-40 pb-20 md:pb-28 bg-background relative">
-        <div className="container px-4 mx-auto">
+        <ScrollReveal className="container px-4 mx-auto">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-16 space-y-3 sm:space-y-4">
             <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
@@ -129,7 +138,6 @@ const Home = () => {
             </p>
           </div>
           
-          {/* Content */}
           {/* Content */}
           <div className="max-w-3xl mx-auto space-y-6 text-muted-foreground text-base sm:text-lg leading-relaxed">
             <p>
@@ -145,7 +153,7 @@ const Home = () => {
               What drives me is the gap between complex raw data and actionable business insights. I strive to sit at that intersection — turning messy data pipelines into clear predictive models and analytical reports that businesses can trust.
             </p>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* CORE EXPERTISE */}

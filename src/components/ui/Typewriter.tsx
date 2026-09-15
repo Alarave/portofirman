@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface TypewriterProps {
   words: string[];
@@ -17,6 +17,8 @@ export const Typewriter: React.FC<TypewriterProps> = ({
   className = "",
   cursorClassName = "",
 }) => {
+  const containerRef = useRef<HTMLSpanElement>(null);
+  const [hasIntersected, setHasIntersected] = useState(false);
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -31,8 +33,34 @@ export const Typewriter: React.FC<TypewriterProps> = ({
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
+  // Trigger on first intersection, once
   useEffect(() => {
-    if (prefersReducedMotion || words.length === 0) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setHasIntersected(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setHasIntersected(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion || !hasIntersected || words.length === 0) return;
 
     if (subIndex === words[index].length + 1 && !isDeleting) {
       const timeout = setTimeout(() => setIsDeleting(true), pauseDuration);
@@ -53,14 +81,14 @@ export const Typewriter: React.FC<TypewriterProps> = ({
     );
 
     return () => clearTimeout(timeout);
-  }, [subIndex, index, isDeleting, words, typingSpeed, deletingSpeed, pauseDuration, prefersReducedMotion]);
+  }, [subIndex, index, isDeleting, words, typingSpeed, deletingSpeed, pauseDuration, prefersReducedMotion, hasIntersected]);
 
   if (prefersReducedMotion) {
     return <span className={className}>{words[0]}</span>;
   }
 
   return (
-    <span className={className}>
+    <span ref={containerRef} className={className}>
       {words[index]?.substring(0, subIndex)}
       <span
         className={`inline-block w-[2px] h-[1em] ml-1 align-middle bg-primary animate-pulse ${cursorClassName}`}

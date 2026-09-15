@@ -158,6 +158,29 @@
     opacity: 1;
     transform: none;
   }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .card-interactive,
+  .btn-interactive,
+  .chip-interactive {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Scroll-Reveal Specification: starts opacity 0, translateY 30px, transitions over ~1s */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Mobile typography improvements */
@@ -167,7 +190,7 @@
   h3 { font-size: clamp(1.1rem, 4vw, 1.5rem); }
 }
 
-/* Custom Scrollbar (Electric & Navy Blue) */
+/* Custom Scrollbar (Electric Blue Default, Champagne on Hover) */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -179,27 +202,29 @@
   background: hsl(var(--muted-foreground) / 0.3);
   border-radius: 9999px;
   border: 2px solid hsl(var(--background));
-  transition: background 0.2s ease;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary));
+  background: #F7E7CE; /* Champagne */
+  box-shadow: 0 0 10px rgba(247, 231, 206, 0.6);
 }
 
 /* Micro-interaction Utilities */
 .card-interactive {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
 .card-interactive:hover {
   transform: translateY(-3px);
-  border-color: hsl(var(--primary) / 0.5);
-  box-shadow: 0 10px 25px -5px hsl(var(--primary) / 0.1), 0 8px 10px -6px hsl(var(--primary) / 0.1);
+  border-color: hsl(var(--primary) / 0.6);
+  filter: brightness(1.05);
+  box-shadow: 0 10px 25px -5px hsl(var(--primary) / 0.15), 0 8px 10px -6px hsl(var(--primary) / 0.15);
 }
 
 .btn-interactive {
   transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease;
 }
 .btn-interactive:hover {
-  transform: scale(1.03);
+  transform: scale(1.03); /* in 1.02-1.05 scale range */
 }
 .btn-interactive:active {
   transform: scale(0.97);
@@ -209,8 +234,8 @@
   transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 .chip-interactive:hover {
-  border-color: hsl(var(--primary) / 0.6);
-  background-color: hsl(var(--primary) / 0.1);
+  border-color: hsl(var(--primary) / 0.7);
+  background-color: hsl(var(--primary) / 0.12);
   transform: translateY(-1px);
 }
 

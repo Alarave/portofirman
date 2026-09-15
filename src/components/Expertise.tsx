@@ -44,7 +44,7 @@ const cardVariants = {
 
 export const Expertise: React.FC = () => {
   return (
-    <section className="py-12 sm:py-20 bg-background space-y-12 sm:space-y-20" id="expertise">
+    <section className="py-28 sm:py-36 bg-background space-y-16 sm:space-y-24" id="expertise">
       {/* ── CORE EXPERTISE ── */}
       <div className="container px-4 mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-16 space-y-3 sm:space-y-4">

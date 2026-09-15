@@ -5,7 +5,10 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import profilePhoto from "@/assets/profile-photo.jpg";
+import photoDiri from "@/assets/photo-diri.png";
 const cvFile = "https://drive.google.com/file/d/1AXcL8VjAHFUrzhmVicI0d3VilJ13ixWn/view?usp=drive_link";
+
+const heroImages = [profilePhoto, photoDiri];
 
 import Expertise from "@/components/Expertise";
 import { ExperienceSection } from "@/pages/Experience";
@@ -15,6 +18,7 @@ import { ContactSection } from "@/pages/Contact";
 import { SilkGradientBg } from "@/components/ui/SilkGradientBg";
 import { Typewriter } from "@/components/ui/Typewriter";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -27,8 +31,18 @@ const itemVariants = {
 };
 
 const Home = () => {
+  useScrollReveal();
   const [cvDownloading, setCvDownloading] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const location = useLocation();
+
+  // Slideshow every 3 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 3) % heroImages.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     // If user accesses /#hero or /#top, scrub hash from address bar immediately
@@ -58,18 +72,45 @@ const Home = () => {
   return (
     <Layout>
       {/* HERO / MAIN SECTION */}
-      <section id="top" className="relative w-full overflow-hidden">
+      <section id="top" className="relative w-full overflow-hidden min-h-screen flex items-center">
         <SilkGradientBg />
         {/* about-section */}
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-[30px] justify-start md:items-center w-full min-h-0 md:min-h-[700px] pt-28 md:pt-0 px-4 sm:px-6 md:px-[5%] lg:px-[15%] pb-8 md:pb-0 relative z-10">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-[30px] justify-start md:items-center w-full pt-32 md:pt-36 px-4 sm:px-6 md:px-[5%] lg:px-[15%] pb-24 md:pb-32 relative z-10">
           
-          {/* image-wrapper */}
+          {/* image-wrapper: 4:5 rotated card, straightens + colorizes on hover, floating glass name-card, champagne glow halo */}
           <div className="z-10 w-full md:w-auto flex justify-center md:justify-start">
-            <img 
-              src={profilePhoto} 
-              alt="Firman Pambudiansyah" 
-              className="w-[180px] h-[180px] sm:w-[250px] sm:h-[250px] rounded-full object-cover border-4 border-primary shadow-[0_0_30px_rgba(33,150,243,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(33,150,243,0.85)] cursor-pointer"
-            />
+            <div className="group relative w-[220px] sm:w-[260px] md:w-[300px] aspect-[4/5] rounded-3xl overflow-hidden rotate-[-2deg] hover:rotate-0 grayscale-[35%] hover:grayscale-0 scale-100 hover:scale-[1.02] border-2 border-[#F7E7CE]/60 hover:border-[#F7E7CE] shadow-[0_0_35px_rgba(247,231,206,0.25)] hover:shadow-[0_0_55px_rgba(247,231,206,0.6)] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer bg-muted">
+              {/* Slideshow Images (switches every 3s) */}
+              {heroImages.map((imgSrc, idx) => (
+                <img
+                  key={idx}
+                  src={imgSrc}
+                  alt="Firman Pambudiansyah"
+                  className={cn(
+                    "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out",
+                    idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+                  )}
+                />
+              ))}
+
+              {/* Floating glass name-card that slides up on hover */}
+              <div className="absolute z-20 bottom-3 left-3 right-3 backdrop-blur-md bg-background/75 dark:bg-black/60 border border-white/30 dark:border-white/10 rounded-2xl p-3 shadow-xl transform translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <p className="text-xs font-bold text-foreground leading-tight tracking-tight">
+                      Firman Pambudiansyah
+                    </p>
+                    <p className="text-[10px] text-primary font-medium tracking-wide">
+                      Data Science &amp; ML
+                    </p>
+                  </div>
+                  <span className="flex h-2 w-2 relative">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
           
           {/* content */}
@@ -126,58 +167,123 @@ const Home = () => {
       </section>
 
       {/* ABOUT ME */}
-      <section id="about" className="pt-32 md:pt-40 pb-20 md:pb-28 bg-background relative">
-        <ScrollReveal className="container px-4 mx-auto">
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-16 space-y-3 sm:space-y-4">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
-              About Me
-            </h2>
-            <p className="text-muted-foreground text-sm sm:text-base md:text-lg font-medium">
-              Data Science • Machine Learning • Analytics
-            </p>
-          </div>
-          
-          {/* Content */}
-          <div className="max-w-3xl mx-auto space-y-6 text-muted-foreground text-base sm:text-lg leading-relaxed">
-            <p>
-              I am a student at Universitas Gunadarma serving as a High Performance Computing (DGX) laboratory assistant, where I mentor students in Deep Learning and advanced AI model implementations.
-            </p>
-            <p>
-              My work centers on leveraging data and technology to solve real-world problems. Whether managing data integrity systems at PT Pegadaian or coordinating cross-functional initiatives as a student leader, I focus on executing tasks efficiently and bridging communication across teams.
-            </p>
-            <p>
-              I back this up with practical technical capabilities in Data Science, Machine Learning, and High Performance Computing. Implementing deep learning models on advanced NVIDIA DGX systems allows me to understand both the mathematical foundations of algorithms and the practical constraints of hardware acceleration.
-            </p>
-            <p>
-              What drives me is the gap between complex raw data and actionable business insights. I strive to sit at that intersection — turning messy data pipelines into clear predictive models and analytical reports that businesses can trust.
-            </p>
-          </div>
-        </ScrollReveal>
+      <section id="about" className="py-28 md:py-36 bg-background relative overflow-hidden">
+        <div className="container px-4 mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.15,
+                },
+              },
+            }}
+            className="max-w-4xl mx-auto"
+          >
+            {/* Header */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 24 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] },
+                },
+              }}
+              className="text-center mb-8 sm:mb-10 space-y-3 sm:space-y-4"
+            >
+              <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground">
+                About Me
+              </h2>
+              <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-primary/10 text-primary border border-primary/20 shadow-sm">
+                Data Science • Machine Learning • Analytics
+              </div>
+            </motion.div>
+            
+            {/* Content */}
+            <div className="space-y-6 text-muted-foreground text-base sm:text-lg leading-relaxed">
+              <motion.p
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] },
+                  },
+                }}
+              >
+                I am a student at Universitas Gunadarma serving as a High Performance Computing (DGX) laboratory assistant, where I mentor students in Deep Learning and advanced AI model implementations.
+              </motion.p>
+
+              <motion.p
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] },
+                  },
+                }}
+              >
+                My work centers on leveraging data and technology to solve real-world problems. Whether managing data integrity systems at PT Pegadaian or coordinating cross-functional initiatives as a student leader, I focus on executing tasks efficiently and bridging communication across teams.
+              </motion.p>
+
+              <motion.p
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] },
+                  },
+                }}
+              >
+                I back this up with practical technical capabilities in Data Science, Machine Learning, and High Performance Computing. Implementing deep learning models on advanced NVIDIA DGX systems allows me to understand both the mathematical foundations of algorithms and the practical constraints of hardware acceleration.
+              </motion.p>
+
+              <motion.p
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] },
+                  },
+                }}
+              >
+                What drives me is the gap between complex raw data and actionable business insights. I strive to sit at that intersection — turning messy data pipelines into clear predictive models and analytical reports that businesses can trust.
+              </motion.p>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* CORE EXPERTISE */}
-      <section id="expertise">
+      <section id="expertise" className="reveal">
         <Expertise />
       </section>
 
       {/* CAREER TIMELINE / EXPERIENCE */}
-      <section id="experience">
+      <section id="experience" className="reveal">
         <ExperienceSection />
       </section>
 
       {/* FEATURED PROJECTS */}
-      <section id="projects">
+      <section id="projects" className="reveal">
         <ProjectsSection />
       </section>
 
       {/* CERTIFICATIONS */}
-      <section id="certifications">
+      <section id="certifications" className="reveal">
         <CertificationsSection />
       </section>
 
       {/* CONTACT */}
-      <section id="contact">
+      <section id="contact" className="reveal">
         <ContactSection />
       </section>
     </Layout>

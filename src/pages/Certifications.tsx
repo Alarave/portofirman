@@ -51,7 +51,7 @@ export const CertificationsSection = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="py-16 md:py-24 bg-background">
+      <section className="pt-28 md:pt-36 pb-12 bg-background">
         <div className="container text-center space-y-6">
           <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tight">
             Certifications & Workshops
@@ -63,7 +63,7 @@ export const CertificationsSection = () => {
       </section>
 
       {/* Grid Section */}
-      <section ref={sectionRef} className="py-16 md:py-24" id="certifications-list">
+      <section ref={sectionRef} className="pt-8 pb-28 md:pb-36" id="certifications-list">
         <div className="container">
           {/* Sorting Controls */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">

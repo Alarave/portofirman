@@ -18,7 +18,7 @@ export const ProjectsSection = () => {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="py-20 md:py-32 bg-background relative overflow-hidden">
+      <section className="pt-28 md:pt-36 pb-12 bg-background relative overflow-hidden">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 relative z-10 text-center space-y-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -36,7 +36,7 @@ export const ProjectsSection = () => {
       </section>
 
       {/* ── Projects Grid ── */}
-      <section id="projects" className="py-20 bg-background min-h-[600px]">
+      <section id="projects" className="pt-8 pb-28 md:pb-36 bg-background min-h-[600px]">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6">
           {/* Header & Controls matching Certifications */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">

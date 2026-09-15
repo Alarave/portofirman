@@ -198,7 +198,7 @@ export const ExperienceSection = () => {
   return (
     <>
       {/* Header */}
-      <section className="pt-24 pb-12">
+      <section className="pt-28 md:pt-36 pb-12">
         <div className="container">
           <motion.div
             variants={containerVariants}
@@ -217,7 +217,7 @@ export const ExperienceSection = () => {
       </section>
  
       {/* Timeline Section */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="pt-8 pb-28 md:pb-36 relative overflow-hidden">
         <div className="container relative max-w-6xl">
           {/* Centered Timeline Spine */}
           <div className="absolute left-[35px] md:left-1/2 md:-translate-x-1/2 top-4 bottom-12 w-[2px] bg-gradient-to-b from-primary/60 via-primary/30 to-transparent pointer-events-none" />

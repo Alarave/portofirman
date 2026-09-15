@@ -128,7 +128,7 @@ export const ContactSection = () => {
   return (
     <>
       {/* ── Hero Section ── */}
-      <section className="py-16 md:py-24 relative">
+      <section className="pt-28 md:pt-36 pb-28 md:pb-36 relative">
 
         <div className="container relative text-center space-y-5">
 

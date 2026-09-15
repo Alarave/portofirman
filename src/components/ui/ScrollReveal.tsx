@@ -26,7 +26,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
     <motion.div
       initial={{ opacity: 0, y: yOffset }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
+      viewport={{ once: false, amount: 0.1 }}
       transition={{
         duration,
         delay,

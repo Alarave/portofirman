@@ -1,6 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -36,11 +36,11 @@ const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const location = useLocation();
 
-  // Slideshow every 3 seconds
+  // Slideshow every 5 seconds for relaxed, cinematic viewing
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 3) % heroImages.length);
-    }, 3000);
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -80,34 +80,50 @@ const Home = () => {
           {/* image-wrapper: 4:5 rotated card, straightens + colorizes on hover, floating glass name-card, champagne glow halo */}
           <div className="z-10 w-full md:w-auto flex justify-center md:justify-start">
             <div className="group relative w-[220px] sm:w-[260px] md:w-[300px] aspect-[4/5] rounded-3xl overflow-hidden rotate-[-2deg] hover:rotate-0 grayscale-[35%] hover:grayscale-0 scale-100 hover:scale-[1.02] border-2 border-[#F7E7CE]/60 hover:border-[#F7E7CE] shadow-[0_0_35px_rgba(247,231,206,0.25)] hover:shadow-[0_0_55px_rgba(247,231,206,0.6)] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer bg-muted">
-              {/* Slideshow Images (switches every 3s) */}
-              {heroImages.map((imgSrc, idx) => (
-                <img
-                  key={idx}
-                  src={imgSrc}
+              {/* Slideshow Images with cinematic crossfade */}
+              <AnimatePresence initial={false}>
+                <motion.img
+                  key={currentImageIndex}
+                  src={heroImages[currentImageIndex]}
                   alt="Firman Pambudiansyah"
-                  className={cn(
-                    "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out",
-                    idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"
-                  )}
+                  initial={{ opacity: 0, scale: 1.04 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{
+                    opacity: { duration: 1.5, ease: [0.25, 1, 0.5, 1] },
+                    scale: { duration: 2.2, ease: [0.25, 1, 0.5, 1] },
+                  }}
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
-              ))}
+              </AnimatePresence>
+
+              {/* Indicator dots */}
+              <div className="absolute top-3 right-3 z-20 flex gap-1.5 backdrop-blur-md bg-black/30 px-2 py-1 rounded-full border border-white/10">
+                {heroImages.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentImageIndex(i);
+                    }}
+                    className={cn(
+                      "h-1.5 rounded-full transition-all duration-500",
+                      i === currentImageIndex ? "bg-white w-4" : "bg-white/40 hover:bg-white/80 w-1.5"
+                    )}
+                    aria-label={`Slide ${i + 1}`}
+                  />
+                ))}
+              </div>
 
               {/* Floating glass name-card that slides up on hover */}
               <div className="absolute z-20 bottom-3 left-3 right-3 backdrop-blur-md bg-background/75 dark:bg-black/60 border border-white/30 dark:border-white/10 rounded-2xl p-3 shadow-xl transform translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                <div className="flex items-center justify-between">
-                  <div className="text-left">
-                    <p className="text-xs font-bold text-foreground leading-tight tracking-tight">
-                      Firman Pambudiansyah
-                    </p>
-                    <p className="text-[10px] text-primary font-medium tracking-wide">
-                      Data Science &amp; ML
-                    </p>
-                  </div>
-                  <span className="flex h-2 w-2 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
+                <div className="text-left">
+                  <p className="text-xs font-bold text-foreground leading-tight tracking-tight">
+                    Firman Pambudiansyah
+                  </p>
+                  <p className="text-[10px] text-primary font-medium tracking-wide">
+                    Data Science &amp; ML
+                  </p>
                 </div>
               </div>
             </div>

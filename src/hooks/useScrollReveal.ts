@@ -4,7 +4,7 @@ export function useScrollReveal() {
   useEffect(() => {
     // Respect reduced motion: reveal all immediately without animation
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const elements = document.querySelectorAll<HTMLElement>(".reveal:not(.revealed)");
+    const elements = document.querySelectorAll<HTMLElement>(".reveal");
 
     if (prefersReducedMotion) {
       elements.forEach((el) => el.classList.add("revealed"));
@@ -19,14 +19,23 @@ export function useScrollReveal() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const el = entry.target as HTMLElement;
           if (entry.isIntersecting) {
-            entry.target.classList.add("revealed");
-            observer.unobserve(entry.target);
+            el.classList.add("revealed");
+          } else {
+            // When leaving viewport, remove revealed so it re-animates on scroll back
+            el.classList.remove("revealed");
+            // Track exit direction: top vs bottom
+            if (entry.boundingClientRect.top < 0) {
+              el.setAttribute("data-exit", "top");
+            } else {
+              el.setAttribute("data-exit", "bottom");
+            }
           }
         });
       },
       {
-        threshold: 0.1,
+        threshold: 0.08,
       }
     );
 

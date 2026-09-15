@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground relative">
+    <div className="min-h-screen w-full overflow-x-hidden flex flex-col bg-background text-foreground relative">
       <CursorSpotlight />
       <Header />
       <main id="main-content" className="flex-1">

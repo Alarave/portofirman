@@ -70,10 +70,14 @@
     @apply scroll-smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   body {
     @apply bg-background text-foreground font-['Inter',sans-serif] selection:bg-primary/30 selection:text-primary;
     font-feature-settings: "rlig" 1, "calt" 1, "tnum" 1;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 }
 

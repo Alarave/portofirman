@@ -51,14 +51,16 @@ export function Header() {
   }, []);
 
   const isActive = (itemId: string, itemPath: string) => {
-    if (location.pathname === "/" || location.pathname === "") {
+    const cleanPath = location.pathname.replace(/\/+$/, "") || "/";
+    if (cleanPath === "/" || cleanPath === "") {
       return activeSection === itemId;
     }
-    return location.pathname === itemPath;
+    return cleanPath === itemPath;
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string, path: string) => {
-    if (location.pathname === "/" || location.pathname === "") {
+    const cleanPath = location.pathname.replace(/\/+$/, "") || "/";
+    if (cleanPath === "/" || cleanPath === "") {
       e.preventDefault();
       if (id === "top" || id === "hero") {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -76,6 +78,18 @@ export function Header() {
         setActiveSection(id);
       }
     } else {
+      // If clicking current page, scroll to top
+      if (cleanPath === path) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      // If navigating to another dedicated page route
+      if (path !== "/" && path !== "/about") {
+        e.preventDefault();
+        navigate(path);
+        return;
+      }
       e.preventDefault();
       navigate("/", { state: { scrollTo: id === "hero" ? "top" : id } });
     }

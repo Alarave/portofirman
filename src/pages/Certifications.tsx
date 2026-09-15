@@ -3,19 +3,50 @@ import { certificationsData } from "./CertificationDetail";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Award, Calendar, ExternalLink, SortAsc, SortDesc, ArrowUpDown } from "lucide-react";
+import { ArrowRight, Award, Calendar, ExternalLink, SortAsc, SortDesc, ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+const ITEMS_PER_PAGE = 6;
 
 export const CertificationsSection = () => {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const sortedData = [...certificationsData].sort((a, b) => {
     const yearA = parseInt(a.year);
     const yearB = parseInt(b.year);
     return sortOrder === "newest" ? yearB - yearA : yearA - yearB;
   });
+
+  const totalPages = Math.ceil(sortedData.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedData = sortedData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages || page === currentPage) return;
+    setCurrentPage(page);
+    if (sectionRef.current) {
+      const yOffset = -80;
+      const y = sectionRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
+
+  const handleSortToggle = () => {
+    setSortOrder((prev) => (prev === "newest" ? "oldest" : "newest"));
+    setCurrentPage(1);
+  };
 
   return (
     <>
@@ -32,21 +63,21 @@ export const CertificationsSection = () => {
       </section>
 
       {/* Grid Section */}
-      <section className="py-16 md:py-24">
+      <section ref={sectionRef} className="py-16 md:py-24" id="certifications-list">
         <div className="container">
           {/* Sorting Controls */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-6 bg-primary rounded-full" />
               <h2 className="text-2xl font-bold text-foreground">All Credentials</h2>
-              <span className="text-sm font-medium text-muted-foreground ml-2 px-2 py-0.5 rounded-md bg-muted">
-                {sortedData.length} Items
+              <span className="text-xs font-semibold text-muted-foreground ml-2 px-3 py-1 rounded-full bg-muted/80 border border-border/50">
+                Showing {startIndex + 1}–{Math.min(startIndex + ITEMS_PER_PAGE, sortedData.length)} of {sortedData.length}
               </span>
             </div>
             
             <div className="flex items-center gap-2 p-1 bg-muted/50 rounded-2xl border border-border/50">
               <button
-                onClick={() => setSortOrder(sortOrder === "newest" ? "oldest" : "newest")}
+                onClick={handleSortToggle}
                 className="flex items-center gap-3 px-6 py-2.5 rounded-xl text-sm font-bold bg-background text-primary shadow-lg shadow-black/5 hover:scale-105 transition-all duration-300 group"
               >
                 {sortOrder === "newest" ? (
@@ -67,11 +98,11 @@ export const CertificationsSection = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sortedData.map((cert, index) => (
+            {paginatedData.map((cert, index) => (
               <div 
                 key={cert.id} 
                 className="opacity-0 animate-slide-up fill-mode-forwards"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{ animationDelay: `${index * 0.08}s` }}
               >
                 <Link to={`/certifications/${cert.id}`}>
                   <Card className="group h-full hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden border-border/50">
@@ -129,6 +160,59 @@ export const CertificationsSection = () => {
               </div>
             ))}
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="mt-14 flex justify-center">
+              <Pagination>
+                <PaginationContent className="gap-2">
+                  <PaginationItem>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="gap-1 border-border/60 hover:bg-primary/10 disabled:opacity-40"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      <span className="hidden sm:inline">Previous</span>
+                    </Button>
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <PaginationItem key={page}>
+                      <Button
+                        variant={currentPage === page ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handlePageChange(page)}
+                        className={cn(
+                          "w-9 h-9 p-0 font-bold transition-all duration-200",
+                          currentPage === page
+                            ? "bg-primary text-primary-foreground shadow-md shadow-primary/25 pointer-events-none"
+                            : "border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground"
+                        )}
+                      >
+                        {page}
+                      </Button>
+                    </PaginationItem>
+                  ))}
+
+                  <PaginationItem>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="gap-1 border-border/60 hover:bg-primary/10 disabled:opacity-40"
+                    >
+                      <span className="hidden sm:inline">Next</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
 
         </div>
       </section>

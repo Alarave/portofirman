@@ -5,7 +5,7 @@ import profilePhoto from "@/assets/profile-photo.jpg";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/#expertise", label: "Expertise" },
+  { href: "/#about", label: "About" },
   { href: "/#experience", label: "Experience" },
   { href: "/#projects", label: "Projects" },
   { href: "/#certifications", label: "Certifications" },

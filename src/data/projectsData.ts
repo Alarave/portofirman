@@ -1,15 +1,36 @@
 import bookImage from "@/assets/projects/book-recommendation.jpg";
 import BBCA from "@/assets/projects/bbca_prediction_comparison.jpg";
-import algoritma from "@/assets/projects/algoritma.jpg";
 import aiRecruiterImage from "@/assets/projects/ai-assisten.png";
 import posyanduImage from "@/assets/projects/posyandu.png";
 import acaImage from "@/assets/projects/aca-advisor.png";
 import vehicleCO2Image from "@/assets/projects/vehicle_co2_parity_plot.png";
+import desiwemImage from "@/assets/projects/desiwem-mading.png";
+import desiwemAdminImage from "@/assets/projects/desiwem-admin.png";
 
 export interface ProjectMetric {
   label: string;
   value: string;
   color: string;
+}
+
+export interface ProjectView {
+  id: string;
+  label: string;
+  image: string;
+  description?: string;
+}
+
+export interface ArchitectureLayer {
+  layer: string;
+  tech: string;
+  details: string;
+}
+
+export interface ProjectFile {
+  name: string;
+  path: string;
+  language?: string;
+  content: string;
 }
 
 export interface ProjectItem {
@@ -23,6 +44,9 @@ export interface ProjectItem {
   metrics: ProjectMetric[];
   thumbnail: string;
   image: string;
+  mockupUrl?: string;
+  views?: ProjectView[];
+  architecture?: ArchitectureLayer[];
   links: {
     github?: string;
     liveDemo?: string;
@@ -30,9 +54,104 @@ export interface ProjectItem {
   };
   chartType: "inventory" | "sentiment" | "financial" | null;
   codeSnippet: string;
+  files?: ProjectFile[];
 }
 
 export const projectsData: ProjectItem[] = [
+  {
+    id: "desiwem-mading",
+    title: "DeSiWeM — Digital School Information & Wall Magazine",
+    description: "Platform mading digital modern berbasis Laravel 11 dengan antarmuka editorial Lexington Carbon, visualisasi analitik publikasi Chart.js, dan sidebar admin beranimasi WhatsApp Web.",
+    category: "Full Stack Development",
+    technologies: [
+      "Laravel 11",
+      "PHP 8.2",
+      "Bootstrap 5.3",
+      "Chart.js",
+      "SQLite / MySQL",
+      "Blade Templating",
+      "Bootstrap Icons",
+      "Responsive UX"
+    ],
+    fullDescription: "DeSiWeM (Digital School Information & Wall Magazine) dirancang sebagai solusi portal informasi mading kampus/sekolah modern yang memadukan pengalaman membaca artikel publik yang dinamis dengan panel administrasi editorial yang efisien, tanpa 'AI slop', beranimasi halus, dan responsif. Sistem dilengkapi pusat kendali analitik tren artikel 6 bulan terakhir, distribusi proporsi rubrik/kategori, pengelolaan siklus hidup artikel penuh (CRUD), serta navigasi sidebar interaktif berestetika WhatsApp Web.",
+    features: [
+      "Portal Publik Editorial Modern: Tampilan editorial elegan dengan palet Warm Terracotta & Charcoal Neutrals, tipografi bersih, dan pembaca artikel nyaman",
+      "Pusat Kendali Admin (Dashboard): Metrik ringkasan terpusat (Total Artikel, Kategori, Penulis) dengan visualisasi tren 6 bulan terakhir dan donut ring distribusi kategori (Chart.js)",
+      "WhatsApp Web-Themed Admin Sidebar: Navigasi sidebar beranimasi dengan icon badge vektor, sliding indicator bar, dan status profil sesi aktif",
+      "Manajemen Konten & Kategori Penuh: CRUD artikel dengan upload gambar teroptimasi, penandaan rubrik (Prestasi, Teknologi, Seni & Budaya, Ilmiah), dan pencarian artikel real-time",
+      "Sistem Pelaporan Administrasi: Fitur cetak rekapitulasi artikel dan statistik publikasi mading untuk pelaporan institusi",
+      "Desain Responsif & Mobile Drawer: Navigasi menu drawer layar penuh khusus mobile dengan transisi mulus dan performa cepat"
+    ],
+    metrics: [
+      { label: "Framework", value: "Laravel 11", color: "text-primary" },
+      { label: "UI Design", value: "Lexington Carbon", color: "text-palette-primary" },
+      { label: "Visualisasi", value: "Interactive Chart.js", color: "text-palette-dark" },
+      { label: "Testing", value: "PHPUnit / Tests", color: "text-primary" }
+    ],
+    thumbnail: desiwemImage,
+    image: desiwemImage,
+    mockupUrl: "https://desiwem.internal.sch.id",
+    views: [
+      {
+        id: "portal",
+        label: "Public Editorial",
+        image: desiwemImage,
+        description: "Editorial portal publik dengan palet Warm Terracotta, rubrikasi terpadu, dan feed pencarian real-time."
+      },
+      {
+        id: "admin",
+        label: "Admin Dashboard",
+        image: desiwemAdminImage,
+        description: "Pusat kendali admin dengan analitik tren 6 bulan (Chart.js), donat kategori, dan sidebar WhatsApp Web."
+      }
+    ],
+    architecture: [
+      { layer: "Backend MVC", tech: "Laravel 11 & PHP 8.2", details: "Eloquent ORM, Session-based Auth Guard, Route Model Binding" },
+      { layer: "Analytics Engine", tech: "Chart.js & SQL Agregasi", details: "Visualisasi tren publikasi 6 bulan dan proporsi rubrik dinamis" },
+      { layer: "Frontend & Admin UI", tech: "Bootstrap 5.3 + Blade", details: "WhatsApp Web-themed animated sidebar, drawer menu mobile, modal dialogs" }
+    ],
+    links: {
+      github: "https://github.com/Alarave/desiwem-mading",
+    },
+    chartType: null,
+    codeSnippet: `/**
+ * DashboardController: Agregasi Statistik & Visualisasi Analitik Tren Publikasi
+ */
+public function index()
+{
+    $totalCategories = Category::count();
+    $totalArticles   = Article::count();
+    $totalUsers      = User::count();
+    $recentArticles  = Article::with(['category', 'author'])->latest()->take(5)->get();
+
+    // 1. Tren Artikel 6 Bulan Terakhir untuk Chart.js
+    $monthlyTrendLabels = [];
+    $monthlyTrendData   = [];
+    $bulanIndo = [
+        1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr', 5 => 'Mei', 6 => 'Jun',
+        7 => 'Jul', 8 => 'Agu', 9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Des'
+    ];
+
+    for ($i = 5; $i >= 0; $i--) {
+        $date = now()->copy()->subMonths($i);
+        $monthlyTrendLabels[] = $bulanIndo[(int)$date->format('n')] . ' ' . $date->format('Y');
+        $monthlyTrendData[]   = Article::whereYear('created_at', $date->year)
+            ->whereMonth('created_at', $date->month)
+            ->count();
+    }
+
+    // 2. Distribusi Proporsi Kategori untuk Donut Chart
+    $categoryChartData = Category::withCount('articles')
+        ->orderByDesc('articles_count')
+        ->take(6)
+        ->get();
+
+    return view('admin.dashboard', compact(
+        'totalCategories', 'totalArticles', 'totalUsers', 'recentArticles',
+        'monthlyTrendLabels', 'monthlyTrendData', 'categoryChartData'
+    ));
+}`,
+  },
   {
     id: "aca-advisor-expert-system",
     title: "ACA Advisor — Sistem Pakar Akuntansi EMKM",
@@ -198,8 +317,7 @@ public function calculateAll(float $weight, float $height, int $ageMonths, strin
     thumbnail: aiRecruiterImage,
     image: aiRecruiterImage,
     links: {
-      liveDemo: "#",
-      github: "#",
+      github: "https://github.com/Alarave/ai-recruters-system",
       prd: "https://drive.google.com/file/d/1y0z3lhu_d5V-5WVL7y66cGlnx8Q2rLOT/view?usp=sharing"
     },
     chartType: "sentiment",
@@ -232,8 +350,10 @@ ensemble_retriever = EnsembleRetriever(
     ],
     thumbnail: bookImage,
     image: bookImage,
+    mockupUrl: "https://bookicarusai.netlify.app",
     links: {
-      github: "https://github.com/Alarave",
+      github: "https://github.com/Alarave/Icarus-AI",
+      liveDemo: "https://bookicarusai.netlify.app/",
     },
     chartType: null,
     codeSnippet: `from sklearn.feature_extraction.text import TfidfVectorizer
@@ -388,44 +508,5 @@ model.compile(
     loss='mse',
     metrics=['mae']
 )`,
-  },
-  {
-    id: "dijkstra-shortest-path",
-    title: "Dijkstra Shortest Path — Optimasi Rute Logistik",
-    description: "Implementasi algoritma Dijkstra untuk menemukan rute terpendek dalam jaringan distribusi — dengan visualisasi interaktif step-by-step.",
-    category: "Data Science",
-    technologies: ["Python", "NetworkX", "Matplotlib", "Graph Theory", "Algorithms"],
-    fullDescription: "Situasi: Sistem logistik membutuhkan optimasi rute pengiriman untuk meminimalkan biaya. Tugas: Mengimplementasikan algoritma shortest path yang efisien. Aksi: Implementasi Dijkstra dengan priority queue (Min-Heap), weighted graph, dan visualisasi step-by-step menggunakan NetworkX.",
-    features: [
-      "Konstruksi dan manajemen weighted graph",
-      "Optimasi priority queue (Min-Heap)",
-      "Visualisasi step-by-step"
-    ],
-    metrics: [
-      { label: "Complexity", value: "O((V+E)logV)", color: "text-primary" },
-      { label: "Graph Type", value: "Weighted", color: "text-palette-primary" },
-      { label: "Visuals", value: "NetworkX", color: "text-palette-dark" }
-    ],
-    thumbnail: algoritma,
-    image: algoritma,
-    links: {
-      liveDemo: "https://algoritmadijkstra.netlify.app/",
-      github: "https://github.com/Alarave",
-    },
-    chartType: null,
-    codeSnippet: `import heapq
-
-def dijkstra(graph, start):
-    dist = {node: float('inf') for node in graph}
-    dist[start] = 0
-    pq = [(0, start)]
-    
-    while pq:
-        d, u = heapq.heappop(pq)
-        for v, w in graph[u]:
-            if dist[u] + w < dist[v]:
-                dist[v] = dist[u] + w
-                heapq.heappush(pq, (dist[v], v))
-    return dist`,
   },
 ];
